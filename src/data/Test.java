@@ -1,34 +1,32 @@
 package data;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.List;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
-import java.util.TreeSet;
+import java.util.function.BiFunction;
 
 public class Test {
 
 	public static void main(String[] args) {
-//		Arrays.asList(a);
-		List<Integer> list = new ArrayList<>();
-		list.add(556);
-		list.add(320);
-		list.add(15);
-		list.add(15);
-		list.add(15);
-		list.add(245);
-		list.add(547);
-		for(int x=0;x < list.size() ;) {
-			if(15 ==list.get(x)) {
-				list.remove(x);
-			}else {
-				x++;
-			}
-		}
-		System.out.println(list);
+		/*
+		 * Map<String,Integer> mpAll = new HashMap<>(); mpAll.put("dfs", 2);
+		 * mpAll.put("tgfwo", 3);
+		 * 
+		 * Map<String,Integer> mp = new HashMap<>(); mp.put("one", 1);
+		 * mp.putIfAbsent("one", 10); mp.putAll(mpAll); mp.compute("one", new
+		 * BiFunction() {
+		 * 
+		 * @Override public Object apply(Object t, Object u) { System.out.println(t);
+		 * System.out.println(u); return u; } }); System.out.println(mp);
+		 */
+		Map<String,Integer> mpAll = new MyHashMap<>();
+		mpAll.put("dfs", 200);
+		mpAll.put("dfgdfs", 20);
+		mpAll.put("1212", 30);
+		mpAll.put("5645", 50);
+		Integer remove = mpAll.remove("rtert");
+		System.out.println(remove);
 	}
 
 }
