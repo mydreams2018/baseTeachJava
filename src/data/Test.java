@@ -20,13 +20,21 @@ public class Test {
 		 * @Override public Object apply(Object t, Object u) { System.out.println(t);
 		 * System.out.println(u); return u; } }); System.out.println(mp);
 		 */
+		Map<String,Integer> temp = new HashMap<String,Integer>();
+		temp.put("ten", 100);
+		temp.put("nine", 90);
+		
 		Map<String,Integer> mpAll = new MyHashMap<>();
 		mpAll.put("dfs", 200);
 		mpAll.put("dfgdfs", 20);
 		mpAll.put("1212", 30);
 		mpAll.put("5645", 50);
-		Integer remove = mpAll.remove("rtert");
-		System.out.println(remove);
+		mpAll.put("15", 5000);
+		mpAll.putAll(temp);
+
+		for(String s : mpAll.keySet()) {
+			System.out.println(s);
+		}
 	}
 
 }

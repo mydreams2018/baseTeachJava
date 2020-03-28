@@ -1,13 +1,18 @@
 package data;
 
+import java.util.AbstractSet;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 public class MyHashMap<K,V> implements Map<K, V>{
 	private Node<K,V>[] table =(Node<K,V>[]) new Node[16];
 	private int size;
-
+	Set<K>        keySet;
+	Collection<V> values;
+	    
     static class Node<K,V>{
         final int hash;
         final K key;
@@ -140,7 +145,11 @@ public class MyHashMap<K,V> implements Map<K, V>{
 
 	@Override
 	public void putAll(Map<? extends K, ? extends V> m) {
-		// TODO Auto-generated method stub
+		if(m != null && m.size() > 0) {
+			  for (Map.Entry<? extends K, ? extends V> e : m.entrySet()) {
+	                this.put(e.getKey(), e.getValue());
+	          }
+		}
 		
 	}
 
@@ -156,10 +165,71 @@ public class MyHashMap<K,V> implements Map<K, V>{
 
 	@Override
 	public Set<K> keySet() {
-		// TODO Auto-generated method stub
-		return null;
+		if(keySet == null) {
+			keySet = new MyKeySet();
+		}
+		return keySet;
+	}
+	
+	private final class MyKeySet extends AbstractSet<K>{
+
+		@Override
+		public Iterator<K> iterator() {
+			return new keyIterator();
+		}
+
+		@Override
+		public int size() {
+			return MyHashMap.this.size;
+		}
+		
+	}
+	
+	class keyIterator extends MyHashIterator implements Iterator<K>{
+		@Override
+		public K next() {
+			return nextNode().key;
+		}
 	}
 
+	abstract class MyHashIterator{
+		int indexIterator;
+		Node<K,V> temp;
+		
+		private MyHashIterator(){
+			if(MyHashMap.this.size > 0) {
+				for(int x=0;x< MyHashMap.this.table.length;x++) {
+					if(MyHashMap.this.table[x] != null) {
+						indexIterator = x;
+						temp = MyHashMap.this.table[x];
+						break;
+					}
+				}
+			}
+		}
+
+		public final boolean hasNext() {
+			 return temp != null;
+		}
+		
+		Node<K,V> nextNode(){
+			 Node<K,V> rt = temp;
+			 if (rt == null) throw new NoSuchElementException();
+			 if((temp = temp.next) != null) {
+			 }else {
+				 for(;++indexIterator < MyHashMap.this.table.length;){
+					 if((temp=MyHashMap.this.table[indexIterator]) != null) {
+						 break;
+					 }
+//					 if(indexIterator == MyHashMap.this.table.length-1){
+//						 temp = null;
+//					 }
+				 }
+			 }
+			 return rt;
+		 }
+	}
+	
 	@Override
 	public Collection<V> values() {
 		// TODO Auto-generated method stub
