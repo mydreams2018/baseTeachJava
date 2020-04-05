@@ -1,9 +1,9 @@
 package data;
 
 public class DataType {
-	
+
 	private Object name;
-	
+
 	public DataType(Object name) {
 		this.name=name;
 	}
@@ -20,6 +20,5 @@ public class DataType {
 	public void setName(Object name) {
 		this.name = name;
 	}
-	
 	
 }
