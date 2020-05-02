@@ -2,25 +2,16 @@ package thread;
 
 public class MyThreadTwo implements Runnable{
 
-	private volatile int num=0;
+	public int num=0;
+
 	@Override
 	public void run() {
-		try {
-			while(getNum() < 100) {
-				Thread.sleep(1000);
-				addNum();
-			}
-		}catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		addNum();
 	}
 
 	synchronized void addNum() {
-		if(getNum() < 100) {
+		for(int n=0;n<100000;n++) {
 			num++;
 		}
-	}
-	int getNum() {
-		return num;
 	}
 }

@@ -3,7 +3,6 @@ package thread;
 public class TestOne {
 
 	public static void main(String[] args) throws Exception {
-		long currentTimeMillis = System.currentTimeMillis();
 		MyThreadTwo two = new MyThreadTwo();
 		Thread thread1 = new Thread(two);
 		Thread thread2 = new Thread(two);
@@ -17,8 +16,7 @@ public class TestOne {
 		thread2.join();
 		thread3.join();
 		thread4.join();
-		System.out.println(two.getNum());
-		System.out.println(System.currentTimeMillis()-currentTimeMillis);
+		System.out.println(two.num);
 	}
 
 }
