@@ -3,21 +3,32 @@ package thread;
 public class MyThreadTwo implements Runnable{
 
 	public static int num=0;
-	private static String mk = "kdiek";
+	private static String ALOCK = "A";
+	private static String BLOCK = "B";
 	@Override
 	public void run() {
 		System.out.println(Thread.currentThread().getName()+"waitLock");
-		addNum();
+		try {
+			addNumA();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
-	static void addNum() {
-		 synchronized(mk) {
-			 System.out.println(Thread.currentThread().getName()+"getLock");
-			 for(int n=0;n<100000;n++) {
-					num++;
-			 }
+	static void addNumA() throws Exception {
+		 synchronized(ALOCK) {
+			Thread.sleep(100);
+			addNumB();
+		 }
+	}
+	static void addNumB() throws Exception {
+		 synchronized(BLOCK) {
+			 Thread.sleep(100);
+			 addNumA();
 		 }
 		
 	}
+	
+	
 
 }
