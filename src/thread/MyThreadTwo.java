@@ -6,12 +6,15 @@ public class MyThreadTwo implements Runnable{
 
 	@Override
 	public void run() {
+		System.out.println(Thread.currentThread().getName()+"waitLock");
 		addNum();
 	}
 
 	synchronized void addNum() {
-		for(int n=0;n<100000;n++) {
-			num++;
-		}
+			 System.out.println(Thread.currentThread().getName()+"getLock");
+			 for(int n=0;n<100000;n++) {
+					num++;
+			 }
 	}
+
 }

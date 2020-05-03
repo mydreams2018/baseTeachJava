@@ -12,6 +12,9 @@ public class TestOne {
 		thread2.start();
 		thread3.start();
 		thread4.start();
+		synchronized(two) {
+			Thread.sleep(6000);
+		}
 		thread1.join();
 		thread2.join();
 		thread3.join();
