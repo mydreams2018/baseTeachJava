@@ -18,6 +18,7 @@ public class MyThreadTwo implements Runnable{
 	static void addNumA() throws Exception {
 		 synchronized(ALOCK) {
 			Thread.sleep(100);
+			int a = 1/0;
 			addNumB();
 		 }
 	}
@@ -29,6 +30,4 @@ public class MyThreadTwo implements Runnable{
 		
 	}
 	
-	
-
 }
