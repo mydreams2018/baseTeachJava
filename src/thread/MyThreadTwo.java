@@ -7,27 +7,20 @@ public class MyThreadTwo implements Runnable{
 	private static String BLOCK = "B";
 	@Override
 	public void run() {
-		System.out.println(Thread.currentThread().getName()+"waitLock");
+//		System.out.println(Thread.currentThread().getName()+"waitLock");
 		try {
 			addNumA();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	
 	}
 
 	static void addNumA() throws Exception {
 		 synchronized(ALOCK) {
-			Thread.sleep(100);
-			int a = 1/0;
-			addNumB();
+			Thread.sleep(2000);
 		 }
 	}
-	static void addNumB() throws Exception {
-		 synchronized(BLOCK) {
-			 Thread.sleep(100);
-			 addNumA();
-		 }
-		
-	}
+
 	
 }
