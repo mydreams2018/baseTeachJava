@@ -7,9 +7,7 @@ public class TestOne {
 		VolatileTest ts = new VolatileTest();
 		Thread thread = new Thread(ts);
 		thread.start();
-		Thread.sleep(100);
-		isDone = false;
-		System.out.println(isDone);
+		ts.eat();
 	}
 
 }
