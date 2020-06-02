@@ -9,21 +9,17 @@ public class VolatileTest implements Runnable{
 
 	@Override
 	public void run() {
-		try {
-			lock.lock();
-			System.out.println(Thread.currentThread().getName());
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}finally {
+		if(lock.tryLock()) {
 			try {
+				System.out.println(Thread.currentThread().getName());
+				Thread.sleep(2000);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}finally {
 				lock.unlock();
-			}catch (Exception e) {
-				
 			}
 		}
-		System.out.println("edddddddddddddddddddddddnd");
-		System.out.println("edddddddddddddddddddddddddddddddnd");
+		System.out.println(Thread.currentThread().getName()+":end");
 	}
 
 }
