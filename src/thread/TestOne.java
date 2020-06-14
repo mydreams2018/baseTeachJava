@@ -7,6 +7,7 @@ public class TestOne {
 		VolatileTest ts = new VolatileTest();
 		Thread thread = new Thread(ts);
 		thread.start();
+		
 		Thread thread1 = new Thread(ts);
 		thread1.start();
 	}
