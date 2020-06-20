@@ -1,41 +1,38 @@
 package thread;
 
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-public class VolatileTest implements Runnable{
-	
-	static ReentrantLock lock = new ReentrantLock();
-	Condition newCondition = lock.newCondition();
-	Condition newCondition1 = lock.newCondition();
+public class VolatileTest implements Runnable {
+
+	static ReadWriteLock lock = new ReentrantReadWriteLock();
+	static Lock writeLock = lock.writeLock();
+	static Lock readLock = lock.readLock();
 	@Override
 	public void run() {
-		lock.lock();
-			try {
-//				if("Thread-0".equals(Thread.currentThread().getName())
-//						|| "Thread-1".equals(Thread.currentThread().getName())
-//						) {
-//					newCondition.await();
-//				}
-				Thread.sleep(1000);
-				System.out.println(lock.isLocked());
-			} catch (Exception e) {
-				e.printStackTrace();
-			}finally {
-				lock.unlock();
-			}
+		writeLock.lock();
+		try {
+			System.out.println(Thread.currentThread().getName());
+			Thread.sleep(1000);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			writeLock.unlock();
+		}
 //		System.out.println(Thread.currentThread().getName()+":end");
 	}
-	//可重入，计数器
-	public void ts() {
-		if(lock.tryLock()) {
-			try {
-				System.out.println("ts:"+lock.getHoldCount());//2
-			} catch (Exception e) {
-				e.printStackTrace();
-			}finally {
-				lock.unlock();
-			}
+
+	public static void ts() {
+		readLock.lock();
+		try {
+			System.out.println(Thread.currentThread().getName());
+			Thread.sleep(6000);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			readLock.unlock();
 		}
 	}
+
 }

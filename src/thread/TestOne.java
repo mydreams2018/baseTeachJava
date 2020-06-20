@@ -10,6 +10,7 @@ public class TestOne {
 		
 		Thread thread1 = new Thread(ts);
 		thread1.start();
+		VolatileTest.ts();
 	}
 
 }
