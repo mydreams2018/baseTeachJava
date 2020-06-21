@@ -11,27 +11,28 @@ public class VolatileTest implements Runnable {
 	static Lock readLock = lock.readLock();
 	@Override
 	public void run() {
-		writeLock.lock();
+		readLock.lock();
 		try {
+			ts();
 			System.out.println(Thread.currentThread().getName());
 			Thread.sleep(1000);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			writeLock.unlock();
+			readLock.unlock();
 		}
 //		System.out.println(Thread.currentThread().getName()+":end");
 	}
 
 	public static void ts() {
-		readLock.lock();
+		writeLock.lock();
 		try {
-			System.out.println(Thread.currentThread().getName());
-			Thread.sleep(6000);
+			System.out.println(Thread.currentThread().getName()+":ts");
+			Thread.sleep(1000);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			readLock.unlock();
+			writeLock.unlock();
 		}
 	}
 

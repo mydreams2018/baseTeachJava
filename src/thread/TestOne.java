@@ -8,9 +8,9 @@ public class TestOne {
 		Thread thread = new Thread(ts);
 		thread.start();
 		
-		Thread thread1 = new Thread(ts);
-		thread1.start();
-		VolatileTest.ts();
+//		Thread thread1 = new Thread(ts);
+//		thread1.start();
+//		VolatileTest.ts();
 	}
 
 }
