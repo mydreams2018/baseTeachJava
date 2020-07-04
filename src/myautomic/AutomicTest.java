@@ -7,7 +7,7 @@ public class AutomicTest {
 		Thread thread = new Thread(ts);
 		thread.start();
 		thread.join();
-		System.out.println(ts.getAt().get(9));
+		System.out.println(ts.getAt().get().getName());
 	}
 
 }
