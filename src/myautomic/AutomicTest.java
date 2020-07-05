@@ -6,8 +6,11 @@ public class AutomicTest {
 		AutoInteger ts = new AutoInteger();
 		Thread thread = new Thread(ts);
 		thread.start();
+		Thread thread1 = new Thread(ts);
+		thread1.start();
+		thread1.join();
 		thread.join();
-		System.out.println(ts.getAt().get().getName());
+		System.out.println(ts.getNum());
 	}
 
 }
