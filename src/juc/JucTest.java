@@ -1,20 +1,31 @@
 package juc;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.LinkedBlockingDeque;
-import java.util.function.Predicate;
-
+import java.util.concurrent.LinkedTransferQueue;
+import java.util.concurrent.SynchronousQueue;
 
 public class JucTest {
-	static final LinkedBlockingDeque<String> AQ = new LinkedBlockingDeque<>(2);
+	static final SynchronousQueue<String> AQ = new SynchronousQueue<>();
 	public static void main(String[] args) throws Exception {
-		AQ.add("2");
-		AQ.addFirst("1");
-		System.out.println(AQ.pop());
-		System.out.println(AQ.poll());
+		new Thread() {
+
+			@Override
+			public void run() {
+				try {
+					Thread.sleep(200);
+					AQ.add("1");
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+			
+		}.start();
 		System.out.println(AQ.take());
+//		AQ.put("4");
+//		System.out.println(AQ.take());
+//		System.out.println(AQ.take());
+//		System.out.println(AQ.take());
+//		System.out.println(AQ.take());
+//		System.out.println(AQ.poll(3, TimeUnit.SECONDS));
 	}
 
 }
