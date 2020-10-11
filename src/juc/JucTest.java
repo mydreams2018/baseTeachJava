@@ -1,52 +1,20 @@
 package juc;
 
-import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.DelayQueue;
+import java.util.concurrent.PriorityBlockingQueue;
 
 public class JucTest {
-	static final SynchronousQueue<String> AQ = new SynchronousQueue<>(true);
+	static final DelayQueue<MyDelay> AQ = new DelayQueue<>();
 	public static void main(String[] args) throws Exception {
-		new Thread() {
-			@Override
-			public void run() {
-				try {
-					Thread.sleep(150);
-					AQ.put("3");
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-			
-		}.start();
-		new Thread() {
-			@Override
-			public void run() {
-				try {
-					Thread.sleep(100);
-					AQ.put("2");
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-			
-		}.start();
-		new Thread() {
-			@Override
-			public void run() {
-				try {
-					Thread.sleep(200);
-					System.out.println(AQ.take());
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-			
-		}.start();
-		AQ.put("1");
-//		System.out.println(AQ.take());
-//		System.out.println(AQ.take());
-//		System.out.println(AQ.take());
-//		System.out.println(AQ.take());
-//		System.out.println(AQ.poll(3, TimeUnit.SECONDS));
+		long currentTimeMillis = System.currentTimeMillis();
+		AQ.put(new MyDelay(10,currentTimeMillis+2000));
+		AQ.put(new MyDelay(5,currentTimeMillis+5000));
+		AQ.put(new MyDelay(20,currentTimeMillis+3000));
+		AQ.put(new MyDelay(8,currentTimeMillis+10000));
+		System.out.println(AQ.take());
+		System.out.println(AQ.take());
+		System.out.println(AQ.take());
+		System.out.println(AQ.take());
 	}
 
 }
