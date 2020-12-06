@@ -1,20 +1,21 @@
 package juc;
 
-import java.util.concurrent.DelayQueue;
-import java.util.concurrent.PriorityBlockingQueue;
+import java.util.concurrent.ConcurrentSkipListMap;
 
 public class JucTest {
-	static final DelayQueue<MyDelay> AQ = new DelayQueue<>();
+	static ConcurrentSkipListMap<String,Integer> cur;
 	public static void main(String[] args) throws Exception {
-		long currentTimeMillis = System.currentTimeMillis();
-		AQ.put(new MyDelay(10,currentTimeMillis+2000));
-		AQ.put(new MyDelay(5,currentTimeMillis+5000));
-		AQ.put(new MyDelay(20,currentTimeMillis+3000));
-		AQ.put(new MyDelay(8,currentTimeMillis+10000));
-		System.out.println(AQ.take());
-		System.out.println(AQ.take());
-		System.out.println(AQ.take());
-		System.out.println(AQ.take());
+		cur = new ConcurrentSkipListMap<>();
+		cur.put("one", 1);
+		cur.put("two", 2);
+		cur.put("three", 3);
+		cur.put("four", 4);
+		cur.put("five", 5);
+		cur.put("erser", 6);
+		cur.put("fgdfg", 7);
+		cur.put("er", 8);
+		cur.put("99", 9);
+		cur.put("dsse", 10);
 	}
 
 }
