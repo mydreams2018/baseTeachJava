@@ -1,21 +1,36 @@
 package juc;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class JucTest {
-	static ConcurrentSkipListMap<String,Integer> cur;
+	static ConcurrentHashMap<String,Integer> cur;
 	public static void main(String[] args) throws Exception {
-		cur = new ConcurrentSkipListMap<>();
-		cur.put("one", 1);
-		cur.put("two", 2);
-		cur.put("three", 3);
-		cur.put("four", 4);
-		cur.put("five", 5);
-		cur.put("erser", 6);
-		cur.put("fgdfg", 7);
-		cur.put("er", 8);
-		cur.put("99", 9);
-		cur.put("dsse", 10);
+		cur = new ConcurrentHashMap<>();
+		cur.put("one",1);
+		ConcurrentHashMapTest concurrentHashMapTest = new ConcurrentHashMapTest();
+		concurrentHashMapTest.start();
+		ConcurrentHashMapTest concurrentHashMapTest2 = new ConcurrentHashMapTest();
+		concurrentHashMapTest2.start();
+		concurrentHashMapTest.join();
+		concurrentHashMapTest2.join();
+		System.out.println(cur.get("one"));
+	}
+	
+	static class ConcurrentHashMapTest extends Thread{
+
+		@Override
+		public void run() {
+			for(int x=0;x<10000;x++) {
+				Integer integer = cur.get("one");
+				integer++;
+				cur.put("one", integer);
+			}
+		}
+		
 	}
 
 }
