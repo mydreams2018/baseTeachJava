@@ -6,18 +6,34 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.TimeUnit;
 
 public class JucTest {
-	static CountDownLatch countDown = new CountDownLatch(1);
-	static ConcurrentHashMap<String,Integer> cur;
+	static CyclicBarrier cyclicBarrier = new CyclicBarrier(5,new Runnable() {
+		
+		@Override
+		public void run() {
+			System.out.println("成团");
+			
+		}
+	});
+
 	public static void main(String[] args) throws Exception {
-		cur = new ConcurrentHashMap<>();
-		cur.put("one",1);
+
 		ConcurrentHashMapTest concurrentHashMapTest = new ConcurrentHashMapTest();
 		concurrentHashMapTest.start();
-		countDown.await(2,TimeUnit.SECONDS);
-		System.out.println(cur.get("one"));
+		ConcurrentHashMapTest concurrentHashMapTest1 = new ConcurrentHashMapTest();
+		concurrentHashMapTest1.start();
+		ConcurrentHashMapTest concurrentHashMapTest2 = new ConcurrentHashMapTest();
+		concurrentHashMapTest2.start();
+		ConcurrentHashMapTest concurrentHashMapTest3 = new ConcurrentHashMapTest();
+		concurrentHashMapTest3.start();
+		for(int x=0;x<11;x++) {
+			ConcurrentHashMapTest temp = new ConcurrentHashMapTest();
+			temp.start();
+		}
+
 	}
 	
 	static class ConcurrentHashMapTest extends Thread{
@@ -25,13 +41,11 @@ public class JucTest {
 		@Override
 		public void run() {
 			try {
-				Thread.sleep(3000);
-				cur.put("one",3000);
-			} catch (InterruptedException e) {
+				cyclicBarrier.await();
+			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			countDown.countDown();
 		}
 		
 	}
