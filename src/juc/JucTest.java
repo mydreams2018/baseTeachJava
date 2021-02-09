@@ -12,34 +12,22 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
 public class JucTest {
-	static MyPhaser semaphore = new MyPhaser(8);
+	static MyPhaser semaphore = new MyPhaser(5);
 
 	public static void main(String[] args) throws Exception {
-		for(int x=0;x<8;x++) {
+		for(int x=0;x<6;x++) {
 			new Thread(new Runnable() {
-				@Override
+				@Override 
 				public void run() {
-					while(!semaphore.isTerminated()){
-						semaphore.arriveAndAwaitAdvance();
-						try {
-							if(!semaphore.isTerminated()){
-								Thread.sleep((long)(Math.random()*10));
-								System.out.println(Thread.currentThread().getName()+":"
-										+semaphore.getPhase());
-							}else {
-								System.out.println("Terminated");
-							}
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
-					}
+					System.out.println(semaphore.arriveAndAwaitAdvance());
 				}
 			}).start();
 		}
-//		semaphore.forceTermination();
-//		System.out.println(semaphore.getPhase());
+//327681 327680 4295294981
+//		System.out.println(327681 & 0xffff);
+//		System.out.println(327680 & 0xffff);
+//		int ct =(int)4295294981L;
+//		System.out.println(ct & 0xffff);
 	}
-	
-
 
 }
