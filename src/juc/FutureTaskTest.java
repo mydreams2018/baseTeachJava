@@ -3,50 +3,20 @@ package juc;
 import java.util.concurrent.*;
 
 public class FutureTaskTest {
-    static ForkJoinPool futureTask = new ForkJoinPool();
 
     public static void main(String s[]) throws Exception{
-        Long invoke = futureTask.invoke(new ForkJoinTask<Long>() {
-            private Long rt = 0L;
-            @Override
-            public Long getRawResult() {
-                return 55L+rt;
-            }
+        FutureTask<Integer> futureTask = new FutureTask<>(new MyCallable());
+        new Thread(futureTask).start();
+        Integer integer = futureTask.get();
+        System.out.println(integer);
+    }
 
-            @Override
-            protected void setRawResult(Long value) {
-            }
+    static class MyCallable implements Callable<Integer>{
 
-            @Override
-            protected boolean exec() {
-                System.out.println(Thread.currentThread().getName());
-                ForkJoinTask<Long> task = new ForkJoinTask<>() {
-                    @Override
-                    public Long getRawResult() {
-                        return 55L;
-                    }
-                    @Override
-                    protected void setRawResult(Long value) {
-                    }
-                    @Override
-                    protected boolean exec() {
-                        System.out.println(Thread.currentThread().getName());
-                        return true;
-                    }
-                };
-                task.fork();
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                rt = task.join();
-                return true;
-            }
-        });
-//        Object o = schedule.get();
-        System.out.println(invoke);
-        // 100 2  period>0  102 104 106 108   [6]
-        //100 2  period<0   102 108+2
+        @Override
+        public Integer call() throws Exception {
+            Thread.sleep(3000);
+            return 100;
+        }
     }
 }
