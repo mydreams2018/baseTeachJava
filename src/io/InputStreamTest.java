@@ -1,38 +1,53 @@
 package io;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.nio.charset.Charset;
+import java.util.Random;
 
 public class InputStreamTest {
     static File file = new File("D:\\temp\\src\\test.txt");
+    static PipedInputStream pipedInputStream = new PipedInputStream();
+    static PipedOutputStream pipedOutputStream = new PipedOutputStream();
     public static void main(String s[]) throws Exception {
-        ByteArrayInputStream byteArrayInputStream ;
-        try(FileInputStream fileInputStream = new FileInputStream(file)){
-//            System.out.println(fileInputStream.available());
-//            int read = fileInputStream.read();
-//            System.out.println((char)read);
-//            System.out.println(fileInputStream.available());
-//            fileInputStream.skip(1);
-            byte[] bytes = new byte[fileInputStream.available()];
-            fileInputStream.read(bytes);
-            String s1 = new String("fsdfs我");
-            System.out.println(s1);
-            System.out.println(Charset.defaultCharset());
-            byteArrayInputStream = new ByteArrayInputStream(bytes);
-        }
-        System.out.println(byteArrayInputStream.available());
-        System.out.println(byteArrayInputStream.read());
-        System.out.println(byteArrayInputStream.read());
-        byteArrayInputStream.mark(4554);
-        System.out.println(byteArrayInputStream.read());
-        System.out.println(byteArrayInputStream.read());
-        System.out.println(byteArrayInputStream.read());
-        byteArrayInputStream.reset();
-        System.out.println(byteArrayInputStream.read());
-        System.out.println(byteArrayInputStream.read());
-        System.out.println(byteArrayInputStream.read());
+        pipedInputStream.connect(pipedOutputStream);
+        new Thread(new Runnable(){
+            @Override
+            public void run() {
+                Random random = new Random();
+                try {
+                    while(true){
+                        int i = random.nextInt(2000);
+                        Thread.sleep(i);
+                        pipedOutputStream.write(i);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }finally {
+                    try {
+                        pipedOutputStream.close();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
+        new Thread(new Runnable(){
+            @Override
+            public void run() {
+                try {
+                    while(true){
+                        System.out.println(pipedInputStream.read());
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }finally {
+                    try {
+                        pipedInputStream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
     }
 }
