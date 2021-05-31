@@ -6,48 +6,23 @@ import java.util.Random;
 
 public class InputStreamTest {
     static File file = new File("D:\\temp\\src\\test.txt");
-    static PipedInputStream pipedInputStream = new PipedInputStream();
-    static PipedOutputStream pipedOutputStream = new PipedOutputStream();
+//    static PipedInputStream pipedInputStream = new PipedInputStream();
+//    static PipedOutputStream pipedOutputStream = new PipedOutputStream();
     public static void main(String s[]) throws Exception {
-        pipedInputStream.connect(pipedOutputStream);
-        new Thread(new Runnable(){
-            @Override
-            public void run() {
-                Random random = new Random();
-                try {
-                    while(true){
-                        int i = random.nextInt(2000);
-                        Thread.sleep(i);
-                        pipedOutputStream.write(i);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }finally {
-                    try {
-                        pipedOutputStream.close();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }).start();
-        new Thread(new Runnable(){
-            @Override
-            public void run() {
-                try {
-                    while(true){
-                        System.out.println(pipedInputStream.read());
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }finally {
-                    try {
-                        pipedInputStream.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }).start();
+        try(FileInputStream fileInputStream = new FileInputStream(file);//0-10000
+            BufferedInputStream bufferedInputStream = new BufferedInputStream(fileInputStream)){
+            System.out.println(bufferedInputStream.read());
+            System.out.println(bufferedInputStream.read());
+            bufferedInputStream.mark(20000);
+            System.out.println(bufferedInputStream.read());
+            System.out.println(bufferedInputStream.read());
+            System.out.println(bufferedInputStream.read());
+            bufferedInputStream.reset();
+            System.out.println(bufferedInputStream.read());
+            System.out.println(bufferedInputStream.read());
+            System.out.println(bufferedInputStream.read());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }
