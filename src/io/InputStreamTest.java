@@ -1,25 +1,26 @@
 package io;
 
 import java.io.*;
-import java.nio.charset.Charset;
-import java.util.Random;
-import java.util.zip.Adler32;
-import java.util.zip.CheckedInputStream;
-import java.util.zip.Checksum;
 
 public class InputStreamTest {
     static File file = new File("D:\\temp\\src\\test.txt");
-//    static PipedInputStream pipedInputStream = new PipedInputStream();
-//    static PipedOutputStream pipedOutputStream = new PipedOutputStream();
+
     public static void main(String s[]) throws Exception {
-        Checksum checksum = new Adler32();
-        byte[] bt = {97,115,97,115,97,115,97,115};
-        checksum.update(bt);
-        System.out.println(checksum.getValue());//230425357
-        try(FileInputStream fileInputStream = new FileInputStream(file);
-            CheckedInputStream checkedInputStream = new CheckedInputStream(fileInputStream,new Adler32())){
-            byte[] bytes = checkedInputStream.readAllBytes();
-            System.out.println(checkedInputStream.getChecksum().getValue());
+        try(InputStream inputStream = new FileInputStream(file);
+            DataInputStream dataInputStream = new DataInputStream(inputStream)){
+//            System.out.println(dataInputStream.readUTF());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        //01100001 00000000 00000000 00000000
+        //         01110011 00000000 00000000
+        //01100001 01110011 01100001 01110011
+
+        try(OutputStream outputStream = new FileOutputStream(file);
+            DataOutputStream dataInputStream = new DataOutputStream(outputStream)){
+            dataInputStream.writeInt(1);
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 }
