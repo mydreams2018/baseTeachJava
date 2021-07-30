@@ -7,20 +7,18 @@ public class InputStreamTest {
 
     public static void main(String s[]) throws Exception {
         try(InputStream inputStream = new FileInputStream(file);
-            DataInputStream dataInputStream = new DataInputStream(inputStream)){
-//            System.out.println(dataInputStream.readUTF());
+            PushbackInputStream pushInputStream = new PushbackInputStream(inputStream,10)){
+            int read = pushInputStream.read();
+            while(read >= 0){
+                System.out.println((char)read);
+                if('s' == (char)read){
+                    pushInputStream.unread(',');
+                }
+                read = pushInputStream.read();
+            }
         }catch (Exception e){
             e.printStackTrace();
         }
-        //01100001 00000000 00000000 00000000
-        //         01110011 00000000 00000000
-        //01100001 01110011 01100001 01110011
 
-        try(OutputStream outputStream = new FileOutputStream(file);
-            DataOutputStream dataInputStream = new DataOutputStream(outputStream)){
-            dataInputStream.writeInt(1);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
     }
 }
