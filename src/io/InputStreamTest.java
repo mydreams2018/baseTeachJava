@@ -7,18 +7,25 @@ public class InputStreamTest {
 
     public static void main(String s[]) throws Exception {
         try(InputStream inputStream = new FileInputStream(file);
-            PushbackInputStream pushInputStream = new PushbackInputStream(inputStream,10)){
-            int read = pushInputStream.read();
-            while(read >= 0){
-                System.out.println((char)read);
-                if('s' == (char)read){
-                    pushInputStream.unread(',');
-                }
-                read = pushInputStream.read();
-            }
+            ObjectInputStream objectInputStream = new ObjectInputStream(inputStream)){
+            System.out.println(objectInputStream.readInt());
+            MyTs ms = (MyTs)objectInputStream.readObject();
+            System.out.println(ms);
         }catch (Exception e){
             e.printStackTrace();
         }
 
+//00 ED 00 05
+//        try(OutputStream outputStream = new FileOutputStream(file);
+//            ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream)){
+//            objectOutputStream.writeInt(1);
+//            MyTs myTs = new MyTs();
+//            myTs.setName("one");
+//            myTs.setAge(28);
+//            objectOutputStream.writeObject(myTs);
+//            objectOutputStream.flush();
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
     }
 }
