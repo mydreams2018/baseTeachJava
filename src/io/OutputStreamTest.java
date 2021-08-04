@@ -8,17 +8,16 @@ public class OutputStreamTest {
     public static void main(String st[]){
 
         try(InputStream inputStream = new FileInputStream(file);
-            InputStreamReader inputStreamReader = new InputStreamReader(inputStream)
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);//字节缓冲区
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);//字符缓冲区
         ){
 //            while(inputStreamReader.ready()){
 //                System.out.print((char)inputStreamReader.read());
 //            }
-            char ca[] = new char[100];
-            int num = inputStreamReader.read(ca);
-            for(int x=0;x<num;x++){
-                System.out.print(ca[x]);
-            }
-
+            char read = (char) bufferedReader.read();
+            char ca = 13;
+            char ca1 = 10;
+            System.out.println(read);
         }catch (Exception e){
             e.printStackTrace();
         }
