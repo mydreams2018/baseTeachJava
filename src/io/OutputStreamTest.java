@@ -10,14 +10,15 @@ public class OutputStreamTest {
         try(InputStream inputStream = new FileInputStream(file);
             InputStreamReader inputStreamReader = new InputStreamReader(inputStream);//字节缓冲区
             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);//字符缓冲区
+            PushbackReader pushbackReader = new PushbackReader(bufferedReader,16);
         ){
-//            while(inputStreamReader.ready()){
-//                System.out.print((char)inputStreamReader.read());
-//            }
-            char read = (char) bufferedReader.read();
-            char ca = 13;
-            char ca1 = 10;
-            System.out.println(read);
+            while(pushbackReader.ready()){
+                char read = (char) pushbackReader.read();
+                System.out.print(read);
+                if('2' == read){
+                    pushbackReader.unread(51);
+                }
+            }
         }catch (Exception e){
             e.printStackTrace();
         }
