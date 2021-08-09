@@ -7,10 +7,11 @@ public class OutputStreamTest {
 
     public static void main(String st[]) {
         try (FileOutputStream fileOutputStream = new FileOutputStream(file);
-            OutputStreamWriter OutputStream = new OutputStreamWriter(fileOutputStream);
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fileOutputStream);
+             BufferedWriter bufferedWriter = new BufferedWriter(outputStreamWriter);
         ){
-            OutputStream.write("哈哈哈12245uijkkijkkj");
-            OutputStream.flush();
+            bufferedWriter.write("erwerrw21231321");
+            bufferedWriter.flush();
         } catch (Exception e) {
             e.printStackTrace();
         }
