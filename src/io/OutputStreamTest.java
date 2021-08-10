@@ -8,7 +8,8 @@ public class OutputStreamTest {
         try (FileOutputStream fileOutputStream = new FileOutputStream(file);
              PrintStream printStream = new PrintStream(fileOutputStream);
         ){
-
+            printStream.print(23562);
+            printStream.flush();
         } catch (Exception e) {
             e.printStackTrace();
         }
