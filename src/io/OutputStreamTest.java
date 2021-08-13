@@ -1,29 +1,21 @@
 package io;
 
-import utils.FileCopys;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.RandomAccessFile;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.util.Arrays;
 
 public class OutputStreamTest {
-    public static void main(String st[]) throws Exception {
-        File src = new File("E:\\Downloads\\CentOS-7-x86_64-Minimal-1810.iso");
-        File tar = new File("F:\\copy",src.getName());
-        if(!tar.exists()){
-            System.out.println(tar.createNewFile());
-        }
-//        try(
-//                RandomAccessFile randomAccessFile = new RandomAccessFile(tar,"rws");
-//                ){
-//            randomAccessFile.setLength(src.length());
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
-//962,592,768
 
-        // 11100110 10001000 10010001
-        // 0110001000010001
+    public static void main(String st[]) throws Exception {
+        System.out.println(InetAddress.getLocalHost());
+        System.out.println(InetAddress.getLoopbackAddress().isLoopbackAddress());
+        System.out.println(InetAddress.getByName("www.baidu.com"));
+        byte bt[] = {14,(byte)215,(byte)177,38};
+        System.out.println(InetAddress.getByAddress(bt).isReachable(50));
+        System.out.println(Arrays.toString(InetAddress.getAllByName("testaddress")));
+
+        NetworkInterface eth1 = NetworkInterface.getByName("eth1");
+        System.out.println(eth1.getInetAddresses().nextElement());
     }
 }
