@@ -1,21 +1,24 @@
 package io;
 
-
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.util.Arrays;
+import java.net.URI;
 
 public class OutputStreamTest {
 
     public static void main(String st[]) throws Exception {
-        System.out.println(InetAddress.getLocalHost());
-        System.out.println(InetAddress.getLoopbackAddress().isLoopbackAddress());
-        System.out.println(InetAddress.getByName("www.baidu.com"));
-        byte bt[] = {14,(byte)215,(byte)177,38};
-        System.out.println(InetAddress.getByAddress(bt).isReachable(50));
-        System.out.println(Arrays.toString(InetAddress.getAllByName("testaddress")));
-
-        NetworkInterface eth1 = NetworkInterface.getByName("eth1");
-        System.out.println(eth1.getInetAddresses().nextElement());
+        URI uri = new URI("http://www.example.com:80/languages/java/sample/a/index.html?name=kungreat#28");
+        URI uri2 = new URI("http://www.example.com:80/languages1");
+//        System.out.println(uri.getScheme());
+//        System.out.println(uri.getAuthority());
+//        System.out.println(uri.getPort());
+//        System.out.println(uri.getPath());
+//        System.out.println(uri.getFragment());
+//        System.out.println(uri.getQuery());
+//http://www.example.com:80/languages/java/sample/demo/b/index.html
+//http://www.example.com:80/languages/java/sample/a/demo/b/index.html
+//        URI u1 = new URI("demo/b/index.html");
+//        System.out.println(u1);
+//        URI resolve = uri.resolve(u1);
+//        System.out.println(resolve);
+        System.out.println(uri2.relativize(uri));
     }
 }
