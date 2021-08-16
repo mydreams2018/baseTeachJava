@@ -3,16 +3,12 @@ package io;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.*;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 public class OutputStreamTest {
 
     public static void main(String st[]) throws Exception {
         URL url1 = new URL("http://127.0.0.1/hello");
-        URLConnection urlConnection = url1.openConnection();
+        HttpURLConnection urlConnection = (HttpURLConnection)url1.openConnection();
         urlConnection.setDoOutput(true);
 //        System.out.println(urlConnection.getContentEncoding());
 //        System.out.println(urlConnection.getContentLength());
@@ -23,14 +19,17 @@ public class OutputStreamTest {
 //        for(Map.Entry<String, List<String>> mp:entries){
 //            System.out.println(mp.getKey()+":"+mp.getValue());
 //        }
+        String rt = "echo=哈哈大12345689";
+//        urlConnection.setFixedLengthStreamingMode(rt.getBytes().length);
         try(OutputStream outputStream = urlConnection.getOutputStream()){
-            String rt = "echo=哈哈大123456";
             outputStream.write(rt.getBytes());
             outputStream.flush();
         }catch (Exception e){
             e.printStackTrace();
         }
-
+        System.out.println(urlConnection.getResponseCode());
+        System.out.println(urlConnection.getRequestMethod());
+//        System.out.println(urlConnection.getResponseMessage());
         try(InputStream inputStream = urlConnection.getInputStream()){
             byte[] bytes = inputStream.readAllBytes();
             System.out.println(new String(bytes));
