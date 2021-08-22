@@ -10,7 +10,7 @@ import java.net.Socket;
 public class NetTest {
 
     public static void main(String[] args){
-        try(Socket socket = new Socket("time.nist.gov",13, InetAddress.getLocalHost(),52888)){
+        try(Socket socket = new Socket(InetAddress.getLocalHost(),52666, InetAddress.getLocalHost(),52888)){
             InputStream inputStream = socket.getInputStream();
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
             int read = bufferedReader.read();
