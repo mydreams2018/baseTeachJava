@@ -2,6 +2,7 @@ package io;
 
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -23,10 +24,24 @@ public class NetServerTest extends Thread implements Runnable{
     public void run() {
         try{
             System.out.println(Thread.currentThread().getName()+":get-accept");
-            OutputStream outputStream = accept.getOutputStream();
-            String curDate = LocalDateTime.now().toString();
-            outputStream.write(curDate.getBytes());
-            outputStream.flush();
+            StringBuilder stringBuilder = new StringBuilder();
+            InputStream inputStream = accept.getInputStream();
+            int read = inputStream.read();
+            while(read!=-1){
+                stringBuilder.append((char)read);
+                read = inputStream.read();
+            }
+            System.out.println(stringBuilder);
+            if(stringBuilder.toString().contains(":end")){
+                OutputStream outputStream = accept.getOutputStream();
+                String curDate = LocalDateTime.now().toString();
+                outputStream.write(curDate.getBytes());
+                outputStream.flush();
+            }else{
+                OutputStream outputStream = accept.getOutputStream();
+                outputStream.write("check-error".getBytes());
+                outputStream.flush();
+            }
         }catch (Exception e){
             e.printStackTrace();
         }finally {
@@ -38,14 +53,19 @@ public class NetServerTest extends Thread implements Runnable{
                 }
             }
         }
+        System.out.println(Thread.currentThread().getName()+":end-accept");
     }
 
     public static void main(String[] args) {
         try(ServerSocket serverSocket = new ServerSocket(52666)){
             while(true){
-                Socket accept = serverSocket.accept();
-                NetServerTest serverTest = new NetServerTest(accept);
-                THREAD_POOL_EXECUTOR.execute(serverTest);
+                try{
+                    Socket accept = serverSocket.accept();
+                    NetServerTest serverTest = new NetServerTest(accept);
+                    THREAD_POOL_EXECUTOR.execute(serverTest);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         }catch (Exception e){
             e.printStackTrace();
