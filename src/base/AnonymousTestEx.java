@@ -6,7 +6,6 @@ public class AnonymousTestEx extends AnonymousTest{
 	}
 	@Override
 	public void say() {
-		// TODO Auto-generated method stub
 		
 	}
 

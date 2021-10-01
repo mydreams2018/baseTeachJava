@@ -232,13 +232,11 @@ public class MyHashMap<K,V> implements Map<K, V>{
 	
 	@Override
 	public Collection<V> values() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Set<Entry<K, V>> entrySet() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }

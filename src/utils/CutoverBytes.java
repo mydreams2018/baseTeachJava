@@ -1,6 +1,12 @@
 package utils;
 
+import java.net.InetAddress;
+import java.net.InterfaceAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.util.Arrays;
+import java.util.Enumeration;
+import java.util.List;
 
 public class CutoverBytes {
 
@@ -66,5 +72,20 @@ public class CutoverBytes {
                 ((bytes[5] & 255) << 16) +
                 ((bytes[6] & 255) <<  8) +
                 ((bytes[7] & 255) <<  0));
+    }
+
+    public static void getBroadCast() throws SocketException {
+        Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
+        while(networkInterfaces.hasMoreElements()){
+            NetworkInterface networkInterface = networkInterfaces.nextElement();
+            List<InterfaceAddress> interfaceAddresses = networkInterface.getInterfaceAddresses();
+            for(int x=0;x<interfaceAddresses.size();x++){
+                InterfaceAddress interfaceAddress = interfaceAddresses.get(x);
+                InetAddress broadcast = interfaceAddress.getBroadcast();
+                if(broadcast!=null){
+                    System.out.println(broadcast);
+                }
+            }
+        }
     }
 }
