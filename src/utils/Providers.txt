@@ -1,0 +1,763 @@
+SUN version 11
+	Signature.SHA256withDSA KeySize
+	Alg.Alias.Signature.2.16.840.1.101.3.4.3.1
+	Alg.Alias.Signature.2.16.840.1.101.3.4.3.2
+	Alg.Alias.KeyPairGenerator.1.2.840.10040.4.1
+	CertPathValidator.PKIX
+	Alg.Alias.KeyPairGenerator.OID.1.2.840.10040.4.1
+	KeyStore.JKS
+	MessageDigest.SHA-512/224
+	Alg.Alias.Signature.SHA1/DSA
+	CertStore.com.sun.security.IndexedCollection ImplementedIn
+	Alg.Alias.CertificateFactory.X509
+	Alg.Alias.Signature.SHA-1/DSA
+	Signature.SHA224withDSA
+	MessageDigest.SHA3-384
+	Signature.SHA1withDSA SupportedKeyClasses
+	Signature.SHA224withDSA SupportedKeyClasses
+	Alg.Alias.Signature.OID.2.16.840.1.101.3.4.3.2
+	Alg.Alias.Signature.OID.2.16.840.1.101.3.4.3.1
+	Alg.Alias.MessageDigest.OID.2.16.840.1.101.3.4.2.1
+	Alg.Alias.MessageDigest.OID.2.16.840.1.101.3.4.2.3
+	Alg.Alias.MessageDigest.OID.2.16.840.1.101.3.4.2.2
+	Alg.Alias.MessageDigest.OID.2.16.840.1.101.3.4.2.5
+	Alg.Alias.MessageDigest.OID.2.16.840.1.101.3.4.2.4
+	Alg.Alias.Signature.DSAWithSHA1
+	Alg.Alias.MessageDigest.OID.2.16.840.1.101.3.4.2.7
+	Alg.Alias.MessageDigest.OID.2.16.840.1.101.3.4.2.6
+	Alg.Alias.MessageDigest.OID.2.16.840.1.101.3.4.2.9
+	Alg.Alias.MessageDigest.OID.2.16.840.1.101.3.4.2.8
+	Alg.Alias.KeyFactory.1.3.14.3.2.12
+	Alg.Alias.Signature.RawDSA
+	MessageDigest.SHA
+	CertPathBuilder.PKIX
+	Signature.NONEwithDSA KeySize
+	Provider.id version
+	AlgorithmParameters.DSA ImplementedIn
+	CertificateFactory.X.509 ImplementedIn
+	Alg.Alias.AlgorithmParameters.1.3.14.3.2.12
+	Provider.id info
+	CertPathBuilder.PKIX ValidationAlgorithm
+	Provider.id className
+	MessageDigest.SHA-224
+	CertPathBuilder.PKIX ImplementedIn
+	MessageDigest.SHA3-256
+	AlgorithmParameterGenerator.DSA ImplementedIn
+	Alg.Alias.MessageDigest.1.3.14.3.2.26
+	AlgorithmParameters.DSA
+	SecureRandom.SHA1PRNG
+	Provider.id name
+	MessageDigest.MD2
+	MessageDigest.MD5
+	KeyFactory.DSA
+	KeyPairGenerator.DSA KeySize
+	MessageDigest.SHA-512
+	Signature.SHA1withDSA KeySize
+	SecureRandom.DRBG ImplementedIn
+	SecureRandom.SHA1PRNG ThreadSafe
+	Signature.NONEwithDSA
+	Alg.Alias.Signature.DSS
+	Alg.Alias.MessageDigest.2.16.840.1.101.3.4.2.10
+	Alg.Alias.Signature.1.3.14.3.2.13
+	Signature.SHA1withDSA
+	CertificateFactory.X.509
+	KeyStore.DKS
+	Alg.Alias.Signature.OID.1.2.840.10040.4.3
+	Signature.SHA256withDSAinP1363Format
+	MessageDigest.SHA3-512
+	Alg.Alias.MessageDigest.SHA-1
+	KeyStore.JKS ImplementedIn
+	Alg.Alias.Signature.DSA
+	Signature.NONEwithDSA SupportedKeyClasses
+	Alg.Alias.AlgorithmParameters.OID.1.2.840.10040.4.1
+	KeyStore.PKCS12
+	Signature.SHA224withDSA KeySize
+	Alg.Alias.Signature.SHAwithDSA
+	MessageDigest.SHA-256
+	SecureRandom.SHA1PRNG ImplementedIn
+	KeyStore.CaseExactJKS
+	Policy.JavaPolicy
+	Alg.Alias.MessageDigest.SHA1
+	Signature.SHA1withDSAinP1363Format
+	KeyFactory.DSA ImplementedIn
+	SecureRandom.DRBG
+	MessageDigest.SHA3-224
+	CertStore.com.sun.security.IndexedCollection
+	CertStore.Collection
+	AlgorithmParameterGenerator.DSA KeySize
+	Signature.SHA1withDSA ImplementedIn
+	Alg.Alias.Signature.SHA/DSA
+	CertPathValidator.PKIX ValidationAlgorithm
+	MessageDigest.SHA-384
+	CertPathValidator.PKIX ImplementedIn
+	Alg.Alias.Signature.1.2.840.10040.4.3
+	MessageDigest.SHA ImplementedIn
+	Configuration.JavaLoginConfig
+	MessageDigest.MD5 ImplementedIn
+	KeyPairGenerator.DSA ImplementedIn
+	Alg.Alias.KeyFactory.1.2.840.10040.4.1
+	Alg.Alias.Signature.1.3.14.3.2.27
+	Alg.Alias.KeyPairGenerator.1.3.14.3.2.12
+	Alg.Alias.MessageDigest.2.16.840.1.101.3.4.2.1
+	Alg.Alias.MessageDigest.2.16.840.1.101.3.4.2.3
+	AlgorithmParameterGenerator.DSA
+	SecureRandom.DRBG ThreadSafe
+	Alg.Alias.MessageDigest.2.16.840.1.101.3.4.2.2
+	Alg.Alias.MessageDigest.2.16.840.1.101.3.4.2.5
+	Alg.Alias.MessageDigest.2.16.840.1.101.3.4.2.4
+	Alg.Alias.MessageDigest.2.16.840.1.101.3.4.2.7
+	Alg.Alias.MessageDigest.2.16.840.1.101.3.4.2.6
+	Alg.Alias.MessageDigest.2.16.840.1.101.3.4.2.9
+	Alg.Alias.MessageDigest.2.16.840.1.101.3.4.2.8
+	Alg.Alias.AlgorithmParameters.1.2.840.10040.4.1
+	MessageDigest.SHA-512/256
+	Signature.NONEwithDSAinP1363Format
+	Alg.Alias.MessageDigest.OID.1.3.14.3.2.26
+	Signature.SHA256withDSA
+	Signature.SHA224withDSAinP1363Format
+	CertStore.Collection ImplementedIn
+	Alg.Alias.KeyFactory.OID.1.2.840.10040.4.1
+	Signature.SHA256withDSA SupportedKeyClasses
+	Alg.Alias.MessageDigest.OID.2.16.840.1.101.3.4.2.10
+	KeyPairGenerator.DSA
+SunRsaSign version 11
+	Alg.Alias.Signature.OID.1.2.840.113549.1.1.12
+	Alg.Alias.Signature.OID.1.2.840.113549.1.1.11
+	Alg.Alias.KeyPairGenerator.OID.1.2.840.113549.1.1.10
+	Alg.Alias.Signature.OID.1.2.840.113549.1.1.14
+	Alg.Alias.Signature.OID.1.2.840.113549.1.1.13
+	Signature.SHA512/224withRSA SupportedKeyClasses
+	Alg.Alias.Signature.OID.1.2.840.113549.1.1.10
+	KeyFactory.RSASSA-PSS
+	Alg.Alias.Signature.OID.1.2.840.113549.1.1.16
+	Alg.Alias.Signature.OID.1.2.840.113549.1.1.15
+	KeyPairGenerator.RSA
+	Signature.RSASSA-PSS SupportedKeyClasses
+	Alg.Alias.Signature.1.2.840.113549.1.1.2
+	Alg.Alias.AlgorithmParameters.1.2.840.113549.1.1.10
+	Signature.SHA512withRSA SupportedKeyClasses
+	Signature.SHA384withRSA SupportedKeyClasses
+	Alg.Alias.KeyPairGenerator.OID.1.2.840.113549.1.1
+	Alg.Alias.Signature.1.2.840.113549.1.1.5
+	Signature.SHA1withRSA
+	Alg.Alias.Signature.1.2.840.113549.1.1.4
+	Signature.SHA256withRSA SupportedKeyClasses
+	Signature.SHA512/256withRSA
+	Alg.Alias.KeyFactory.OID.1.2.840.113549.1.1.10
+	Alg.Alias.KeyPairGenerator.1.2.840.113549.1.1.10
+	Signature.MD5withRSA
+	Signature.MD5withRSA SupportedKeyClasses
+	Signature.SHA224withRSA
+	KeyPairGenerator.RSASSA-PSS
+	Signature.SHA512withRSA
+	Provider.id version
+	Alg.Alias.KeyPairGenerator.1.2.840.113549.1.1
+	Signature.RSASSA-PSS
+	Provider.id info
+	AlgorithmParameters.RSASSA-PSS
+	Signature.SHA1withRSA SupportedKeyClasses
+	Signature.SHA384withRSA
+	Signature.MD2withRSA SupportedKeyClasses
+	Signature.SHA512/256withRSA SupportedKeyClasses
+	Provider.id className
+	Alg.Alias.AlgorithmParameters.OID.1.2.840.113549.1.1.10
+	Alg.Alias.Signature.OID.1.2.840.113549.1.1.2
+	Alg.Alias.Signature.1.3.14.3.2.29
+	Alg.Alias.Signature.1.2.840.113549.1.1.10
+	Alg.Alias.KeyFactory.OID.1.2.840.113549.1.1
+	KeyFactory.RSA
+	Signature.SHA256withRSA
+	Alg.Alias.Signature.1.2.840.113549.1.1.15
+	Alg.Alias.Signature.1.2.840.113549.1.1.16
+	Provider.id name
+	Alg.Alias.Signature.1.2.840.113549.1.1.11
+	Alg.Alias.Signature.1.2.840.113549.1.1.12
+	Alg.Alias.Signature.1.2.840.113549.1.1.13
+	Alg.Alias.Signature.1.2.840.113549.1.1.14
+	Signature.SHA224withRSA SupportedKeyClasses
+	Alg.Alias.KeyFactory.1.2.840.113549.1.1
+	Signature.MD2withRSA
+	Alg.Alias.KeyFactory.1.2.840.113549.1.1.10
+	Signature.SHA512/224withRSA
+	Alg.Alias.Signature.OID.1.2.840.113549.1.1.5
+	Alg.Alias.Signature.OID.1.2.840.113549.1.1.4
+SunEC version 11
+	Alg.Alias.AlgorithmParameters.EllipticCurve
+	KeyAgreement.X448
+	Signature.SHA1withECDSA ImplementedIn
+	Signature.SHA512withECDSA ImplementedIn
+	Signature.SHA512withECDSA SupportedKeyClasses
+	KeyPairGenerator.X448 ImplementedIn
+	Alg.Alias.KeyPairGenerator.OID.1.3.101.111
+	KeyFactory.X448
+	Alg.Alias.KeyPairGenerator.OID.1.3.101.110
+	KeyAgreement.ECDH KeySize
+	Signature.SHA384withECDSA ImplementedIn
+	AlgorithmParameters.EC KeySize
+	Alg.Alias.KeyPairGenerator.EllipticCurve
+	Signature.SHA224withECDSA KeySize
+	KeyAgreement.ECDH ImplementedIn
+	KeyFactory.EC KeySize
+	Alg.Alias.KeyFactory.1.3.101.111
+	Alg.Alias.KeyFactory.1.3.101.110
+	Signature.SHA256withECDSA
+	KeyAgreement.ECDH SupportedKeyClasses
+	Alg.Alias.KeyFactory.OID.1.3.101.111
+	Alg.Alias.KeyFactory.OID.1.3.101.110
+	KeyFactory.EC SupportedKeyClasses
+	KeyFactory.XDH ImplementedIn
+	Alg.Alias.Signature.1.2.840.10045.4.3.4
+	Signature.SHA512withECDSAinP1363Format
+	Signature.NONEwithECDSA SupportedKeyClasses
+	KeyFactory.EC
+	Alg.Alias.Signature.1.2.840.10045.4.3.2
+	Alg.Alias.Signature.1.2.840.10045.4.3.3
+	KeyAgreement.X25519 ImplementedIn
+	Provider.id version
+	Alg.Alias.KeyAgreement.OID.1.3.101.110
+	KeyPairGenerator.XDH
+	Provider.id info
+	Alg.Alias.KeyAgreement.OID.1.3.101.111
+	KeyPairGenerator.XDH ImplementedIn
+	Alg.Alias.Signature.OID.1.2.840.10045.4.1
+	Signature.SHA384withECDSAinP1363Format
+	Alg.Alias.Signature.1.2.840.10045.4.3.1
+	Provider.id className
+	Signature.SHA224withECDSA SupportedKeyClasses
+	Alg.Alias.AlgorithmParameters.1.2.840.10045.2.1
+	KeyPairGenerator.X25519
+	Signature.SHA256withECDSA ImplementedIn
+	Signature.SHA1withECDSA SupportedKeyClasses
+	Alg.Alias.AlgorithmParameters.OID.1.2.840.10045.2.1
+	Signature.SHA384withECDSA SupportedKeyClasses
+	KeyAgreement.XDH
+	Provider.id name
+	KeyPairGenerator.EC
+	KeyPairGenerator.EC ImplementedIn
+	Signature.SHA256withECDSA SupportedKeyClasses
+	Signature.SHA512withECDSA KeySize
+	Alg.Alias.KeyFactory.EllipticCurve
+	Signature.SHA1withECDSA KeySize
+	Signature.NONEwithECDSA KeySize
+	Signature.SHA256withECDSA KeySize
+	KeyPairGenerator.X448
+	Signature.SHA256withECDSAinP1363Format
+	KeyFactory.XDH
+	Signature.NONEwithECDSA ImplementedIn
+	Signature.SHA1withECDSAinP1363Format
+	KeyAgreement.X25519
+	Signature.SHA384withECDSA KeySize
+	Signature.SHA512withECDSA
+	Signature.SHA224withECDSA ImplementedIn
+	KeyAgreement.XDH ImplementedIn
+	KeyPairGenerator.EC KeySize
+	Signature.SHA384withECDSA
+	AlgorithmParameters.EC
+	KeyFactory.X25519 ImplementedIn
+	Signature.NONEwithECDSAinP1363Format
+	KeyPairGenerator.EC SupportedKeyClasses
+	KeyFactory.X448 ImplementedIn
+	Signature.SHA224withECDSAinP1363Format
+	AlgorithmParameters.EC SupportedKeyClasses
+	KeyFactory.X25519
+	KeyAgreement.X448 ImplementedIn
+	Signature.NONEwithECDSA
+	AlgorithmParameters.EC ImplementedIn
+	AlgorithmParameters.EC SupportedCurves
+	Alg.Alias.Signature.OID.1.2.840.10045.4.3.2
+	Signature.SHA1withECDSA
+	Alg.Alias.Signature.OID.1.2.840.10045.4.3.3
+	Alg.Alias.Signature.OID.1.2.840.10045.4.3.4
+	Signature.SHA224withECDSA
+	Alg.Alias.KeyPairGenerator.1.3.101.110
+	Alg.Alias.KeyPairGenerator.1.3.101.111
+	Alg.Alias.Signature.OID.1.2.840.10045.4.3.1
+	KeyPairGenerator.X25519 ImplementedIn
+	Alg.Alias.Signature.1.2.840.10045.4.1
+	KeyAgreement.ECDH
+	KeyFactory.EC ImplementedIn
+	Alg.Alias.KeyAgreement.1.3.101.111
+	Alg.Alias.KeyAgreement.1.3.101.110
+SunJSSE version 11
+	Alg.Alias.Signature.OID.1.3.14.3.2.29
+	KeyManagerFactory.NewSunX509
+	Alg.Alias.TrustManagerFactory.X.509
+	Alg.Alias.SSLContext.SSL
+	Alg.Alias.SSLContext.SSLv3
+	Provider.id version
+	SSLContext.DTLS
+	Alg.Alias.KeyPairGenerator.1.2.840.113549.1.1
+	SSLContext.TLS
+	Provider.id info
+	Alg.Alias.TrustManagerFactory.SunPKIX
+	SSLContext.TLSv1
+	KeyPairGenerator.RSA
+	Provider.id className
+	Alg.Alias.Signature.1.2.840.113549.1.1.2
+	Signature.MD5andSHA1withRSA
+	SSLContext.DTLSv1.0
+	Alg.Alias.KeyPairGenerator.OID.1.2.840.113549.1.1
+	Alg.Alias.Signature.1.2.840.113549.1.1.5
+	Alg.Alias.Signature.1.2.840.113549.1.1.4
+	Signature.SHA1withRSA
+	Alg.Alias.Signature.OID.1.2.840.113549.1.1.2
+	TrustManagerFactory.PKIX
+	Alg.Alias.Signature.1.3.14.3.2.29
+	SSLContext.TLSv1.3
+	KeyStore.PKCS12
+	Alg.Alias.KeyFactory.OID.1.2.840.113549.1.1
+	SSLContext.DTLSv1.2
+	KeyFactory.RSA
+	KeyManagerFactory.SunX509
+	SSLContext.Default
+	Alg.Alias.TrustManagerFactory.X509
+	Provider.id name
+	TrustManagerFactory.SunX509
+	Alg.Alias.KeyFactory.1.2.840.113549.1.1
+	Signature.MD2withRSA
+	Alg.Alias.KeyManagerFactory.PKIX
+	Signature.MD5withRSA
+	SSLContext.TLSv1.2
+	SSLContext.TLSv1.1
+	Alg.Alias.Signature.OID.1.2.840.113549.1.1.5
+	Alg.Alias.Signature.OID.1.2.840.113549.1.1.4
+SunJCE version 11
+	SecretKeyFactory.PBEWithHmacSHA1AndAES_256
+	KeyStore.JCEKS
+	Cipher.AES_192/ECB/NoPadding
+	Cipher.PBEWithMD5AndTripleDES
+	Cipher.PBEWithSHA1AndRC4_128
+	SecretKeyFactory.PBEWithHmacSHA512AndAES_128
+	AlgorithmParameters.DiffieHellman
+	Mac.HmacSHA512/224
+	Cipher.PBEWithHmacSHA1AndAES_128
+	Alg.Alias.Cipher.OID.1.2.840.113549.1.12.1.6
+	Alg.Alias.Cipher.2.16.840.1.101.3.4.1.22
+	Alg.Alias.Cipher.OID.1.2.840.113549.1.12.1.5
+	Cipher.ARCFOUR
+	Alg.Alias.Cipher.2.16.840.1.101.3.4.1.21
+	Alg.Alias.Cipher.OID.1.2.840.113549.1.12.1.3
+	Alg.Alias.AlgorithmParameters.1.2.840.113549.1.5.13
+	Alg.Alias.SecretKeyFactory.OID.1.2.840.113549.1.5.12
+	Alg.Alias.Cipher.OID.1.2.840.113549.1.12.1.2
+	Alg.Alias.Cipher.OID.1.2.840.113549.1.12.1.1
+	AlgorithmParameters.PBEWithSHA1AndRC2_40
+	SecretKeyFactory.PBEWithHmacSHA1AndAES_128
+	Alg.Alias.AlgorithmParameters.TripleDES
+	Mac.HmacSHA512 SupportedKeyFormats
+	Cipher.PBEWithSHA1AndRC2_40
+	KeyGenerator.HmacMD5
+	Alg.Alias.Mac.1.2.840.113549.2.11
+	Alg.Alias.Mac.1.2.840.113549.2.10
+	Alg.Alias.Cipher.2.16.840.1.101.3.4.1.24
+	Alg.Alias.Cipher.2.16.840.1.101.3.4.1.23
+	Alg.Alias.Cipher.2.16.840.1.101.3.4.1.26
+	SecretKeyFactory.PBEWithHmacSHA512AndAES_256
+	Mac.HmacSHA256
+	Alg.Alias.Cipher.2.16.840.1.101.3.4.1.25
+	KeyGenerator.RC2
+	AlgorithmParameters.AES
+	Cipher.AES_256/CBC/NoPadding
+	Alg.Alias.AlgorithmParameters.OID.1.2.840.113549.1.3.1
+	Mac.PBEWithHmacSHA384
+	SecretKeyFactory.PBKDF2WithHmacSHA256
+	Provider.id version
+	Mac.HmacSHA384
+	Cipher.DES SupportedKeyFormats
+	SecretKeyFactory.DES
+	Alg.Alias.KeyPairGenerator.DH
+	Provider.id className
+	AlgorithmParameters.PBES2
+	Cipher.RC2 SupportedPaddings
+	SecretKeyFactory.PBEWithHmacSHA256AndAES_128
+	AlgorithmParameters.PBE
+	Alg.Alias.SecretKeyFactory.OID.1.2.840.113549.1.5.3
+	Alg.Alias.AlgorithmParameters.OID.1.2.840.113549.1.12.1.1
+	Mac.HmacMD5 SupportedKeyFormats
+	Alg.Alias.KeyGenerator.1.2.840.113549.2.11
+	SecretKeyFactory.PBKDF2WithHmacSHA384
+	Alg.Alias.KeyGenerator.1.2.840.113549.2.10
+	Cipher.AES
+	Alg.Alias.KeyFactory.DH
+	Mac.PBEWithHmacSHA256
+	KeyGenerator.SunTls12Prf
+	Alg.Alias.Cipher.2.16.840.1.101.3.4.1.3
+	Alg.Alias.Cipher.2.16.840.1.101.3.4.1.4
+	Cipher.DESede SupportedModes
+	Alg.Alias.Cipher.2.16.840.1.101.3.4.1.5
+	Cipher.AES_192/GCM/NoPadding
+	Alg.Alias.Cipher.2.16.840.1.101.3.4.1.6
+	Alg.Alias.Cipher.2.16.840.1.101.3.4.1.1
+	Cipher.ARCFOUR SupportedModes
+	KeyGenerator.HmacSHA512
+	Alg.Alias.Cipher.2.16.840.1.101.3.4.1.2
+	Alg.Alias.AlgorithmParameters.OID.1.2.840.113549.1.12.1.6
+	Cipher.DESedeWrap SupportedModes
+	Cipher.AESWrap SupportedPaddings
+	Alg.Alias.AlgorithmParameters.OID.1.2.840.113549.1.12.1.2
+	Alg.Alias.AlgorithmParameters.OID.1.2.840.113549.1.12.1.3
+	SecretKeyFactory.PBEWithHmacSHA256AndAES_256
+	Cipher.AES_128/CBC/NoPadding
+	Alg.Alias.AlgorithmParameters.OID.1.2.840.113549.1.12.1.5
+	Cipher.PBEWithHmacSHA384AndAES_128
+	SecretKeyFactory.PBEWithSHA1AndRC2_40
+	AlgorithmParameters.PBEWithHmacSHA512AndAES_256
+	Mac.HmacSHA384 SupportedKeyFormats
+	SecretKeyFactory.PBEWithHmacSHA384AndAES_128
+	AlgorithmParameters.PBEWithMD5AndDES
+	Cipher.RC2 SupportedKeyFormats
+	Alg.Alias.Cipher.Rijndael
+	Alg.Alias.Cipher.1.2.840.113549.1.12.1.3
+	Alg.Alias.Cipher.1.2.840.113549.1.12.1.2
+	Alg.Alias.Cipher.1.2.840.113549.1.12.1.1
+	Cipher.AESWrap
+	SecretKeyFactory.PBEWithHmacSHA384AndAES_256
+	Mac.PBEWithHmacSHA1 SupportedKeyFormatS
+	Alg.Alias.Cipher.1.2.840.113549.1.12.1.6
+	Alg.Alias.Cipher.1.2.840.113549.1.12.1.5
+	Alg.Alias.KeyAgreement.DH
+	Alg.Alias.AlgorithmParameters.1.2.840.113549.1.12.1.6
+	AlgorithmParameters.PBEWithHmacSHA512AndAES_128
+	Alg.Alias.KeyGenerator.Rijndael
+	AlgorithmParameters.PBEWithSHA1AndRC4_40
+	SecretKeyFactory.PBEWithSHA1AndDESede
+	Alg.Alias.AlgorithmParameters.1.2.840.113549.1.12.1.1
+	AlgorithmParameters.ChaCha20-Poly1305
+	Alg.Alias.AlgorithmParameters.1.2.840.113549.1.12.1.3
+	Mac.HmacPBESHA1
+	Alg.Alias.AlgorithmParameters.1.2.840.113549.1.12.1.2
+	Alg.Alias.KeyGenerator.SunTls12MasterSecret
+	Alg.Alias.AlgorithmParameters.1.2.840.113549.1.12.1.5
+	AlgorithmParameters.RC2
+	Cipher.DESede SupportedKeyFormats
+	Alg.Alias.Mac.1.2.840.113549.2.8
+	Alg.Alias.Mac.1.2.840.113549.2.7
+	Alg.Alias.KeyAgreement.OID.1.2.840.113549.1.3.1
+	Cipher.AES_256/ECB/NoPadding
+	AlgorithmParameters.OAEP
+	Alg.Alias.KeyFactory.OID.1.2.840.113549.1.3.1
+	Alg.Alias.KeyGenerator.OID.1.2.840.113549.2.10
+	Alg.Alias.KeyGenerator.OID.1.2.840.113549.2.11
+	Alg.Alias.Mac.1.2.840.113549.2.9
+	Cipher.DES SupportedModes
+	AlgorithmParameters.PBEWithSHA1AndRC4_128
+	Cipher.AES SupportedModes
+	KeyGenerator.ChaCha20
+	Cipher.ChaCha20-Poly1305
+	Alg.Alias.KeyFactory.1.2.840.113549.1.3.1
+	Cipher.AESWrap_128
+	Cipher.AESWrap SupportedModes
+	Cipher.DESede SupportedPaddings
+	Mac.PBEWithHmacSHA384 SupportedKeyFormats
+	KeyGenerator.SunTlsPrf
+	Cipher.RSA SupportedKeyClasses
+	KeyAgreement.DiffieHellman
+	Mac.PBEWithHmacSHA224
+	Cipher.PBEWithSHA1AndDESede
+	Cipher.AES_128/CFB/NoPadding
+	KeyGenerator.SunTlsRsaPremasterSecret
+	Alg.Alias.AlgorithmParameters.DH
+	KeyGenerator.HmacSHA384
+	Cipher.AES_256/GCM/NoPadding
+	Cipher.ARCFOUR SupportedPaddings
+	Cipher.ChaCha20
+	Alg.Alias.KeyGenerator.TripleDES
+	Alg.Alias.KeyGenerator.SunTls12RsaPremasterSecret
+	Mac.PBEWithHmacSHA1
+	Cipher.AESWrap_256
+	Alg.Alias.Cipher.1.2.840.113549.1.5.3
+	Cipher.PBEWithSHA1AndRC2_128
+	KeyGenerator.DES
+	Alg.Alias.SecretKeyFactory.OID.1.2.840.113549.1.12.1.5
+	AlgorithmParameters.PBEWithHmacSHA256AndAES_256
+	Alg.Alias.SecretKeyFactory.OID.1.2.840.113549.1.12.1.6
+	SecretKeyFactory.PBEWithSHA1AndRC2_128
+	Cipher.PBEWithHmacSHA1AndAES_256
+	Alg.Alias.SecretKeyFactory.OID.1.2.840.113549.1.12.1.1
+	Mac.HmacSHA512/256
+	Alg.Alias.SecretKeyFactory.OID.1.2.840.113549.1.12.1.2
+	Cipher.DESedeWrap
+	Alg.Alias.SecretKeyFactory.OID.1.2.840.113549.1.12.1.3
+	Cipher.Blowfish SupportedPaddings
+	KeyGenerator.ARCFOUR
+	AlgorithmParameters.PBEWithMD5AndTripleDES
+	Mac.HmacSHA512
+	Alg.Alias.KeyGenerator.SunTlsExtendedMasterSecret
+	AlgorithmParameters.PBEWithHmacSHA256AndAES_128
+	Alg.Alias.KeyGenerator.1.2.840.113549.2.8
+	Alg.Alias.KeyGenerator.1.2.840.113549.2.9
+	AlgorithmParameters.DES
+	Alg.Alias.KeyGenerator.1.2.840.113549.2.7
+	SecretKeyFactory.DESede
+	Cipher.PBEWithHmacSHA512AndAES_128
+	Alg.Alias.KeyPairGenerator.1.2.840.113549.1.3.1
+	SecretKeyFactory.PBEWithSHA1AndRC4_128
+	Alg.Alias.AlgorithmParameters.1.2.840.113549.1.3.1
+	SecretKeyFactory.PBEWithMD5AndTripleDES
+	Cipher.Blowfish SupportedModes
+	Cipher.DESedeWrap SupportedKeyFormats
+	Alg.Alias.Cipher.OID.1.2.840.113549.1.9.16.3.18
+	Cipher.PBEWithHmacSHA512AndAES_256
+	Mac.PBEWithHmacSHA224 SupportedKeyFormats
+	Mac.HmacSHA224 SupportedKeyFormats
+	Alg.Alias.SecretKeyFactory.1.2.840.113549.1.5.12
+	Alg.Alias.AlgorithmParameterGenerator.1.2.840.113549.1.3.1
+	Mac.PBEWithHmacSHA512
+	Cipher.AES SupportedPaddings
+	KeyGenerator.HmacSHA256
+	Cipher.AES_192/OFB/NoPadding
+	KeyGenerator.SunTlsMasterSecret
+	Alg.Alias.Mac.OID.1.2.840.113549.2.7
+	Alg.Alias.Mac.OID.1.2.840.113549.2.8
+	Cipher.DESede
+	Alg.Alias.Mac.OID.1.2.840.113549.2.11
+	Alg.Alias.Mac.OID.1.2.840.113549.2.10
+	SecretKeyFactory.PBKDF2WithHmacSHA512
+	Alg.Alias.Mac.OID.1.2.840.113549.2.9
+	AlgorithmParameters.Blowfish
+	Alg.Alias.Cipher.1.2.840.113549.1.9.16.3.18
+	Mac.PBEWithHmacSHA256 SupportedKeyFormats
+	Provider.id info
+	Cipher.AES_128/OFB/NoPadding
+	Alg.Alias.SecretKeyFactory.TripleDES
+	KeyGenerator.DESede
+	Cipher.PBEWithHmacSHA256AndAES_256
+	KeyGenerator.HmacSHA224
+	Cipher.ARCFOUR SupportedKeyFormats
+	Cipher.PBEWithMD5AndDES
+	AlgorithmParameters.DESede
+	Mac.HmacPBESHA1 SupportedKeyFormats
+	Alg.Alias.AlgorithmParameters.OID.1.2.840.113549.1.5.13
+	Alg.Alias.Cipher.OID.2.16.840.1.101.3.4.1.4
+	Alg.Alias.Cipher.OID.2.16.840.1.101.3.4.1.3
+	Alg.Alias.Cipher.OID.2.16.840.1.101.3.4.1.6
+	AlgorithmParameterGenerator.DiffieHellman
+	Mac.SslMacMD5
+	Alg.Alias.Cipher.OID.2.16.840.1.101.3.4.1.5
+	Cipher.AESWrap SupportedKeyFormats
+	Alg.Alias.SecretKeyFactory.PBE
+	KeyFactory.DiffieHellman
+	AlgorithmParameters.PBEWithHmacSHA224AndAES_256
+	Provider.id name
+	Cipher.PBEWithSHA1AndRC4_40
+	Alg.Alias.Cipher.OID.2.16.840.1.101.3.4.1.2
+	Alg.Alias.Cipher.OID.2.16.840.1.101.3.4.1.1
+	KeyAgreement.DiffieHellman SupportedKeyClasses
+	KeyGenerator.SunTlsKeyMaterial
+	Alg.Alias.KeyAgreement.1.2.840.113549.1.3.1
+	AlgorithmParameters.PBEWithHmacSHA224AndAES_128
+	Cipher.AES_192/CFB/NoPadding
+	Cipher.PBEWithHmacSHA256AndAES_128
+	Mac.HmacSHA256 SupportedKeyFormats
+	Cipher.PBEWithHmacSHA384AndAES_256
+	Alg.Alias.KeyGenerator.RC4
+	KeyGenerator.HmacSHA1
+	Cipher.RC2 SupportedModes
+	Mac.HmacMD5
+	AlgorithmParameters.PBEWithHmacSHA1AndAES_256
+	Mac.HmacSHA1 SupportedKeyFormats
+	Alg.Alias.Cipher.OID.2.16.840.1.101.3.4.1.24
+	Alg.Alias.Cipher.OID.2.16.840.1.101.3.4.1.23
+	Cipher.Blowfish SupportedKeyFormats
+	Cipher.PBEWithHmacSHA224AndAES_256
+	Alg.Alias.Cipher.OID.2.16.840.1.101.3.4.1.26
+	Alg.Alias.Cipher.OID.2.16.840.1.101.3.4.1.25
+	Alg.Alias.AlgorithmParameters.1.2.840.113549.1.5.3
+	Cipher.RSA SupportedModes
+	AlgorithmParameters.PBEWithHmacSHA1AndAES_128
+	Mac.SslMacSHA1
+	Alg.Alias.Cipher.OID.2.16.840.1.101.3.4.1.22
+	Alg.Alias.Cipher.OID.2.16.840.1.101.3.4.1.21
+	SecretKeyFactory.PBEWithHmacSHA224AndAES_128
+	SecretKeyFactory.PBKDF2WithHmacSHA1
+	Mac.SslMacSHA1 SupportedKeyFormats
+	Alg.Alias.AlgorithmParameters.OID.1.2.840.113549.1.5.3
+	Cipher.DES
+	KeyGenerator.AES
+	Mac.PBEWithHmacSHA512 SupportedKeyFormats
+	KeyPairGenerator.DiffieHellman
+	Cipher.AESWrap_192
+	Cipher.AES SupportedKeyFormats
+	Alg.Alias.KeyGenerator.SunTls12KeyMaterial
+	Alg.Alias.AlgorithmParameters.Rijndael
+	AlgorithmParameters.PBEWithSHA1AndRC2_128
+	Mac.SslMacMD5 SupportedKeyFormats
+	Alg.Alias.KeyPairGenerator.OID.1.2.840.113549.1.3.1
+	Alg.Alias.SecretKeyFactory.1.2.840.113549.1.12.1.1
+	Alg.Alias.SecretKeyFactory.1.2.840.113549.1.12.1.3
+	Alg.Alias.SecretKeyFactory.1.2.840.113549.1.12.1.2
+	AlgorithmParameters.PBEWithSHA1AndDESede
+	SecretKeyFactory.PBEWithMD5AndDES
+	SecretKeyFactory.PBEWithSHA1AndRC4_40
+	Alg.Alias.Cipher.RC4
+	Alg.Alias.SecretKeyFactory.1.2.840.113549.1.12.1.5
+	Cipher.AES_128/ECB/NoPadding
+	Alg.Alias.KeyGenerator.OID.1.2.840.113549.2.7
+	Mac.HmacSHA224
+	Alg.Alias.KeyGenerator.OID.1.2.840.113549.2.8
+	Alg.Alias.KeyGenerator.OID.1.2.840.113549.2.9
+	Alg.Alias.SecretKeyFactory.1.2.840.113549.1.12.1.6
+	Mac.HmacSHA1
+	Alg.Alias.Cipher.2.16.840.1.101.3.4.1.42
+	Alg.Alias.Cipher.OID.2.16.840.1.101.3.4.1.46
+	Cipher.AES_192/CBC/NoPadding
+	Alg.Alias.Cipher.2.16.840.1.101.3.4.1.41
+	Alg.Alias.Cipher.OID.2.16.840.1.101.3.4.1.45
+	Alg.Alias.Cipher.2.16.840.1.101.3.4.1.44
+	Alg.Alias.Cipher.2.16.840.1.101.3.4.1.43
+	Cipher.DESedeWrap SupportedPaddings
+	Alg.Alias.Cipher.OID.2.16.840.1.101.3.4.1.42
+	Alg.Alias.Cipher.OID.2.16.840.1.101.3.4.1.41
+	Cipher.RC2
+	KeyGenerator.Blowfish
+	Cipher.RSA
+	Cipher.AES_128/GCM/NoPadding
+	Alg.Alias.Cipher.OID.2.16.840.1.101.3.4.1.44
+	Alg.Alias.Cipher.OID.2.16.840.1.101.3.4.1.43
+	Cipher.ChaCha20 SupportedKeyFormats
+	AlgorithmParameters.PBEWithHmacSHA384AndAES_128
+	Alg.Alias.SecretKeyFactory.1.2.840.113549.1.5.3
+	Cipher.AES_256/CFB/NoPadding
+	Cipher.ChaCha20-Poly1305 SupportedKeyFormats
+	SecretKeyFactory.PBKDF2WithHmacSHA224
+	Cipher.DES SupportedPaddings
+	Alg.Alias.Cipher.TripleDES
+	Alg.Alias.Cipher.2.16.840.1.101.3.4.1.46
+	Alg.Alias.Cipher.2.16.840.1.101.3.4.1.45
+	Cipher.AES_256/OFB/NoPadding
+	Alg.Alias.AlgorithmParameterGenerator.DH
+	Cipher.PBEWithHmacSHA224AndAES_128
+	Alg.Alias.Cipher.OID.1.2.840.113549.1.5.3
+	AlgorithmParameters.PBEWithHmacSHA384AndAES_256
+	Cipher.RSA SupportedPaddings
+	Alg.Alias.AlgorithmParameterGenerator.OID.1.2.840.113549.1.3.1
+	Cipher.Blowfish
+	AlgorithmParameters.GCM
+	SecretKeyFactory.PBEWithHmacSHA224AndAES_256
+SunJGSS version 11
+	GssApiMechanism.1.2.840.113554.1.2.2
+	Provider.id version
+	GssApiMechanism.1.3.6.1.5.5.2
+	Provider.id className
+	Provider.id info
+	Provider.id name
+SunSASL version 11
+	SaslServerFactory.CRAM-MD5
+	SaslClientFactory.DIGEST-MD5
+	SaslClientFactory.CRAM-MD5
+	Provider.id version
+	Provider.id info
+	Provider.id name
+	SaslServerFactory.NTLM
+	SaslClientFactory.EXTERNAL
+	Provider.id className
+	SaslClientFactory.NTLM
+	SaslClientFactory.PLAIN
+	SaslServerFactory.DIGEST-MD5
+XMLDSig version 11
+	TransformService.http://www.w3.org/2006/12/xml-c14n11#WithComments MechanismType
+	Alg.Alias.TransformService.BASE64
+	Provider.id version
+	TransformService.http://www.w3.org/TR/1999/REC-xslt-19991116
+	Alg.Alias.TransformService.EXCLUSIVE
+	TransformService.http://www.w3.org/TR/2001/REC-xml-c14n-20010315#WithComments
+	TransformService.http://www.w3.org/2000/09/xmldsig#enveloped-signature MechanismType
+	TransformService.http://www.w3.org/TR/2001/REC-xml-c14n-20010315#WithComments MechanismType
+	Provider.id info
+	TransformService.http://www.w3.org/2002/06/xmldsig-filter2 MechanismType
+	XMLSignatureFactory.DOM
+	Alg.Alias.TransformService.INCLUSIVE
+	TransformService.http://www.w3.org/2000/09/xmldsig#base64 MechanismType
+	TransformService.http://www.w3.org/2002/06/xmldsig-filter2
+	Provider.id className
+	TransformService.http://www.w3.org/2001/10/xml-exc-c14n#WithComments MechanismType
+	Alg.Alias.TransformService.XPATH2
+	TransformService.http://www.w3.org/TR/2001/REC-xml-c14n-20010315 MechanismType
+	Alg.Alias.TransformService.INCLUSIVE_WITH_COMMENTS
+	TransformService.http://www.w3.org/2001/10/xml-exc-c14n# MechanismType
+	Alg.Alias.TransformService.XSLT
+	TransformService.http://www.w3.org/2006/12/xml-c14n11
+	TransformService.http://www.w3.org/TR/1999/REC-xpath-19991116 MechanismType
+	TransformService.http://www.w3.org/2001/10/xml-exc-c14n#WithComments
+	TransformService.http://www.w3.org/TR/1999/REC-xpath-19991116
+	TransformService.http://www.w3.org/TR/2001/REC-xml-c14n-20010315
+	Alg.Alias.TransformService.ENVELOPED
+	Alg.Alias.TransformService.EXCLUSIVE_WITH_COMMENTS
+	TransformService.http://www.w3.org/2000/09/xmldsig#enveloped-signature
+	TransformService.http://www.w3.org/2000/09/xmldsig#base64
+	Provider.id name
+	TransformService.http://www.w3.org/TR/1999/REC-xslt-19991116 MechanismType
+	TransformService.http://www.w3.org/2001/10/xml-exc-c14n#
+	KeyInfoFactory.DOM
+	TransformService.http://www.w3.org/2006/12/xml-c14n11#WithComments
+	TransformService.http://www.w3.org/2006/12/xml-c14n11 MechanismType
+	Alg.Alias.TransformService.XPATH
+SunPCSC version 11
+	Provider.id version
+	Provider.id className
+	TerminalFactory.PC/SC
+	Provider.id info
+	Provider.id name
+JdkLDAP version 11
+	CertStore.LDAP ImplementedIn
+	CertStore.LDAP
+	Provider.id version
+	Provider.id className
+	CertStore.LDAP LDAPSchema
+	Provider.id info
+	Provider.id name
+JdkSASL version 11
+	Provider.id version
+	Provider.id className
+	Provider.id info
+	SaslServerFactory.GSSAPI
+	Provider.id name
+	SaslClientFactory.GSSAPI
+SunMSCAPI version 11
+	Alg.Alias.Signature.OID.1.2.840.113549.1.1.12
+	Alg.Alias.Signature.OID.1.2.840.113549.1.1.11
+	Alg.Alias.Signature.OID.1.2.840.113549.1.1.13
+	Provider.id version
+	KeyPairGenerator.RSA KeySize
+	SecureRandom.Windows-PRNG ThreadSafe
+	Alg.Alias.Signature.OID.1.2.840.113549.1.1.10
+	Signature.NONEwithRSA SupportedKeyClasses
+	Signature.RSASSA-PSS
+	Provider.id info
+	Cipher.RSA SupportedKeyClasses
+	Cipher.RSA/ECB/PKCS1Padding SupportedModes
+	Signature.SHA1withRSA SupportedKeyClasses
+	Signature.SHA384withRSA
+	KeyPairGenerator.RSA
+	Signature.RSASSA-PSS SupportedKeyClasses
+	Signature.MD2withRSA SupportedKeyClasses
+	Cipher.RSA SupportedModes
+	Provider.id className
+	Cipher.RSA
+	Signature.SHA512withRSA SupportedKeyClasses
+	Signature.SHA384withRSA SupportedKeyClasses
+	Signature.SHA1withRSA
+	Signature.SHA256withRSA SupportedKeyClasses
+	Alg.Alias.Signature.1.2.840.113549.1.1.10
+	Signature.SHA256withRSA
+	KeyStore.Windows-ROOT
+	KeyStore.Windows-MY
+	Provider.id name
+	Alg.Alias.Signature.1.2.840.113549.1.1.11
+	SecureRandom.Windows-PRNG
+	Alg.Alias.Signature.1.2.840.113549.1.1.12
+	Alg.Alias.Signature.1.2.840.113549.1.1.13
+	Cipher.RSA/ECB/PKCS1Padding SupportedKeyClasses
+	Signature.NONEwithRSA
+	Signature.MD2withRSA
+	Signature.MD5withRSA
+	Signature.MD5withRSA SupportedKeyClasses
+	Cipher.RSA/ECB/PKCS1Padding SupportedPaddings
+	Cipher.RSA/ECB/PKCS1Padding
+	Signature.SHA512withRSA
+	Cipher.RSA SupportedPaddings
+SunPKCS11 version 11
+	Provider.id version
+	Provider.id className
+	Provider.id info
+	Provider.id name
