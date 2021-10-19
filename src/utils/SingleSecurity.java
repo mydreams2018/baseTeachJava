@@ -1,9 +1,6 @@
 package utils;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.Provider;
-import java.security.Security;
+import java.security.*;
 import java.util.Arrays;
 import java.util.Set;
 
@@ -28,7 +25,7 @@ public class SingleSecurity {
             }
         }
     }
-    //主要[MD|SHA] 通过 Providers.txt 查询支持的算法 如MessageDigest.SHA-256
+    //数据完整性验证 主要[MD|SHA] 通过 Providers.txt 查询支持的算法 如MessageDigest.SHA-256
     public static void singleMessageCheck() throws NoSuchAlgorithmException {
         MessageDigest instance = MessageDigest.getInstance("SHA-256");
         //更新摘要 多种入参
@@ -40,5 +37,11 @@ public class SingleSecurity {
         //重置摘要还原初始状态
         instance.reset();
 
+    }
+    //是一个引擎类 提供密码参数的不透明表示 通过 Providers.txt 查询支持的算法
+    public static void algorithmParamters() throws Exception {
+        //获得实例对象 也可指定Provider
+        AlgorithmParameters gcm = AlgorithmParameters.getInstance("GCM");
+        System.out.println(gcm.getEncoded());
     }
 }
