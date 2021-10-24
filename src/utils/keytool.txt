@@ -1,0 +1,6 @@
+keytool -alias ca -dname CN=CA -genkeypair -keyalg rsa
+keytool -alias ca1 -dname CN=CA -genkeypair -keyalg rsa
+提示输入密码:yjssaje(第一次没有密码时为设置密码)
+会在用户目录下生成一个.keystore文件
+keytool -list
+提示输入密码:
