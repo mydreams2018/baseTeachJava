@@ -14,6 +14,8 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Set;
+import java.util.zip.Adler32;
+import java.util.zip.Checksum;
 
 /*
 *
@@ -22,7 +24,7 @@ public class SingleSecurity {
 
 
     public static void main(String sr[]) throws Exception {
-        keyStore();
+        checkSum();
     }
 
 //输出当前提供的安全服务类所支持的算法
@@ -36,6 +38,14 @@ public class SingleSecurity {
                 System.out.println("\t"+o);
             }
         }
+    }
+    //数据完整性验证 主要[MD|SHA] 通过 Providers.txt 查询支持的算法 如MessageDigest.SHA-256
+    public static void checkSum() throws Exception {
+        Checksum checksum = new Adler32();
+        System.out.println(checksum.getValue());
+        checksum.update("dfsdfsdfsdfdfefsdfsdfxxx-".getBytes());
+        System.out.println(checksum.getValue());
+        checksum.reset();
     }
     //数据完整性验证 主要[MD|SHA] 通过 Providers.txt 查询支持的算法 如MessageDigest.SHA-256
     public static void singleMessageCheck() throws NoSuchAlgorithmException {
