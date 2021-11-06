@@ -4,11 +4,11 @@ import java.io.*;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
-import java.nio.channels.FileChannel;
-import java.nio.channels.ServerSocketChannel;
-import java.nio.channels.SocketChannel;
+import java.nio.channels.*;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.util.Iterator;
+import java.util.Set;
 
 public class NioTest {
     static Path path = Path.of("D:\\temp\\src","test.txt");
@@ -17,19 +17,62 @@ public class NioTest {
 
     //server
     public static void main(String[] args) throws Exception {
-        ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
-        serverSocketChannel.bind(new InetSocketAddress(InetAddress.getLocalHost(),20066));
-        System.out.println(serverSocketChannel.isBlocking());//true
-        SocketChannel accept = serverSocketChannel.accept();
-        ByteBuffer allocate = ByteBuffer.allocate(1024);
-        int read = accept.read(allocate);
-        while(read != -1){
-            System.out.println(new String(allocate.array(),0,read));
-            allocate.clear();
-            read = accept.read(allocate);
+        //ServerSocketChannel    SelectionKey.OP_ACCEPT
+        try(ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
+            Selector selector = Selector.open()){
+            serverSocketChannel.configureBlocking(false);
+            serverSocketChannel.bind(new InetSocketAddress(InetAddress.getLocalHost(),10086));
+
+            serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
+            ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
+            // 检查是否有 相应的通道已准备好用于 I/O 操作。
+            while(selector.select() > 0){
+                Thread.sleep(1000);
+                Set<SelectionKey> selectionKeys = selector.selectedKeys();
+                Iterator<SelectionKey> iterator = selectionKeys.iterator();
+                System.out.println("size" + selectionKeys.size());
+                while(iterator.hasNext()){
+                    SelectionKey next = iterator.next();
+                    SelectableChannel channel = next.channel();
+                    iterator.remove();
+                    if(next.isValid() && next.isAcceptable()){
+                        ServerSocketChannel serChannel = (ServerSocketChannel) channel;
+                        SocketChannel accept = serChannel.accept();
+                        if(accept != null && accept.finishConnect()){
+                            System.out.println("accept");
+                            accept.configureBlocking(false);
+                            accept.register(selector,SelectionKey.OP_CONNECT|
+                                    SelectionKey.OP_READ|SelectionKey.OP_WRITE);
+                        }else{
+                            System.out.println("error");
+                        }
+                    }else if(next.isValid() && next.isConnectable()){
+                        System.out.println("connectable");
+                    }else if(next.isValid() && next.isReadable()){
+                        System.out.println("readable");
+                        SocketChannel clientChannel = (SocketChannel) channel;
+                        int read = clientChannel.read(byteBuffer);
+                        // read > 0 有数据  ==-1 表示流关闭  ==0 不管
+                        while(read > 0){
+                            System.out.println(new String(byteBuffer.array(),0,read));
+                            byteBuffer.clear();
+                            read = clientChannel.read(byteBuffer);
+                        }
+                        if(read == -1){
+                            clientChannel.close();
+                        }
+                    }else if(next.isValid() && next.isWritable()){
+                        System.out.println("writable");
+                    }else{
+                        System.out.println("error");
+                    }
+                }
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
         }
 
-        accept.close();
-        serverSocketChannel.close();
+
     }
 }

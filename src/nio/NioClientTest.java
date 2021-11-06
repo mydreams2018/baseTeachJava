@@ -19,9 +19,9 @@ public class NioClientTest {
         SocketChannel socketChannel = SocketChannel.open();
         System.out.println(socketChannel.isBlocking());//true
 //        socketChannel.bind(new InetSocketAddress(InetAddress.getLocalHost(),20077));
-        socketChannel.connect(new InetSocketAddress(InetAddress.getLocalHost(), 20066));
+        socketChannel.connect(new InetSocketAddress(InetAddress.getLocalHost(), 10086));
         ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
-        byteBuffer.put("hello word".getBytes());
+        byteBuffer.put("client - hello word".getBytes());
         byteBuffer.flip();
         socketChannel.write(byteBuffer);
 
