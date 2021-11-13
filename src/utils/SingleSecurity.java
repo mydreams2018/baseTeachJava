@@ -8,6 +8,7 @@ import java.math.BigInteger;
 import java.security.*;
 import java.security.cert.*;
 import java.security.cert.Certificate;
+import java.security.spec.AlgorithmParameterSpec;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.Arrays;
 import java.util.Date;
@@ -23,7 +24,7 @@ public class SingleSecurity {
     final static int[] AES_KEYSIZES = new int[]{16, 24, 32};
 
     public static void main(String sr[]) throws Exception {
-        secretKeyFactory();
+        cipher();
     }
 
 //输出当前提供的安全服务类所支持的算法
@@ -300,4 +301,35 @@ doPhase需要调用lastPhase一次，并将lastPhase标志设置为true 。
     }
 
 
+//此类提供加密密码的功能，用于加密和解密。它构成了JCE框架的核心。[算法/模式/填充 | 算法]
+    public static void cipher() throws Exception{
+        // Base64.getEncoder() 有特殊包装适合一次的调用.
+        String encrypt = CipherUtils.DEFAULTA.encryptByIV("{我是刘大胖子啊.你是谁啊....456465李厚霖要sdfsdfsdf}",
+                "AES/CBC/PKCS5Padding");
+        System.out.println(CipherUtils.DEFAULTA.decryptByIV(encrypt,"AES/CBC/PKCS5Padding"));
+
+        String encryptNoIV = CipherUtils.DEFAULTA.encryptNoIV("{我是刘大胖子啊.你是谁啊....456465李厚霖要sdfsdfsdf}",
+                "AES/ECB/PKCS5Padding");
+        System.out.println(CipherUtils.DEFAULTA.decryptNoIV(encryptNoIV,"AES/ECB/PKCS5Padding"));
+
+        //多次调用update效果  apache   Hex.encodeHexString 工具类
+        String encryptNoIVMany = CipherUtils.DEFAULTA.encryptNoIVMany("{我是刘大胖子啊.你是谁啊....456465李厚霖要sdfsdfsdf}",
+                "AES/ECB/PKCS5Padding");
+        System.out.println(CipherUtils.DEFAULTA.decryptNoIVMany(encryptNoIVMany,"AES/ECB/PKCS5Padding"));
+    }
+
+    // 方法的作用是把原始的密钥通过某种加密算法包装为加密后的密钥，这样就可以避免在传递密钥的时候泄漏了密钥的明文。
+    public static void cipherWrap() throws Exception{
+        KeyGenerator keyGenerator = KeyGenerator.getInstance("DES");
+        SecretKey secretKey = keyGenerator.generateKey();
+        System.out.println(secretKey);
+        byte[] bytes = CipherUtils.DEFAULTA.onWrap(secretKey, "AES/CBC/PKCS5Padding");
+        Key deWrap = CipherUtils.DEFAULTA.deWrap("AES/CBC/PKCS5Padding", bytes, "DES",Cipher.SECRET_KEY);
+        System.out.println(deWrap);
+    }
+
+//TODO  加密参数的（透明）规范。
+    public static AlgorithmParameterSpec getAlgorithmParameterSpec(String algorithm) throws NoSuchAlgorithmException {
+        return Cipher.getMaxAllowedParameterSpec(algorithm);
+    }
 }
