@@ -24,7 +24,7 @@ public class SingleSecurity {
     final static int[] AES_KEYSIZES = new int[]{16, 24, 32};
 
     public static void main(String sr[]) throws Exception {
-        cipher();
+        sealedObject();
     }
 
 //输出当前提供的安全服务类所支持的算法
@@ -326,6 +326,23 @@ doPhase需要调用lastPhase一次，并将lastPhase标志设置为true 。
         byte[] bytes = CipherUtils.DEFAULTA.onWrap(secretKey, "AES/CBC/PKCS5Padding");
         Key deWrap = CipherUtils.DEFAULTA.deWrap("AES/CBC/PKCS5Padding", bytes, "DES",Cipher.SECRET_KEY);
         System.out.println(deWrap);
+    }
+    //此类使程序员能够创建对象并使用加密算法保护其机密性
+    public static void sealedObject() throws Exception{
+        String srcObj = "我是没有在朋asfd";
+        KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
+        SecretKey secretKey = keyGenerator.generateKey();
+        //加密
+        Cipher srcCip = Cipher.getInstance("AES");
+        srcCip.init(Cipher.ENCRYPT_MODE,secretKey);
+        //生成
+        SealedObject sealedObject = new SealedObject(srcObj,srcCip);
+
+        //解密
+        Cipher tarCip = Cipher.getInstance("AES");
+        tarCip.init(Cipher.DECRYPT_MODE,secretKey);
+        String deSrc = (String)sealedObject.getObject(tarCip);
+        System.out.println(deSrc);
     }
 
 //TODO  加密参数的（透明）规范。
