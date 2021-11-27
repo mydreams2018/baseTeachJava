@@ -9,7 +9,9 @@ import java.security.*;
 import java.security.cert.*;
 import java.security.cert.Certificate;
 import java.security.spec.AlgorithmParameterSpec;
+import java.security.spec.DSAParameterSpec;
 import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.spec.X509EncodedKeySpec;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Enumeration;
@@ -24,7 +26,7 @@ public class SingleSecurity {
     final static int[] AES_KEYSIZES = new int[]{16, 24, 32};
 
     public static void main(String sr[]) throws Exception {
-        sealedObject();
+        desKeySpec();
     }
 
 //输出当前提供的安全服务类所支持的算法
@@ -67,7 +69,6 @@ public class SingleSecurity {
         //与算法无关
         algorithmParameterGenerator.init(512);
 //        algorithmParameterGenerator.init(512,SecureRandom.getInstance("DRBG"));
-        //与算法相关   TODO AlgorithmParameterSpec
 //        algorithmParameterGenerator.init(AlgorithmParameterSpec);
         AlgorithmParameters algorithmParameters = algorithmParameterGenerator.generateParameters();
         byte[] encoded = algorithmParameters.getEncoded();
@@ -89,7 +90,6 @@ public class SingleSecurity {
         //与算法无关
         rsa.initialize(1024);
 //        rsa.initialize(1024,SecureRandom.getInstance("DRBG"));
-        //与算法相关   TODO AlgorithmParameterSpec
 //        rsa.initialize(AlgorithmParameterSpec);
         //获得KeyPair
         KeyPair keyPair = rsa.genKeyPair();
@@ -215,7 +215,7 @@ public class SingleSecurity {
         KeyStore jks = KeyStore.getInstance("pkcs12");
         char[] chars = "yjssaje".toCharArray();
         //使用前要加载 密钥文件 和 密码  也可通过keytool 生成
-        jks.load(new FileInputStream("C:/Users/kungreat/.keystore"), chars);//注意关闭流
+        jks.load(new FileInputStream("C:/Users/kungreat/dw.keystore"), chars);//注意关闭流
 //        jks.store();  存储数据 到文件
         System.out.println(jks.getType());//pkcs12
         System.out.println(jks.size());//4 个别名密钥库
@@ -345,8 +345,65 @@ doPhase需要调用lastPhase一次，并将lastPhase标志设置为true 。
         System.out.println(deSrc);
     }
 
-//TODO  加密参数的（透明）规范。
-    public static AlgorithmParameterSpec getAlgorithmParameterSpec(String algorithm) throws NoSuchAlgorithmException {
-        return Cipher.getMaxAllowedParameterSpec(algorithm);
+ /*  keySpec  构成加密密钥的密钥材料的（透明）规范。 如果密钥存储在硬件设备上，
+    则其规范可能包含有助于识别设备上的密钥的信息。 可以以特定于算法的方式或独立于算法的编码格式（例如 ASN.1）指定密钥。
+    例如，DSA 私钥可以由其组件 x、p、q 和 g（请参阅 DSAPrivateKeySpec）指定，
+    或者可以使用其 DER 编码（请参阅 PKCS8EncodedKeySpec）指定。
+    此接口不包含任何方法或常量。 它的唯一目的是对所有关键规范进行分组（并为其提供类型安全）。
+    所有关键规范都必须实现此接口。
+    EncodedKeySpec --> keySpec  . 此类表示编码格式的公钥或私钥。
+    PKCS8EncodedKeySpec --> EncodedKeySpec 此类表示编码格式的私钥
+    X509EncodedKeySpec  --> EncodedKeySpec 此类表示编码格式的公钥
+
+    DSAPublicKeySpec --> keySpec   此类指定 DSA 公钥及其关联的参数。
+    DSAPrivateKeySpec --> keySpec  此类指定 DSA 私钥及其关联的参数。
+    SecretKeySpec --> keySpec 用于构造秘密密钥规范
+*/
+    public static void keySpec() throws Exception {
+        KeyPairGenerator keygen = KeyPairGenerator.getInstance("DSA");
+        keygen.initialize(1024);
+        KeyPair keyPair = keygen.genKeyPair();
+        PublicKey aPublic = keyPair.getPublic();
+        byte[] publicEncoded = aPublic.getEncoded();
+        System.out.println(aPublic);
+
+        //根据byte数组 转换成对应的KEY  X509EncodedKeySpec  PKCS8EncodedKeySpec
+        X509EncodedKeySpec x509EncodedKeySpec = new X509EncodedKeySpec(publicEncoded);
+        KeyFactory keyFactory = KeyFactory.getInstance("DSA");
+        PublicKey publicKey = keyFactory.generatePublic(x509EncodedKeySpec);
+        System.out.println(publicKey);
+    }
+    //用于构造 秘密密钥规范
+    public static void secretKeySpec()throws Exception{
+        KeyGenerator keyGenerator = KeyGenerator.getInstance("RC2");
+        SecretKey secretKey = keyGenerator.generateKey();
+        byte[] encoded = secretKey.getEncoded();
+        //还原密钥对象
+        SecretKeySpec secretKeySpec = new SecretKeySpec(encoded,"RC2");
+        System.out.println(secretKeySpec);
+    }
+    //用于构造 秘密密钥规范
+    public static void desKeySpec()throws Exception{
+        //src
+        KeyGenerator keyGenerator = KeyGenerator.getInstance("DES");
+        SecretKey secretKey = keyGenerator.generateKey();
+        byte[] encoded = secretKey.getEncoded();
+        //还原密钥对象
+        DESKeySpec desKeySpec = new DESKeySpec(encoded);
+        SecretKeyFactory secretKeyFactory= SecretKeyFactory.getInstance("DES");
+        SecretKey deSecretKey = secretKeyFactory.generateSecret(desKeySpec);
+        System.out.println(deSecretKey);
+    }
+
+/*   加密参数的（透明）规范。
+    此接口不包含任何方法或常量。它的唯一目的是对所有参数规范进行分组（并提供类型安全）。
+    所有参数规范都必须实现此接口。*/
+    public static void algorithmParameterSpec(){
+        //p素数  q次级素数  g基数
+        DSAParameterSpec cachedDSAParameterSpec = AlgorithmParameterSpecUtils.getCachedDSAParameterSpec(512, 160);
+        System.out.println(cachedDSAParameterSpec);
+        System.out.println(cachedDSAParameterSpec.getP());
+        System.out.println(cachedDSAParameterSpec.getQ());
+        System.out.println(cachedDSAParameterSpec.getG());
     }
 }

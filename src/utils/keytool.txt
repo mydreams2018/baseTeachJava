@@ -1,6 +1,17 @@
-keytool -alias ca -dname CN=CA -genkeypair -keyalg rsa
-keytool -alias ca1 -dname CN=CA -genkeypair -keyalg rsa
-提示输入密码:yjssaje(第一次没有密码时为设置密码)
-会在用户目录下生成一个.keystore文件
-keytool -list
-提示输入密码:
+1:生成密钥库
+keytool -genkeypair -keyalg RSA -keysize 2048 -sigalg SHA256withRSA -validity 365 -startdate 2021/11/26 -keystore dw.keystore -alias www.deathwater.cn -storepass yjssaje -dname "CN=www.deathwater.cn, OU=deathwater, O=deathwater, L=xy, S=xy, C=CN"
+
+2:导出自已认证证书
+要和上边的keystore 一样的密码
+keytool -keystore dw.keystore -alias www.deathwater.cn -storepass yjssaje -exportcert -rfc -file dw.cer
+不用和上边keystore 一样的密码
+keytool -keystore dw.keystore -alias www.deathwater.cn -storepass 123654 -exportcert -rfc > dw.pem
+
+3:查看证书
+keytool -printcert -file dw.cer
+
+4:申请签发证书(生成文件提交给签发机构)
+keytool -certreq -alias www.deathwater.cn -keystore dw.keystore -storepass yjssaje -file deathwater.csr -v
+
+5:导入证书
+keytool -importcert -trustcacerts -alias www.deathwater.cn -file dw.cer -keystore dw.keystore -storepass yjssaje
