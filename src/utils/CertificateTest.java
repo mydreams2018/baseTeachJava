@@ -2,7 +2,6 @@ package utils;
 
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.security.KeyStore;
 import java.security.PublicKey;
@@ -18,7 +17,7 @@ public class CertificateTest {
         x509Certificate();
     }
 
-/*    用于管理各种身份证书的抽象类。身份证书是主体与公钥的绑定，公钥由另一个主体担保。
+/*   Certificate 用于管理各种身份证书的抽象类。身份证书是主体与公钥的绑定，公钥由另一个主体担保。
       （主体表示实体，如个人用户、组或公司。此类是具有不同格式但重要的常见用途的证书的抽象。
     例如，不同类型的证书（如 X.509 和 PGP）共享常规证书功能（如编码和验证）和某些类型的信息（如公钥）。
     X.509、PGP 和 SDSI 证书都可以通过子类化 Certificate 类来实现，即使它们包含不同的信息集，
@@ -38,7 +37,7 @@ public class CertificateTest {
 
     }
 
-  /*  此类定义了证书工厂的功能，用于根据编码生成证书、证书路径 (CertPath) 和证书吊销列表 (CRL) 对象。
+  /* CertificateFactory  此类定义了证书工厂的功能，用于根据编码生成证书、证书路径 (CertPath) 和证书吊销列表 (CRL) 对象。
     对于由多个证书组成的编码，当您想要解析可能不相关的证书集合时，请使用 generateCertificates。否则，
     当您想要生成 CertPath（证书链）并随后使用 CertPathValidator 对其进行验证时，请使用 generateCertPath。
     X.509 的证书工厂必须返回作为 java.security.cert.X509Certificate 实例的证书和作为
