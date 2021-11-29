@@ -96,7 +96,7 @@ public class SSLTest {
         //sslSocket  一些设置
         System.out.println(sslSocket);
         System.out.println(sslSocket.isConnected());
-        //在此连接上启动 SSL 握手。
+        //在此连接上启动 SSL 握手。 在读取 写入 获得session 时会自动触发
         sslSocket.startHandshake();
         //返回在 SSL/TLS 握手期间构造的。SSLSession
         System.out.println(sslSocket.getHandshakeSession());
@@ -114,8 +114,19 @@ public class SSLTest {
         tls.init(keyManagerFactory(),trustManagerFactory(),SecureRandom.getInstance("SHA1PRNG"));
         SSLServerSocketFactory serverSocketFactory = tls.getServerSocketFactory();
         SSLServerSocket serverSocket = (SSLServerSocket)serverSocketFactory.createServerSocket();
+        //是否必需要认证 默认 false
+        System.out.println(serverSocket.getNeedClientAuth());
+        //是否想要认证  默认 false
+        System.out.println(serverSocket.getWantClientAuth());
+        //是否使用 客户端  默认 false
+        System.out.println(serverSocket.getUseClientMode());
+        serverSocket.setUseClientMode(false);
+        serverSocket.setNeedClientAuth(true);
         serverSocket.bind(new InetSocketAddress(InetAddress.getLocalHost(),20066));
         SSLSocket accept = (SSLSocket)serverSocket.accept();
+        //从上边的server copy过来的config
+        System.out.println("accept1:"+accept.getUseClientMode());
+        System.out.println("accept2:"+accept.getNeedClientAuth());
         accept.setSoLinger(true,30);
         InputStream inputStream = accept.getInputStream();
         System.out.println("server-read");
@@ -131,6 +142,12 @@ public class SSLTest {
         tls.init(keyManagerFactory(),trustManagerFactory(),SecureRandom.getInstance("SHA1PRNG"));
         SSLSocketFactory socketFactory = tls.getSocketFactory();
         SSLSocket sslSocket = (SSLSocket)socketFactory.createSocket();
+        //默认 false false
+        sslSocket.setNeedClientAuth(true);
+        System.out.println("client"+sslSocket.getNeedClientAuth());
+        System.out.println("client"+sslSocket.getWantClientAuth());
+        //默认 true
+        System.out.println("client"+sslSocket.getUseClientMode());
         sslSocket.setReuseAddress(true);
         sslSocket.setSoLinger(true,30);
 //        sslSocket.bind(new InetSocketAddress(InetAddress.getLocalHost(),30066));
