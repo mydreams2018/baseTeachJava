@@ -3,10 +3,14 @@ package utils;
 
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.util.encoders.Base64;
+import org.bouncycastle.util.encoders.Hex;
 import org.bouncycastle.util.encoders.UrlBase64;
 
 import java.security.Security;
 
+/*
+* apache   commons.codec也提供了相应的工具类
+*/
 public class BcprovUtils {
 
     static {
@@ -14,7 +18,7 @@ public class BcprovUtils {
     }
 
     public static void main(String[] args) {
-        urlBase64();
+        hex();
     }
 
     public static void base64(){
@@ -34,4 +38,14 @@ public class BcprovUtils {
         byte[] decode = UrlBase64.decode(encode);
         System.out.println(new String(decode));
     }
+    //16进制
+    public static void hex(){
+        String src = "16进制编码";
+        byte[] bytes = src.getBytes();
+        byte[] encode = Hex.encode(bytes);
+        System.out.println(new String(encode));
+        byte[] decode = Hex.decode(encode);
+        System.out.println(new String(decode));
+    }
+
 }
