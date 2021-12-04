@@ -6,7 +6,8 @@ import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
-import java.security.Key;
+import java.security.*;
+import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 
 /*
@@ -193,4 +194,71 @@ public enum CipherUtils {
         return cipher.unwrap(wrappedKey,wrappedKeyAlgorithm,wrappedKeyType);
     }
 
+    //公钥加密、私钥解密、主要用于通信; 公钥公开只用于加密
+    public static void rsaTest() throws Exception {
+        KeyPairGenerator rsa = KeyPairGenerator.getInstance("RSA");
+        KeyPair RSAkeyA = rsa.genKeyPair();
+    /*    //RSAkeyA 公钥加密
+        String strA = "{我是刘大胖子啊.你是谁啊....456465李厚霖要sdfsdfsdf}";
+        Cipher cipherEncodeA = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+        cipherEncodeA.init(Cipher.ENCRYPT_MODE, RSAkeyA.getPublic());
+        byte[] encodeBytes = cipherEncodeA.doFinal(strA.getBytes());
+        System.out.println(new String(encodeBytes));
+        //RSAkeyA 私钥解密
+        Cipher cipherEncodeB = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+        cipherEncodeB.init(Cipher.DECRYPT_MODE, RSAkeyA.getPrivate());
+        byte[] decodeBytes = cipherEncodeB.doFinal(encodeBytes);
+        System.out.println(new String(decodeBytes));*/
+
+        //RSAkeyA 私钥加密
+        String strA = "{我是刘大胖子啊.你是谁啊....456465李厚霖要sdfsdfsdf}";
+        Cipher cipherEncodeA = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+        cipherEncodeA.init(Cipher.ENCRYPT_MODE, RSAkeyA.getPrivate());
+        byte[] encodeBytes = cipherEncodeA.doFinal(strA.getBytes());
+        System.out.println(new String(encodeBytes));
+        //RSAkeyA 公钥解密
+        Cipher cipherEncodeB = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+        cipherEncodeB.init(Cipher.DECRYPT_MODE, RSAkeyA.getPublic());
+        byte[] decodeBytes = cipherEncodeB.doFinal(encodeBytes);
+        System.out.println(new String(decodeBytes));
+    }
+
+    //验证数字签名 引擎类   私钥签名 公钥验签
+    public static void initSign() throws Exception {
+        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+        keyPairGenerator.initialize(1024);
+        KeyPair keyPair = keyPairGenerator.genKeyPair();
+
+        Signature instance = Signature.getInstance("SHA512withRSA");
+        //初始化用于签名 私有密钥
+        instance.initSign(keyPair.getPrivate());
+        String st = "kdifsdf在平在人间.-=ljjlkjl我夺123123";
+        //更新签名 数据
+        instance.update(st.getBytes());
+        //返回所有数据 已更新的签名字节
+        byte[] sign = instance.sign();
+        //给定一个数组封装数据.长度不能少于 算法返回的长度
+//        byte[] bts = new byte[512];
+//        int sign1 = instance.sign(bts, 5, 256);
+        byte[] encoded = keyPair.getPublic().getEncoded();
+        initVerify(encoded,sign,st);
+    }
+    //验证数字签名 引擎类   私钥签名 公钥验签
+    public static void initVerify(byte[] encodes,byte[] sign,String src) throws Exception {
+        //解析甲方公钥-转换公钥材料
+        X509EncodedKeySpec x509KeySpec = new X509EncodedKeySpec(encodes);
+        //实例化密钥工厂
+        KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+        PublicKey aPubKey = keyFactory.generatePublic(x509KeySpec);
+        //初始化验证签名 公有密钥
+        Signature instance = Signature.getInstance("SHA512withRSA");
+        instance.initVerify(aPubKey);
+        //初始化验证签名 来自给定证书的公钥
+//        instance.initVerify(Certificate);
+        //更新验证数据
+        instance.update(src.getBytes());
+        //验证签名
+        boolean verify = instance.verify(sign);
+        System.out.println(verify);
+    }
 }
