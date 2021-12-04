@@ -106,7 +106,7 @@ public class SingleSecurity {
         keyPairGenerator.initialize(1024);
         KeyPair keyPair = keyPairGenerator.genKeyPair();
         byte[] privateEncode = keyPair.getPrivate().getEncoded();
-        //KeySpec 密钥规范
+        //密钥转换材料规范 实现了 EncodedKeySpec KeySpec
         PKCS8EncodedKeySpec pkcs8EncodedKeySpec = new PKCS8EncodedKeySpec(privateEncode);
 
         //指定算法 获得实例对象 也可指定Provider
@@ -292,6 +292,7 @@ doPhase需要调用lastPhase一次，并将lastPhase标志设置为true 。
 * 或者可以使用其 DER 编码（请参阅 PKCS8EncodedKeySpec）指定。 此接口不包含任何方法或常量。
 * 它的唯一目的是对所有关键规范进行分组（并为其提供类型安全）。 所有关键规范都必须实现这个接口。
 * */
+        //密钥转换材料规范 实现了 KeySpec
         DESKeySpec desKeySpec = new DESKeySpec(encoded);
 
         SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance("DES");
@@ -378,7 +379,7 @@ doPhase需要调用lastPhase一次，并将lastPhase标志设置为true 。
         KeyGenerator keyGenerator = KeyGenerator.getInstance("RC2");
         SecretKey secretKey = keyGenerator.generateKey();
         byte[] encoded = secretKey.getEncoded();
-        //还原密钥对象
+        //还原密钥对象  实现二种  KeySpec, SecretKey 可以获得 SecretKey
         SecretKeySpec secretKeySpec = new SecretKeySpec(encoded,"RC2");
         System.out.println(secretKeySpec);
     }
@@ -388,7 +389,7 @@ doPhase需要调用lastPhase一次，并将lastPhase标志设置为true 。
         KeyGenerator keyGenerator = KeyGenerator.getInstance("DES");
         SecretKey secretKey = keyGenerator.generateKey();
         byte[] encoded = secretKey.getEncoded();
-        //还原密钥对象
+        //还原密钥对象  转换材料
         DESKeySpec desKeySpec = new DESKeySpec(encoded);
         SecretKeyFactory secretKeyFactory= SecretKeyFactory.getInstance("DES");
         SecretKey deSecretKey = secretKeyFactory.generateSecret(desKeySpec);
