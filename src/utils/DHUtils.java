@@ -5,9 +5,7 @@ import javax.crypto.KeyAgreement;
 import javax.crypto.SecretKey;
 import javax.crypto.interfaces.DHPrivateKey;
 import javax.crypto.interfaces.DHPublicKey;
-import javax.crypto.spec.DHParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
-import java.math.BigInteger;
 import java.security.*;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Arrays;
@@ -32,12 +30,12 @@ public class DHUtils {
         System.out.println(Arrays.equals(keyA.getEncoded(), keyB.getEncoded()));
         //A加密
         String strA = "{我是刘大胖子啊.你是谁啊....456465李厚霖要sdfsdfsdf}";
-        Cipher cipherEncodeA = Cipher.getInstance("AES");
+        Cipher cipherEncodeA = Cipher.getInstance("DESede");
         cipherEncodeA.init(Cipher.ENCRYPT_MODE,keyA);
         byte[] encodeBytes = cipherEncodeA.doFinal(strA.getBytes());
         System.out.println(new String(encodeBytes));
         //B解密
-        Cipher cipherEncodeB = Cipher.getInstance("AES");
+        Cipher cipherEncodeB = Cipher.getInstance("DESede");
         cipherEncodeB.init(Cipher.DECRYPT_MODE, keyB);
         byte[] decodeBytes = cipherEncodeB.doFinal(encodeBytes);
         System.out.println(new String(decodeBytes));
@@ -63,15 +61,7 @@ public class DHUtils {
         keyAgreement.doPhase(aPubKey,true);
         //交换后生成自已的 SecretKey
         byte[] secret = keyAgreement.generateSecret();
-        int keysize = secret.length;
-        SecretKey skey = null;
-        for(int idx = SingleSecurity.AES_KEYSIZES.length - 1; skey == null && idx >= 0; --idx) {
-            if (keysize >= SingleSecurity.AES_KEYSIZES[idx]) {
-                keysize = SingleSecurity.AES_KEYSIZES[idx];
-                skey = new SecretKeySpec(secret, 0, keysize, "AES");
-            }
-        }
-        keyA=skey;
+        keyA=changeSecretKey(secret,"DESede");
     }
 
     private static void changeB() throws Exception {
@@ -82,7 +72,6 @@ public class DHUtils {
         PublicKey aPubKey = keyFactory.generatePublic(x509KeySpec);
 
         KeyPairGenerator dhB = KeyPairGenerator.getInstance("DH");
-        //由甲方公钥构建
         dhB.initialize(1024);
         KeyPair keyPair = dhB.genKeyPair();
         DHPublicKey bPublic =(DHPublicKey) keyPair.getPublic();
@@ -95,15 +84,50 @@ public class DHUtils {
         keyAgreement.doPhase(aPubKey,true);
         //交换后生成自已的 SecretKey
         byte[] secret = keyAgreement.generateSecret();
-        int keysize = secret.length;
-        SecretKey skey = null;
-        for(int idx = SingleSecurity.AES_KEYSIZES.length - 1; skey == null && idx >= 0; --idx) {
-            if (keysize >= SingleSecurity.AES_KEYSIZES[idx]) {
-                keysize = SingleSecurity.AES_KEYSIZES[idx];
-                skey = new SecretKeySpec(secret, 0, keysize, "AES");
-            }
-        }
-        keyB=skey;
+        keyB=changeSecretKey(secret,"DESede");
     }
 
+    public static SecretKey changeSecretKey(byte[] secret,String algorithm){
+        if("AES".equals(algorithm)) {
+            int keysize = secret.length;
+            SecretKey skey = null;
+            for(int idx = SingleSecurity.AES_KEYSIZES.length - 1; skey == null && idx >= 0; --idx) {
+                if (keysize >= SingleSecurity.AES_KEYSIZES[idx]) {
+                    keysize = SingleSecurity.AES_KEYSIZES[idx];
+                    skey = new SecretKeySpec(secret, 0, keysize, "AES");
+                }
+            }
+            return skey;
+        }else if ("Blowfish".equals(algorithm)) {
+            int keysize  = Math.min(56, secret.length);
+            SecretKeySpec skey;
+            skey = new SecretKeySpec(secret, 0, keysize, "Blowfish");
+            return skey;
+        }else if(algorithm.startsWith("DES")){
+            int keyLen;
+            if (algorithm.equalsIgnoreCase("DES")) {
+                keyLen = 8;
+            } else if (algorithm.equalsIgnoreCase("DESede")) {
+                keyLen = 24;
+            }else{
+                return null;
+            }
+            if (algorithm.equalsIgnoreCase("DES") ||
+                    algorithm.equalsIgnoreCase("DESede")) {
+                for (int i = 0; i < keyLen; i+=8) {
+                    fixDESParity(secret,i);
+                }
+            }
+            return new SecretKeySpec(secret, 0, keyLen,algorithm);
+        }
+        return null;
+    }
+
+    private  static void fixDESParity(byte[] key, int offset) {
+        for (int i = 0; i < 8; i++) {
+            int b = key[offset] & 0xfe;
+            b |= (Integer.bitCount(b) & 1) ^ 1;
+            key[offset++] = (byte)b;
+        }
+    }
 }
