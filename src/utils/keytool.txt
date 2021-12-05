@@ -15,3 +15,10 @@ keytool -certreq -alias www.deathwater.cn -keystore dw.keystore -storepass yjssa
 
 5:导入证书
 keytool -importcert -trustcacerts -alias www.deathwater.cn -file dw.cer -keystore dw.keystore -storepass yjssaje
+
+6:导入pfx证书   src源|dest目标
+keytool -importkeystore -srckeystore 原文件 -destkeystore 目标文件
+    -srcstoretype 原类型 -deststoretype PKCS11
+    -srcstorepass passwd -deststorepass passwd
+    -srcalias myprivatekey -destalias myoldprivatekey
+    -srckeypass passwd  -destkeypass passwd

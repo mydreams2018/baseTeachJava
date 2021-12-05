@@ -26,7 +26,7 @@ public class SingleSecurity {
     final static int[] AES_KEYSIZES = new int[]{16, 24, 32};
 
     public static void main(String sr[]) throws Exception {
-        desKeySpec();
+        keyStore();
     }
 
 //输出当前提供的安全服务类所支持的算法
@@ -71,6 +71,8 @@ public class SingleSecurity {
 //        algorithmParameterGenerator.init(512,SecureRandom.getInstance("DRBG"));
 //        algorithmParameterGenerator.init(AlgorithmParameterSpec);
         AlgorithmParameters algorithmParameters = algorithmParameterGenerator.generateParameters();
+        DSAParameterSpec parameterSpec = algorithmParameters.getParameterSpec(DSAParameterSpec.class);
+        System.out.println("parameterSpec:"+parameterSpec);
         byte[] encoded = algorithmParameters.getEncoded();
         BigInteger bigInteger = new BigInteger(encoded);
         System.out.println(bigInteger);
@@ -218,20 +220,29 @@ public class SingleSecurity {
         jks.load(new FileInputStream("C:/Users/kungreat/dw.keystore"), chars);//注意关闭流
 //        jks.store();  存储数据 到文件
         System.out.println(jks.getType());//pkcs12
-        System.out.println(jks.size());//4 个别名密钥库
+        System.out.println(jks.size());
         System.out.println(jks);
+        Key key = jks.getKey("www.deathwater.cn", chars);
+        System.out.println(key);
         Enumeration<String> aliases = jks.aliases();
         while(aliases.hasMoreElements()){
-            System.out.println(aliases.nextElement());// ca ca1 ca2 e1
+            System.out.println(aliases.nextElement());//www.deathwater.cn
         }
-        KeyStore.PrivateKeyEntry ca = (KeyStore.PrivateKeyEntry)jks.getEntry("ca",
+        KeyStore.PrivateKeyEntry ca = (KeyStore.PrivateKeyEntry)jks.getEntry("www.deathwater.cn",
                 new KeyStore.PasswordProtection(chars));
         PrivateKey privateKey = ca.getPrivateKey();
         Certificate certificate = ca.getCertificate();
         Certificate[] certificateChain = ca.getCertificateChain();
         Set<KeyStore.Entry.Attribute> attributes = ca.getAttributes();
         System.out.println(privateKey);
-        Certificate cac = jks.getCertificate("ca");
+        X509Certificate cac = (X509Certificate)jks.getCertificate("www.deathwater.cn");
+        PublicKey publicKey = cac.getPublicKey();
+        System.out.println(publicKey.getClass());
+        System.out.println(publicKey.getAlgorithm());
+        System.out.println(cac.getClass());//X509CertImpl
+        System.out.println(cac.getSigAlgName());
+        Signature instance = Signature.getInstance(cac.getSigAlgName());
+        System.out.println(instance);
     }
 //安全消息摘要   消息认证
     public static void mac() throws Exception {
