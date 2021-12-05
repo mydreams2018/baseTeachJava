@@ -82,6 +82,7 @@ public enum CipherUtils {
     public String encryptByIV(String content,String transformation) throws Exception {
         Cipher cipher = Cipher.getInstance(transformation);
         SecretKey secretKey = new SecretKeySpec(algorithmbytes,algorithmname);
+        //此类指定初始化向量（IV）
         IvParameterSpec iv = new IvParameterSpec(pmspec.getBytes());
         cipher.init(Cipher.ENCRYPT_MODE,secretKey,iv);
         byte[] encrypted = cipher.doFinal(content.getBytes());
@@ -129,6 +130,7 @@ public enum CipherUtils {
     public String decryptByIV(String base64Content,String transformation) throws Exception {
         Cipher cipher = Cipher.getInstance(transformation);
         SecretKey secretKey = new SecretKeySpec(algorithmbytes,algorithmname);
+        //此类指定初始化向量（IV）
         IvParameterSpec iv = new IvParameterSpec(pmspec.getBytes());
         cipher.init(Cipher.DECRYPT_MODE, secretKey, iv);
         byte[] content = Base64.getDecoder().decode(base64Content);
