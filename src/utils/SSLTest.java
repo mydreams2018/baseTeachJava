@@ -1,17 +1,24 @@
 package utils;
 
 import javax.net.ssl.*;
-import java.io.FileInputStream;
-import java.io.InputStream;
+import java.io.*;
 import java.net.*;
 import java.security.KeyStore;
 import java.security.SecureRandom;
+import java.security.cert.Certificate;
 import java.util.Arrays;
 
 public class SSLTest {
 
+    /*
+    *
+    * KeyManager  本地
+    * TrustManager 可信任的远程 双向认证用
+    *
+    */
+
     public static void main(String[] args) throws Exception {
-        new Thread(new Runnable(){
+     /*   new Thread(new Runnable(){
             @Override
             public void run() {
                 try {
@@ -21,7 +28,8 @@ public class SSLTest {
                 }
             }
         }).start();
-        runSSLServerSocket();
+        runSSLServerSocket();*/
+        getCertificates();
     }
 /*    此类充当基于密钥材料源的关键经理的工厂。每个密钥管理器管理特定类型的密钥材料，
     以供安全套接字使用。密钥材料基于密钥库和 或 提供程序特定的源。*/
@@ -114,14 +122,14 @@ public class SSLTest {
         tls.init(keyManagerFactory(),trustManagerFactory(),SecureRandom.getInstance("SHA1PRNG"));
         SSLServerSocketFactory serverSocketFactory = tls.getServerSocketFactory();
         SSLServerSocket serverSocket = (SSLServerSocket)serverSocketFactory.createServerSocket();
-        //是否必需要认证 默认 false
+        //是否必需要双向认证 正常情况单向就够了.有些是银行需要客户端也提供证书验证 默认 false
         System.out.println(serverSocket.getNeedClientAuth());
-        //是否想要认证  默认 false
+        //是否想要双向认证  默认 false
         System.out.println(serverSocket.getWantClientAuth());
         //是否使用 客户端  默认 false
         System.out.println(serverSocket.getUseClientMode());
         serverSocket.setUseClientMode(false);
-        serverSocket.setNeedClientAuth(true);
+        serverSocket.setNeedClientAuth(false);
         serverSocket.bind(new InetSocketAddress(InetAddress.getLocalHost(),20066));
         SSLSocket accept = (SSLSocket)serverSocket.accept();
         //从上边的server copy过来的config
@@ -142,8 +150,8 @@ public class SSLTest {
         tls.init(keyManagerFactory(),trustManagerFactory(),SecureRandom.getInstance("SHA1PRNG"));
         SSLSocketFactory socketFactory = tls.getSocketFactory();
         SSLSocket sslSocket = (SSLSocket)socketFactory.createSocket();
-        //默认 false false
-        sslSocket.setNeedClientAuth(true);
+        //是否必需要双向认证 正常情况单向就够了.有些是银行需要客户端也提供证书验证 默认 false
+        sslSocket.setNeedClientAuth(false);
         System.out.println("client"+sslSocket.getNeedClientAuth());
         System.out.println("client"+sslSocket.getWantClientAuth());
         //默认 true
@@ -159,5 +167,21 @@ public class SSLTest {
         byte[] bytes = inputStream.readAllBytes();
         System.out.println(new String(bytes));
         System.out.println(sslSocket.getSession());
+    }
+
+    public static void getCertificates() throws Exception {
+        SSLSocketFactory factory = (SSLSocketFactory)SSLSocketFactory.getDefault();
+        SSLSocket socket =(SSLSocket) factory.createSocket("www.kungreat.cn", 443);
+        socket.startHandshake();
+        SSLSession session = socket.getSession();
+        Certificate[] peerCertificates = session.getPeerCertificates();
+        //获得证书后输出为文件
+        for(int x=0;x<peerCertificates.length;x++){
+            String name = x+".cer";
+            File file = new File("C:\\Users\\kungreat",name);
+            FileOutputStream fileOutputStream = new FileOutputStream(file);
+            fileOutputStream.write(peerCertificates[x].getEncoded());
+            fileOutputStream.flush();
+        }
     }
 }
