@@ -1,0 +1,3 @@
+linux系统下
+1:[top]查看所有PID号、找到java的PID号
+2:[jstack PID > 1782.txt]导出java-PID虚拟机信息到1782.txt文件中
