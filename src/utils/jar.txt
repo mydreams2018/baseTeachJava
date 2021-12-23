@@ -1,0 +1,16 @@
+jar -h
+查看帮助
+jar --create --file classes.jar --manifest MF -C foo/ .
+指定.MF文件并把foo/下所有资源打包
+.MF文件中
+Class-Path: commons-codec-1.11.jar
+指向的是外部的Class-Path当前申请为和JAR同一个目录
+
+
+java
+-Dfile.encoding=UTF-8
+-classpath C:\Users\kungreat\IdeaProjects\baseTeachJava\out\production\baseTeachJava;C:\Users\kungreat\.m2\repository\commons-codec\commons-codec\1.11\commons-codec-1.11.jar;C:\Users\kungreat\IdeaProjects\baseTeachJava\src\utils\lib\bcprov-jdk15on-1.68.jar;C:\Users\kungreat\IdeaProjects\baseTeachJava\src\utils\lib\bcpkix-jdk15on-1.59.jar
+jarts.ClassLoadTs
+运行时手动指定加载classpath下的JAR包
+
+

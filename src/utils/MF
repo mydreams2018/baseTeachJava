@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Build-Jdk-Spec: 11
+Class-Path: commons-codec-1.11.jar
+Main-Class: jarts.ClassLoadTs
