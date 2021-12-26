@@ -1,7 +1,19 @@
 package base;
 
+import java.beans.JavaBean;
+
 //外部类
+@JavaBean(description = "AAAAA")
 public class  PermissionTest {
+
+	public PermissionTest(){
+		System.out.println("空构造器");
+	}
+
+	@Deprecated(since = "con2021-12-26")
+	public PermissionTest(@Deprecated(since = "parm2021-12-26") String name,@Deprecated(since = "age2021-12-26")String age){
+		System.out.println("构造器:"+name+age);
+	}
 	
 //	private String nameOut="kungreat"; 
 	private static String name="kungreat"; 
@@ -11,15 +23,15 @@ public class  PermissionTest {
 		System.out.println("PermissionTest");
 	}
 	
-//	public String getNameOut() {
-//		return nameOut;
-//	}
+	public String getNameOut() {
+		return "nameOut";
+	}
 //	
 //	public void setNameOut(String name) {
 //		nameOut=name;
 //	}
 	
-	static class psIn implements PermissionTestInIn{
+	public static class psIn implements PermissionTestInIn{
 		public void setName() {
 			System.out.println("setName");
 		}
