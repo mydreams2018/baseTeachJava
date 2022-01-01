@@ -18,12 +18,13 @@ public class  PermissionTest {
 	@Deprecated(since = "con-field")
 	private static String name="kungreat"; 
 //	private Integer age=18; 
-	
-	public static void say() {
+
+	@Deprecated(since = "con-method")
+	public static void say(@Deprecated(since = "parm-method") String name) {
 		System.out.println("PermissionTest");
 	}
 	
-	public String getNameOut() {
+	public String getNameOut(String... obj) throws RuntimeException{
 		return "nameOut";
 	}
 //	

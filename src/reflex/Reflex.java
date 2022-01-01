@@ -22,19 +22,15 @@ public class Reflex {
     //在同一个加载器链路上 Class<?>  同一个包、类  只存在一份
     public static void main(String[] args) throws Exception {
         Class<PermissionTest> permissionTestClass = PermissionTest.class;
-        Field[] declaredFields = permissionTestClass.getDeclaredFields();
-        for(int x=0;x<declaredFields.length;x++){
-            Field declaredField = declaredFields[x];
-            System.out.println(declaredField.getDeclaringClass());
-            System.out.println(Arrays.toString(declaredField.getDeclaredAnnotations()));
-            int modifiers = declaredField.getModifiers();
-            declaredField.setAccessible(true);
-
-            declaredField.set(null,"AAA");
-            if(Modifier.isStatic(modifiers)){
-                Object o = declaredField.get(null);
-                System.out.println("static:"+o);
-            }
+        Method[] declaredMethods = permissionTestClass.getDeclaredMethods();
+        for(int x=0;x<declaredMethods.length;x++){
+            Method declaredMethod = declaredMethods[x];
+//            System.out.println(Arrays.toString(declaredMethod.getDeclaredAnnotations()));
+//            System.out.println(declaredMethod.getReturnType());
+//            System.out.println(declaredMethod.getName());
+//            System.out.println(Arrays.toString(declaredMethod.getParameters()));
+//            System.out.println(declaredMethod.isVarArgs());
+            System.out.println(Arrays.toString(declaredMethod.getExceptionTypes()));
         }
 
     }
