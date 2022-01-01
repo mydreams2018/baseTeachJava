@@ -14,8 +14,8 @@ public class  PermissionTest {
 	public PermissionTest(@Deprecated(since = "parm2021-12-26") String name,@Deprecated(since = "age2021-12-26")String age){
 		System.out.println("构造器:"+name+age);
 	}
-	
-//	private String nameOut="kungreat"; 
+
+	@Deprecated(since = "con-field")
 	private static String name="kungreat"; 
 //	private Integer age=18; 
 	

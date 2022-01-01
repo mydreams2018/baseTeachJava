@@ -22,25 +22,21 @@ public class Reflex {
     //在同一个加载器链路上 Class<?>  同一个包、类  只存在一份
     public static void main(String[] args) throws Exception {
         Class<PermissionTest> permissionTestClass = PermissionTest.class;
-        Constructor<?>[] declaredConstructors = permissionTestClass.getDeclaredConstructors();
-        for(int x=0;x<declaredConstructors.length;x++){
-            Constructor<?> declaredConstructor = declaredConstructors[x];
-//            System.out.println(Arrays.toString(declaredConstructor.getAnnotations()));
-            Parameter[] parameters = declaredConstructor.getParameters();
-//            for(int y=0;y<parameters.length;y++){
-//                Annotation[] annotations = parameters[y].getAnnotations();
-//                System.out.println(Arrays.toString(annotations));
-//            }
-            if(parameters != null && parameters.length > 0){
-                declaredConstructor.setAccessible(true);
-                PermissionTest o = (PermissionTest)declaredConstructor.newInstance("AAAA","555");
-                System.out.println(o.getNameOut());
-            }else{
-                declaredConstructor.setAccessible(true);
-                PermissionTest o = (PermissionTest)declaredConstructor.newInstance(null);
-                System.out.println(o.getNameOut());
+        Field[] declaredFields = permissionTestClass.getDeclaredFields();
+        for(int x=0;x<declaredFields.length;x++){
+            Field declaredField = declaredFields[x];
+            System.out.println(declaredField.getDeclaringClass());
+            System.out.println(Arrays.toString(declaredField.getDeclaredAnnotations()));
+            int modifiers = declaredField.getModifiers();
+            declaredField.setAccessible(true);
+
+            declaredField.set(null,"AAA");
+            if(Modifier.isStatic(modifiers)){
+                Object o = declaredField.get(null);
+                System.out.println("static:"+o);
             }
         }
+
     }
 
     public void ts(String st){
