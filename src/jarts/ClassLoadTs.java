@@ -26,6 +26,13 @@ public class ClassLoadTs {
         MyURLClassLoader urlClassLoader = new MyURLClassLoader(new URL[]{url,url2});
         urlClassLoader.setDefaultAssertionStatus(false);
         Class<?> aClass = urlClassLoader.loadClass("cn.kungreat.MavenTest");
+        System.out.println(aClass.hashCode());//932607259
+
+        MyURLClassLoader urlClassLoaderB = new MyURLClassLoader(new URL[]{url,url2});
+        urlClassLoaderB.setDefaultAssertionStatus(false);
+        Class<?> bClass = urlClassLoaderB.loadClass("cn.kungreat.MavenTest");
+        System.out.println(bClass.hashCode());//905544614
+
         Method ma = aClass.getDeclaredMethod("main", String[].class);
         ma.invoke(null,(Object) null);
     }
