@@ -1,0 +1,9 @@
+package reflex;
+
+import java.lang.annotation.*;
+
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface PermissionUsers {
+    PermissionUser[] value();
+}
