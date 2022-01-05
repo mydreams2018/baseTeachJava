@@ -1,13 +1,12 @@
 package test;
 
-import base.PersonBoy;
+import org.junit.Test;
 
 public class PersonTest {
 
-	public static void main(String[] args) {
-		PersonBoy ps = new PersonBoy();
-		System.out.println(args.length);
-		
+	@Test
+	public void ts() {
+		System.out.println("ts");
 	}
 
 }
