@@ -4,6 +4,14 @@ import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+
+/*
+从当前目录加载 文件
+ClassLoadTs.class.getResourceAsStream("user.xml");
+从根目录加载 文件
+ClassLoader.getSystemResourceAsStream("");
+*/
+
 public class ClassLoadTs {
     static URL url;
     static URL url2;
