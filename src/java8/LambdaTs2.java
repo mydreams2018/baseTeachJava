@@ -22,6 +22,11 @@ public class LambdaTs2 {
     public static void main(String[] args){
 //        System.out.println(run5(3));
         System.out.println(run6((num)-> num>2000&&num<10000));
+        int sum = list.stream()
+                .filter(b -> b>500)
+                .mapToInt(b -> b).findFirst().stream()
+                .sum();
+        System.out.println(sum);
     }
 
     public static List<Integer> run6(Predicate<Integer> predicate){

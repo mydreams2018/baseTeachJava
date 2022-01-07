@@ -16,7 +16,29 @@ Java 8 新特性--Lambda表达式作为方法参数
 (5)“Iron Man”是一个表达式,不是一个语句.要使此Lambda有效,你可以去除花括号
     和分号,如下所示：(String s) -> "Iron Man".或者如果你喜欢,可以使用显式返回语
     句,如下所示：(String s)->{return "IronMan";}
-    
+
+方法引用
+对象::方法
+类::方法
+Supplier<Apple> c1 = Apple::new;
+Apple a1 = c1.get();
+这就等价于：
+Supplier<Apple> c1 = () -> new Apple();
+Apple a1 = c1.get()
+
+Function<Integer, Apple> c2 = Apple::new;
+Apple a2 = c2.apply(110);
+这就等价于：
+Function<Integer, Apple> c2 = (weight) -> new Apple(weight);
+Apple a2 = c2.apply(110);
+
+BiFunction<String, Integer, Apple> c3 = Apple::new;
+Apple c3 = c3.apply("green", 110);
+这就等价于：
+BiFunction<String, Integer, Apple> c3 =
+ (color, weight) -> new Apple(color, weight);
+Apple c3 = c3.apply("green", 110);
+
     局部变量 final 例:a (b=a访问的是b副本、如果局部变量有修改、多线程的情况下可能访问到旧的数据,造成数据脏读)
     实例变量和局部变量背后的实现有一个关键不同.实例变量都存储在堆中,而局部变量则保存在栈上.
     如果Lambda可以直接访问局部变量,而且Lambda是在另一个线程中使用的,则使用Lambda的线程,
@@ -34,3 +56,7 @@ Java 8 新特性--Lambda表达式作为方法参数
     并且隐式表示它们仅限于其所在线程。如果允许捕获可改变的局部变量，就会引发造成线程
     不安全的新的可能性，而这是我们不想看到的
     （实例变量可以，因为它们保存在堆中，而堆是在线程之间共享的）
+
+interface A,B 都有 default fun()默认方法
+class C implements A,B  实现方法重名有多个
+在class C中可以使用 A.super.fun() 指定接口的默认方法
