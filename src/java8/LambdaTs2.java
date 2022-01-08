@@ -2,7 +2,9 @@ package java8;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 public class LambdaTs2 {
 
@@ -21,12 +23,29 @@ public class LambdaTs2 {
 
     public static void main(String[] args){
 //        System.out.println(run5(3));
-        System.out.println(run6((num)-> num>2000&&num<10000));
-        int sum = list.stream()
-                .filter(b -> b>500)
-                .mapToInt(b -> b).findFirst().stream()
-                .sum();
-        System.out.println(sum);
+//        System.out.println(run6((num)-> num>2000&&num<10000));
+//        LambdaTs2 lambdaTs2 = new LambdaTs2();
+//
+//        Predicate<String> p = lambdaTs2::ts;
+//        System.out.println(p.test(""));
+
+//        Supplier<Apple> c1 = Apple::new;
+//        Apple a1 = c1.get();
+//
+//        Supplier<Apple> c2 = () -> { return new Apple();};
+//        Apple a2 = c2.get();
+
+        Function<Integer,Apple[]> c2 = Apple[]::new;
+        Apple[] a2 = c2.apply(16);
+        System.out.println(a2.length);
+
+        Function<Integer, Apple[]> c3 = (weight) -> new Apple[weight];
+        Apple[] a3 = c3.apply(110);
+        System.out.println(a3.length);
+    }
+
+    public boolean ts(String s){
+       return  s!=null;
     }
 
     public static List<Integer> run6(Predicate<Integer> predicate){

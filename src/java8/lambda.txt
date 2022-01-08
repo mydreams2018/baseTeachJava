@@ -18,8 +18,10 @@ Java 8 新特性--Lambda表达式作为方法参数
     句,如下所示：(String s)->{return "IronMan";}
 
 方法引用
+Predicate<String> p = String::isEmpty
 对象::方法
 类::方法
+
 Supplier<Apple> c1 = Apple::new;
 Apple a1 = c1.get();
 这就等价于：
