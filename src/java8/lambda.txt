@@ -41,6 +41,44 @@ BiFunction<String, Integer, Apple> c3 =
  (color, weight) -> new Apple(color, weight);
 Apple c3 = c3.apply("green", 110);
 
+中间操作与终端操作
+在下列流水线中，你能找出中间操作和终端操作吗？
+long count = menu.stream()
+ .filter(d -> d.getCalories() > 300)
+ .distinct()
+ .limit(3)
+ .count();
+答案：流水线中最后一个操作count返回一个long，这是一个非Stream的值。因此它是
+一个终端操作。所有前面的操作，filter、distinct、limit，都是连接起来的，并返回一
+个Stream，因此它们是中间操作
+
+请注意，在现实中，对顺序流调用parallel方法并不意味着流本身有任何实际的变化。它
+在内部实际上就是设了一个boolean标志，表示你想让调用parallel之后进行的所有操作都并
+行执行。类似地，你只需要对并行流调用sequential方法就可以把它变成顺序流。请注意，你
+可能以为把这两个方法结合起来，就可以更细化地控制在遍历流时哪些操作要并行执行，哪些要
+顺序执行。例如，你可以这样做：
+stream.parallel()
+ .filter(...)
+ .sequential()
+ .map(...)
+ .parallel()
+ .reduce();
+但最后一次parallel或sequential调用会影响整个流水线。在本例中，流水线会并行执行，因为最后调用的是它
+
+LongStream.rangeClosed(1,n).parallel().forEach(accumulator::add);
+
+配置并行流使用的线程池
+看看流的parallel方法，你可能会想，并行流用的线程是从哪儿来的？有多少个？怎么
+自定义这个过程呢？
+并行流内部使用了默认的ForkJoinPool（7.2节会进一步讲到分支/合并框架），它默认的
+线程数量就是你的处理器数量，这个值是由 Runtime.getRuntime().availableProcessors()得到的。
+但是你可以通过系统属性 java.util.concurrent.ForkJoinPool.common.
+parallelism来改变线程池大小，如下所示：
+System.setProperty("java.util.concurrent.ForkJoinPool.common.parallelism","12");
+这是一个全局设置，因此它将影响代码中所有的并行流。反过来说，目前还无法专为某个
+并行流指定这个值。一般而言，让ForkJoinPool的大小等于处理器数量是个不错的默认值，
+除非你有很好的理由，否则我们强烈建议你不要修改它。
+
     局部变量 final 例:a (b=a访问的是b副本、如果局部变量有修改、多线程的情况下可能访问到旧的数据,造成数据脏读)
     实例变量和局部变量背后的实现有一个关键不同.实例变量都存储在堆中,而局部变量则保存在栈上.
     如果Lambda可以直接访问局部变量,而且Lambda是在另一个线程中使用的,则使用Lambda的线程,
