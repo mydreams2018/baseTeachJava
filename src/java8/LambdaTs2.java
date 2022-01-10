@@ -79,11 +79,21 @@ public class LambdaTs2 {
 //        long count = list.stream().distinct().count();
 //        System.out.println(count);
 
-        Apple apple = new Apple();
+//        Apple apple = new Apple();
         //线程不安全的方式
-        LongStream.rangeClosed(1,9999999L).parallel().forEach(apple::add);
+//        LongStream.rangeClosed(1,9999999L).parallel().forEach(apple::add);
 //-5958941808141140780  6684975474523669191
-        System.out.println(apple.getNum());
+//        System.out.println(apple.getNum());
+
+//        ArrayList<String> strings = list.stream().collect(() -> new ArrayList<>(),
+//                (c, e) -> c.add(e.toString()),
+//                (c1, c2) -> {});
+//        System.out.println(strings);
+
+        List<String> strings = list.stream().map((e)-> e+"AAA")
+                .collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
+        System.out.println(strings);
+        
     }
 
     public boolean ts(String s){
