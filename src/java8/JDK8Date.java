@@ -21,7 +21,7 @@ public class JDK8Date {
     public static void main(String[] args) {
         zone();
     }
-
+//日期
     public static void localDate(){
         LocalDate date = LocalDate.of(2021, 12, 8);
         int year = date.getYear();
@@ -37,6 +37,7 @@ public class JDK8Date {
         LocalDate dateFormat = LocalDate.parse("2014-03-18",DateTimeFormatter.ISO_LOCAL_DATE);
         System.out.println(dateFormat);
     }
+    //时间
     public static void localTime(){
         LocalTime time = LocalTime.of(13, 45, 20);
         int hour = time.getHour();
@@ -45,7 +46,7 @@ public class JDK8Date {
         LocalTime timeFormat = LocalTime.parse("13:45:20",DateTimeFormatter.ISO_LOCAL_TIME);
         System.out.println(timeFormat);
     }
-
+//日期时间
     public static void localDateTime(){
         LocalDate date = LocalDate.of(2021, 12, 8);
         LocalTime time = LocalTime.of(13, 45, 20);
@@ -54,6 +55,7 @@ public class JDK8Date {
         LocalDateTime dt3 = date.atTime(13, 45, 20);
         LocalDateTime dt4 = date.atTime(time);
         LocalDateTime dt5 = time.atDate(date);
+        LocalDate localDate = dt5.toLocalDate();
         System.out.println(dt1.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
     }
    /* 如果你已经有一个LocalDate对象，想要创建它的一个修改版，最直接也最简单的方法是使
@@ -98,7 +100,7 @@ public class JDK8Date {
         LocalDate with = date3.with(new NextWorkingDay());//2014-04-01
         System.out.println(with);
     }
-
+//格式化
     public static void format(){
         LocalDate date = LocalDate.of(2014, 3, 18);
         String s1 = date.format(DateTimeFormatter.BASIC_ISO_DATE);//20140318
