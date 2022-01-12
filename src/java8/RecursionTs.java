@@ -1,21 +1,25 @@
 package java8;
 
-import org.junit.Test;
 import java.util.stream.Stream;
 
 public class RecursionTs {
 
-    @Test
-    public void testStreamIterate(){
-        Stream.<Integer>iterate(1,(n) -> n*10).filter((n)-> n>9).limit(10).forEach(System.out::println);
+    public static void main(String[] args) {
+        testRec();//1784293664
+                  //1784293664
     }
 
-    @Test
-    public void testRec(){
-        System.out.println(factorialTailRecursion(1,10000000).invoke());
-//        System.out.println(recursion(1,10000000));
+    public static void testStreamIterate(){
+        //1 5 5 25 25 125 125 625
+        Stream.<Integer>iterate(1,(n) -> n*5).filter((n)-> n>900).limit(10).forEach(System.out::println);
     }
 
+    public static void testRec() {
+        System.out.println(factorialTailRecursion(1,1000000).invoke());
+//        System.out.println(recursion(1,100000));
+        //1+10+9+8+7+6+5+4+3+2 增加堆栈大小 -Xss128m
+    }
+//尾递归实现
     public static int recursion(final int factorial, final int number) {
         if (number == 1) return factorial;
         else return recursion(factorial + number, number - 1);
@@ -25,6 +29,12 @@ public class RecursionTs {
         if (number == 1)
             return TailRecursion.<Integer>done(factorial);
         else
+//           return new TailRecursion<Integer>(){
+//                @Override
+//                public TailRecursion<Integer> apply() {
+//                    return factorialTailRecursion(factorial + number, number - 1);
+//                }
+//            };
             return () -> factorialTailRecursion(factorial + number, number - 1);
     }
 
