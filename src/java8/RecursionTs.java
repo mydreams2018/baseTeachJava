@@ -1,4 +1,4 @@
-package java8.lazy;
+package java8;
 
 import org.junit.Test;
 import java.util.stream.Stream;
@@ -23,7 +23,7 @@ public class RecursionTs {
 
     public static TailRecursion<Integer> factorialTailRecursion(final int factorial, final int number){
         if (number == 1)
-            return TailInvoke.done(factorial);
+            return TailRecursion.<Integer>done(factorial);
         else
             return () -> factorialTailRecursion(factorial + number, number - 1);
     }
@@ -49,7 +49,7 @@ public class RecursionTs {
          * @return 递归最终结果
          */
         default T getResult()  {
-            throw new Error("递归还没有结束,调用获得结果异常!");
+            throw new RuntimeException("递归还没有结束,调用获得结果异常!");
         }
 
         /**
@@ -63,17 +63,7 @@ public class RecursionTs {
                     .get()
                     .getResult();
         }
-    }
 
-    public static class TailInvoke {
-
-        /*
-         * 结束当前递归，重写对应的默认方法的值,完成状态改为true,设置最终返回结果,设置非法递归调用
-         *
-         * @param value 最终递归值
-         * @param <T>   T
-         * @return 一个isFinished状态true的尾递归, 外部通过调用接口的invoke方法及早求值, 启动递归求值。
-         */
         public static <T> TailRecursion<T> done(T value) {
             return new TailRecursion<T>() {
                 @Override
