@@ -1,0 +1,599 @@
+假设一家只想实现基本的公司从 JDBC 供应商 DB Access， Inc. 购买了一个驱动程序。此驱动程序包括实现接口的类。
+下面的代码摘录创建该类的一个实例并设置其属性。部署 的实例后，程序员可以调用该方法以获取与公司数据库的连接。
+首先，系统管理员使用默认构造函数创建对象。然后，系统管理员设置三个属性。请注意，以下代码通常由部署工具执行：
+com.dbaccess.BasicDataSource ds = new com.dbaccess.BasicDataSource();
+ds.setServerName("grinder");
+ds.setDatabaseName("CUSTOMER_ACCOUNTS");
+ds.setDescription("Customer accounts database for billing");
+
+使用使用 JNDI API 的命名服务注册数据源对象
+Context ctx = new InitialContext();
+ctx.bind("jdbc/billingDB", ds);
+
+使用已部署的数据源对象
+Context ctx = new InitialContext();
+DataSource ds = (DataSource)ctx.lookup("jdbc/billingDB");
+Connection con = ds.getConnection("fernanda","brewed");
+
+
+public class ConnectionPoolingBean implements SessionBean {
+
+    public void ejbCreate() throws CreateException {
+        ctx = new InitialContext();
+        ds = (DataSource)ctx.lookup("jdbc/fastCoffeeDB");
+    }
+
+    public void updatePrice(float price, String cofName,
+                            String username, String password)
+        throws SQLException{
+
+        Connection con;
+        PreparedStatement pstmt;
+        try {
+            con = ds.getConnection(username, password);
+            con.setAutoCommit(false);
+            pstmt = con.prepareStatement("UPDATE COFFEES " +
+                        "SET PRICE = ? " +
+                        "WHERE COF_NAME = ?");
+            pstmt.setFloat(1, price);
+            pstmt.setString(2, cofName);
+            pstmt.executeUpdate();
+
+            con.commit();
+            pstmt.close();
+
+        } finally {
+            if (con != null) con.close();
+        }
+    }
+
+    private DataSource ds = null;
+    private Context ctx = null;
+}
+
+public static void printSQLException(SQLException ex) {
+    for (Throwable e : ex) {
+        if (e instanceof SQLException) {
+            if (ignoreSQLException(
+                ((SQLException)e).
+                getSQLState()) == false) {
+
+                e.printStackTrace(System.err);
+                System.err.println("SQLState: " +
+                    ((SQLException)e).getSQLState());
+
+                System.err.println("Error Code: " +
+                    ((SQLException)e).getErrorCode());
+
+                System.err.println("Message: " + e.getMessage());
+
+                Throwable t = ex.getCause();
+                while(t != null) {
+                    System.out.println("Cause: " + t);
+                    t = t.getCause();
+                }
+            }
+        }
+    }
+}
+public static void getWarningsFromResultSet(ResultSet rs)
+    throws SQLException {
+    JDBCTutorialUtilities.printWarnings(rs.getWarnings());
+}
+
+public static void getWarningsFromStatement(Statement stmt)
+    throws SQLException {
+    JDBCTutorialUtilities.printWarnings(stmt.getWarnings());
+}
+
+public static void printWarnings(SQLWarning warning)
+    throws SQLException {
+
+    if (warning != null) {
+        System.out.println("\n---Warning---\n");
+
+    while (warning != null) {
+        System.out.println("Message: " + warning.getMessage());
+        System.out.println("SQLState: " + warning.getSQLState());
+        System.out.print("Vendor error code: ");
+        System.out.println(warning.getErrorCode());
+        System.out.println("");
+        warning = warning.getNextWarning();
+    }
+}
+
+注： 并非所有 JDBC 驱动程序和数据库都支持可保持和不可保持游标。以下方法 ， 输出对象的缺省游标保持性以及是否支持
+public static void cursorHoldabilitySupport(Connection conn)
+    throws SQLException {
+
+    DatabaseMetaData dbMetaData = conn.getMetaData();
+    System.out.println("ResultSet.HOLD_CURSORS_OVER_COMMIT = " +
+        ResultSet.HOLD_CURSORS_OVER_COMMIT);
+
+    System.out.println("ResultSet.CLOSE_CURSORS_AT_COMMIT = " +
+        ResultSet.CLOSE_CURSORS_AT_COMMIT);
+
+    System.out.println("Default cursor holdability: " +
+        dbMetaData.getResultSetHoldability());
+
+    System.out.println("Supports HOLD_CURSORS_OVER_COMMIT? " +
+        dbMetaData.supportsResultSetHoldability(
+            ResultSet.HOLD_CURSORS_OVER_COMMIT));
+
+    System.out.println("Supports CLOSE_CURSORS_AT_COMMIT? " +
+        dbMetaData.supportsResultSetHoldability(
+            ResultSet.CLOSE_CURSORS_AT_COMMIT));
+}
+如前所述，您可以通过游标访问对象中的数据，游标指向对象中的一行。但是，首次创建对象时，游标位于第一行之前。该方法通过调用该方法移动光标。
+还有其他方法可用于移动游标： ResultSet
+next：将光标向前移动一行。如果游标现在位于某一行上，并且游标位于最后一行之后，则返回。true|false
+previous：将光标向后移动一行。如果游标现在位于某一行上，并且游标位于第一行之前，则返回。true|false
+first：将光标移动到对象中的第一行。如果游标现在位于第一行上，并且对象不包含任何行，则返回。
+last:：将光标移动到对象中的最后一行。如果游标现在位于最后一行，并且对象不包含任何行，则返回。
+beforeFirst：将光标定位在对象的开头，在第一行之前。如果对象不包含任何行，则此方法不起作用。
+afterLast：将光标定位在对象的末尾，在最后一行之后。如果对象不包含任何行，则此方法不起作用。
+relative(int rows)：相对于光标的当前位置移动光标。
+absolute(int row)：将光标定位在参数 指定的行上。
+
+使用语句对象进行批量更新
+  public void batchUpdate() throws SQLException {
+    con.setAutoCommit(false);
+    try (Statement stmt = con.createStatement()) {
+
+      stmt.addBatch("INSERT INTO COFFEES " +
+                    "VALUES('Amaretto', 49, 9.99, 0, 0)");
+      stmt.addBatch("INSERT INTO COFFEES " +
+                    "VALUES('Hazelnut', 49, 9.99, 0, 0)");
+      stmt.addBatch("INSERT INTO COFFEES " +
+                    "VALUES('Amaretto_decaf', 49, 10.99, 0, 0)");
+      stmt.addBatch("INSERT INTO COFFEES " +
+                    "VALUES('Hazelnut_decaf', 49, 10.99, 0, 0)");
+
+      int[] updateCounts = stmt.executeBatch();
+      con.commit();
+    } catch (BatchUpdateException b) {
+      JDBCTutorialUtilities.printBatchUpdateException(b);
+    } catch (SQLException ex) {
+      JDBCTutorialUtilities.printSQLException(ex);
+    } finally {
+      con.setAutoCommit(true);
+    }
+  }
+
+执行参数化批量更新
+con.setAutoCommit(false);
+PreparedStatement pstmt = con.prepareStatement(
+                              "INSERT INTO COFFEES VALUES( " +
+                              "?, ?, ?, ?, ?)");
+pstmt.setString(1, "Amaretto");
+pstmt.setInt(2, 49);
+pstmt.setFloat(3, 9.99);
+pstmt.setInt(4, 0);
+pstmt.setInt(5, 0);
+pstmt.addBatch();
+
+pstmt.setString(1, "Hazelnut");
+pstmt.setInt(2, 49);
+pstmt.setFloat(3, 9.99);
+pstmt.setInt(4, 0);
+pstmt.setInt(5, 0);
+pstmt.addBatch();
+
+// ... and so on for each new
+// type of coffee
+
+int[] updateCounts = pstmt.executeBatch();
+con.commit();
+
+ public static void printBatchUpdateException(BatchUpdateException b) {
+    System.err.println("----BatchUpdateException----");
+    System.err.println("SQLState:  " + b.getSQLState());
+    System.err.println("Message:  " + b.getMessage());
+    System.err.println("Vendor:  " + b.getErrorCode());
+    System.err.print("Update counts:  ");
+    int[] updateCounts = b.getUpdateCounts();
+    for (int i = 0; i < updateCounts.length; i++) {
+      System.err.print(updateCounts[i] + "   ");
+    }
+  }
+  在结果集对象中插入行
+  注意：并非所有 JDBC 驱动程序都支持使用接口插入新行。如果您尝试插入新行，但 JDBC 驱动程序数据库不支持此功能，那么将引发异常
+    public void insertRow(String coffeeName, int supplierID, float price,
+                          int sales, int total) throws SQLException {
+
+      try (Statement stmt =
+            con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE))
+      {
+        ResultSet uprs = stmt.executeQuery("SELECT * FROM COFFEES");
+        uprs.moveToInsertRow();
+        uprs.updateString("COF_NAME", coffeeName);
+        uprs.updateInt("SUP_ID", supplierID);
+        uprs.updateFloat("PRICE", price);
+        uprs.updateInt("SALES", sales);
+        uprs.updateInt("TOTAL", total);
+
+        uprs.insertRow();
+        uprs.beforeFirst();
+      } catch (SQLException e) {
+        JDBCTutorialUtilities.printSQLException(e);
+      }
+    }
+
+--事务控制
+ public void modifyPricesByPercentage(
+    String coffeeName,
+    float priceModifier,
+    float maximumPrice) throws SQLException {
+    con.setAutoCommit(false);
+    ResultSet rs = null;
+    String priceQuery = "SELECT COF_NAME, PRICE FROM COFFEES " +
+                        "WHERE COF_NAME = ?";
+    String updateQuery = "UPDATE COFFEES SET PRICE = ? " +
+                         "WHERE COF_NAME = ?";
+    try (PreparedStatement getPrice = con.prepareStatement(priceQuery, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+         PreparedStatement updatePrice = con.prepareStatement(updateQuery))
+    {
+      Savepoint save1 = con.setSavepoint();
+      getPrice.setString(1, coffeeName);
+      if (!getPrice.execute()) {
+        System.out.println("Could not find entry for coffee named " + coffeeName);
+      } else {
+        rs = getPrice.getResultSet();
+        rs.first();
+        float oldPrice = rs.getFloat("PRICE");
+        float newPrice = oldPrice + (oldPrice * priceModifier);
+        System.out.printf("Old price of %s is $%.2f%n", coffeeName, oldPrice);
+        System.out.printf("New price of %s is $%.2f%n", coffeeName, newPrice);
+        System.out.println("Performing update...");
+        updatePrice.setFloat(1, newPrice);
+        updatePrice.setString(2, coffeeName);
+        updatePrice.executeUpdate();
+        System.out.println("\nCOFFEES table after update:");
+        CoffeesTable.viewTable(con);
+        if (newPrice > maximumPrice) {
+          System.out.printf("The new price, $%.2f, is greater " +
+                            "than the maximum price, $%.2f. " +
+                            "Rolling back the transaction...%n",
+                            newPrice, maximumPrice);
+          con.rollback(save1);
+          System.out.println("\nCOFFEES table after rollback:");
+          CoffeesTable.viewTable(con);
+        }
+        con.commit();
+      }
+    } catch (SQLException e) {
+      JDBCTutorialUtilities.printSQLException(e);
+    } finally {
+      con.setAutoCommit(true);
+    }
+  }
+  以下语句指定在调用该方法时关闭从查询生成的对象的游标。请注意，如果您的 DBM 不支持 ，则忽略此常量
+  getPrice = con.prepareStatement(query, ResultSet.CLOSE_CURSORS_AT_COMMIT);
+  该方法首先创建 具有以下语句的 a：Savepoint
+  Savepoint save1 = con.setSavepoint();
+  该方法检查新价格是否大于该值。如果是这样，该方法将使用以下语句回滚事务：
+  con.rollback(save1);
+  因此，当该方法通过调用该方法提交事务时，它不会提交其关联的任何行已被回滚;它将提交所有其他更新的行。Connection.commitSavepoint
+
+  释放保存点
+  Connection.releaseSavepoint 方法将 Savepoint 对象作为参数并将其从当前事务中删除。
+   释放保存点后，尝试在回滚操作中引用它会引发 SQLException。
+   在事务中创建的任何保存点都会在事务提交或整个事务回滚时自动释放并失效。
+   将事务回滚到保存点会自动释放在相关保存点之后创建的任何其他保存点并使其无效。
+
+
+创建 JdbcRowSet
+username：用户在获取访问权限时提供给数据库的名称
+password：用户的数据库密码
+url：用户要连接到的数据库的 JDBC URL
+datasourceName：用于检索已向 JNDI 命名服务注册的数据源对象的名称
+
+  : createCachedRowSet
+  : createFilteredRowSet
+  : createJdbcRowSet
+  : createJoinRowSet
+  : createWebRowSet
+       RowSetFactory factory = RowSetProvider.newFactory();
+       try (JdbcRowSet jdbcRs = factory.createJdbcRowSet()) {
+         jdbcRs.setUrl(this.settings.urlString);
+         jdbcRs.setUsername(this.settings.userName);
+         jdbcRs.setPassword(this.settings.password);
+         jdbcRs.setCommand("select * from COFFEES");
+         jdbcRs.execute();
+         // ...
+jdbcRs.absolute(3);
+jdbcRs.updateFloat("PRICE", 10.99f);
+jdbcRs.updateRow();
+jdbcRs.moveToInsertRow();
+jdbcRs.updateString("COF_NAME", "HouseBlend");
+jdbcRs.updateInt("SUP_ID", 49);
+jdbcRs.updateFloat("PRICE", 7.99f);
+jdbcRs.updateInt("SALES", 0);
+jdbcRs.updateInt("TOTAL", 0);
+jdbcRs.insertRow();
+
+jdbcRs.moveToInsertRow();
+jdbcRs.updateString("COF_NAME", "HouseDecaf");
+jdbcRs.updateInt("SUP_ID", 49);
+jdbcRs.updateFloat("PRICE", 8.99f);
+jdbcRs.updateInt("SALES", 0);
+jdbcRs.updateInt("TOTAL", 0);
+jdbcRs.insertRow();
+
+jdbcRs.last();
+jdbcRs.deleteRow();
+
+使用 CachedRowSet
+对象的特殊之处在于它可以在不连接到其数据源的情况下运行，也就是说，它是一个断开连接的对象
+。它之所以得名，是因为它将数据存储（缓存）在内存中，以便它可以对自己的数据进行操作，而不是对存储在数据库中的数据进行操作。
+RowSetFactory factory = RowSetProvider.newFactory();
+CachedRowSet crs = factory.createCachedRowSet();
+      while (crs.next()) {
+          System.out.println("Found item " + crs.getInt("ITEM_ID") + ": " +
+                             crs.getString("ITEM_NAME"));
+          if (crs.getInt("ITEM_ID") == 1235) {
+            int currentQuantity = crs.getInt("QUAN") + 1;
+            System.out.println("Updating quantity to " + currentQuantity);
+            crs.updateInt("QUAN", currentQuantity + 1);
+            crs.updateRow();
+            // Syncing the row back to the DB
+            crs.acceptChanges(con);
+          }
+        }
+        crs.moveToInsertRow();
+        crs.updateInt("ITEM_ID", newItemId);
+        crs.updateString("ITEM_NAME", "TableCloth");
+        crs.updateInt("SUP_ID", 927);
+        crs.updateInt("QUAN", 14);
+        Calendar timeStamp;
+        timeStamp = new GregorianCalendar();
+        timeStamp.set(2006, 4, 1);
+        crs.updateTimestamp(
+            "DATE_VAL",
+            new Timestamp(timeStamp.getTimeInMillis()));
+        crs.insertRow();
+        crs.moveToCurrentRow();
+
+        更新数据源  crs.acceptChanges();
+        使用同步对象
+           try {
+               // ...
+               // Syncing the new row back to the database.
+               System.out.println("About to add a new row...");
+               crs.acceptChanges(con);
+               System.out.println("Added a row...");
+               this.viewTable(con);
+               // ...
+           } catch (SyncProviderException spe) {
+
+             SyncResolver resolver = spe.getSyncResolver();
+
+             Object crsValue; // value in the RowSet object
+             Object resolverValue; // value in the SyncResolver object
+             Object resolvedValue; // value to be persisted
+
+             while (resolver.nextConflict()) {
+
+               if (resolver.getStatus() == SyncResolver.INSERT_ROW_CONFLICT) {
+                 int row = resolver.getRow();
+                 crs.absolute(row);
+
+                 int colCount = crs.getMetaData().getColumnCount();
+                 for (int j = 1; j <= colCount; j++) {
+                   if (resolver.getConflictValue(j) != null) {
+                     crsValue = crs.getObject(j);
+                     resolverValue = resolver.getConflictValue(j);
+                     // Compare crsValue and resolverValue to determine
+                     // which should be the resolved value (the value to persist)
+                     // This example chooses the value in the RowSet object,
+                     // crsValue, to persist.,
+
+                     resolvedValue = crsValue;
+                     resolver.setResolvedValue(j, resolvedValue);
+                   }
+                 }
+               }
+             }
+           }
+
+      将大型对象类型对象添加到数据库
+        public void addRowToCoffeeDescriptions(String coffeeName,
+                                               String fileName) throws SQLException {
+          String sql = "INSERT INTO COFFEE_DESCRIPTIONS VALUES(?,?)";
+          Clob myClob = this.con.createClob();
+          try (PreparedStatement pstmt = this.con.prepareStatement(sql);
+            Writer clobWriter = myClob.setCharacterStream(1);){
+            String str = this.readFile(fileName, clobWriter);
+            System.out.println("Wrote the following: " + clobWriter.toString());
+            if (this.settings.dbms.equals("mysql")) {
+              System.out.println("MySQL, setting String in Clob object with setString method");
+              myClob.setString(1, str);
+            }
+            System.out.println("Length of Clob: " + myClob.length());
+            pstmt.setString(1, coffeeName);
+            pstmt.setClob(2, myClob);
+            pstmt.executeUpdate();
+          } catch (SQLException sqlex) {
+            JDBCTutorialUtilities.printSQLException(sqlex);
+          } catch (Exception ex) {
+            System.out.println("Unexpected exception: " + ex.toString());
+          }
+        }
+
+        Writer clobWriter = myClob.setCharacterStream(1);
+          private String readFile(String fileName, Writer writerArg) throws IOException {
+            try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+              String nextLine = "";
+              StringBuffer sb = new StringBuffer();
+              while ((nextLine = br.readLine()) != null) {
+                System.out.println("Writing: " + nextLine);
+                writerArg.write(nextLine);
+                sb.append(nextLine);
+              }
+              // Convert the content into to a string
+              String clobData = sb.toString();
+        	  // Return the data.
+              return clobData;
+        	}
+          }
+检索 CLOB 值
+  public String retrieveExcerpt(String coffeeName,
+                                int numChar) throws SQLException {
+    String description = null;
+    Clob myClob = null;
+    String sql = "select COF_DESC from COFFEE_DESCRIPTIONS where COF_NAME = ?";
+
+    try (PreparedStatement pstmt = this.con.prepareStatement(sql)) {
+      pstmt.setString(1, coffeeName);
+      ResultSet rs = pstmt.executeQuery();
+      if (rs.next()) {
+        myClob = rs.getClob(1);
+        System.out.println("Length of retrieved Clob: " + myClob.length());
+      }
+      description = myClob.getSubString(1, numChar);
+    } catch (SQLException sqlex) {
+      JDBCTutorialUtilities.printSQLException(sqlex);
+    } catch (Exception ex) {
+      System.out.println("Unexpected exception: " + ex.toString());
+    }
+    return description;
+  }
+  释放大型对象持有的资源
+  Clob aClob = con.createClob();
+  int numWritten = aClob.setString(1, val);
+  aClob.free();
+
+  使用 SQLXML 对象
+  Connection con = DriverManager.getConnection(url, props);
+  SQLXML xmlVal = con.createSQLXML();
+  xmlVal.setString(val);
+在 ResultSet 中检索 SQLXML 值
+  SQLXML xmlVar = rs.getSQLXML(1);
+  访问 SQLXML 对象数据
+  SQLXML xmlVal= rs.getSQLXML(1);
+  String val = xmlVal.getString();
+
+  SQLXML sqlxml = rs.getSQLXML(column);
+  InputStream binaryStream = sqlxml.getBinaryStream();
+  DocumentBuilder parser =
+      DocumentBuilderFactory.newInstance().newDocumentBuilder();
+  Document result = parser.parse(binaryStream);
+
+  SQLXML xmlVal= rs.getSQLXML(1);
+  SAXSource saxSource = sqlxml.getSource(SAXSource.class);
+  XMLReader xmlReader = saxSource.getXMLReader();
+  xmlReader.setContentHandler(myHandler);
+  xmlReader.parse(saxSource.getInputSource());
+  初始化 SQLXML 对象
+  SQLXML sqlxml = con.createSQLXML();
+  SAXResult saxResult = sqlxml.setResult(SAXResult.class);
+  ContentHandler contentHandler = saxResult.getXMLReader().getContentHandler();
+  contentHandler.startDocument();
+  // set the XML elements and
+  // attributes into the result
+  contentHandler.endDocument();
+
+SQLXML sqlxml = con.createSQLXML();
+Writer out= sqlxml.setCharacterStream();
+BufferedReader in = new BufferedReader(new FileReader("xml/foo.xml"));
+String line = null;
+while((line = in.readLine() != null) {
+    out.write(line);
+}
+发布 SQLXML 资源
+在下面的摘录中，调用 以释放为以前创建的对象保留的资源。
+SQLXML xmlVar = con.createSQLXML();
+xmlVar.setString(val);
+xmlVar.free();
+
+
+String insertRowQuery =
+    "insert into RSS_FEEDS " +
+    "(RSS_NAME, RSS_FEED_XML) values " +
+    "(?, ?)";
+insertRow = con.prepareStatement(insertRowQuery);
+insertRow.setString(1, titleString);
+
+System.out.println("Creating SQLXML object with MySQL");
+rssData = con.createSQLXML();
+System.out.println("Creating DOMResult object");
+DOMResult dom = (DOMResult)rssData.setResult(DOMResult.class);
+dom.setNode(doc);
+
+insertRow.setSQLXML(2, rssData);
+System.out.println("Running executeUpdate()");
+insertRow.executeUpdate();
+
+创建数组对象
+insert into REGIONS values(
+    'Southwest',
+    '{"94105", "90049", "92027"}');
+Connection con = DriverManager.getConnection(url, props);
+String [] northEastRegion = { "10022", "02110", "07399" };
+Array anArray = con.createArrayOf("VARCHAR", northEastRegion);
+
+
+ResultSet rs = stmt.executeQuery(
+    "SELECT region_name, zips FROM REGIONS");
+
+while (rs.next()) {
+    Array z = rs.getArray("ZIPS");
+    String[] zips = (String[])z.getArray();
+    for (int i = 0; i < zips.length; i++) {
+        if (!ZipCode.isValid(zips[i])) {
+            // ...
+            // Code to display warning
+        }
+    }
+}
+释放阵列资源
+Array aArray = con.createArrayOf("VARCHAR", northEastRegionnewYork);
+// ...
+aArray.free();
+
+
+行 Id 有效性的生存期
+public static void rowIdLifetime(Connection conn)
+    throws SQLException {
+
+    DatabaseMetaData dbMetaData = conn.getMetaData();
+    RowIdLifetime lifetime = dbMetaData.getRowIdLifetime();
+
+    switch (lifetime) {
+        case ROWID_UNSUPPORTED:
+            System.out.println("ROWID type not supported");
+            break;
+
+        case ROWID_VALID_FOREVER:
+            System.out.println("ROWID has unlimited lifetime");
+            break;
+
+        case ROWID_VALID_OTHER:
+            System.out.println("ROWID has indeterminate lifetime");
+            break;
+
+        case ROWID_VALID_SESSION:
+            System.out.println(
+                "ROWID type has lifetime that " +
+                "is valid for at least the " +
+                "containing session");
+            break;
+
+        case ROWID_VALID_TRANSACTION:
+            System.out.println(
+                "ROWID type has lifetime that " +
+                "is valid for at least the " +
+                "containing transaction");
+            break;
+    }
+}
+
+存储过程生成一个结果集
+CallableStatement cs = null;
+cs = this.con.prepareCall("{call SHOW_SUPPLIERS}");
+ResultSet rs = cs.executeQuery();
+
+cs = this.con.prepareCall("{call GET_SUPPLIER_OF_COFFEE(?, ?)}");
+cs.setString(1, coffeeNameArg);
+cs.registerOutParameter(2, Types.VARCHAR);
+cs.executeQuery();
