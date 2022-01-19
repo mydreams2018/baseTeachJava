@@ -1,6 +1,7 @@
 package jdbc;
 
 import java.sql.*;
+import java.util.Arrays;
 import java.util.Properties;
 
 public class JbdcTest {
@@ -24,7 +25,9 @@ public class JbdcTest {
         //数据库的元数据
         DatabaseMetaData metaData = connection.getMetaData();
 //        query();
-        query2();
+//        query2();
+//        insert();
+        updateBatch();
     }
 
     public static void query(){
@@ -88,6 +91,45 @@ public class JbdcTest {
                 System.out.println("count:"+statement.getUpdateCount());
             }
 
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
+    public static void insert(){
+        try(Statement statement = connection.createStatement()){
+            int num = statement.executeUpdate("insert into user_collect (user_account, class_id,port_id,collect_time,port_title)values ('qepau886','1','2','2021-12-16','CCCCCC')"
+                                     ,Statement.RETURN_GENERATED_KEYS);
+                System.out.println("count:"+num);
+                ResultSet generatedKeys = statement.getGeneratedKeys();
+                ResultSetMetaData metaData = generatedKeys.getMetaData();
+                for(int x=1;x<=metaData.getColumnCount();x++){
+                    System.out.println(metaData.getColumnClassName(x));
+                    System.out.println(metaData.getColumnName(x));
+                    System.out.println(metaData.getColumnDisplaySize(x));
+                }
+                //数据信息
+                while (generatedKeys.next()){
+                    System.out.print(generatedKeys.getString(1));
+                }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
+    public static void updateBatch(){
+        try(Statement statement = connection.createStatement()){
+            statement.addBatch("insert into user_collect (user_account, class_id,port_id,collect_time,port_title)values ('qepau886','1','2','2021-12-16','CCCCCC')");
+            statement.addBatch("insert into user_collect (user_account, class_id,port_id,collect_time,port_title)values ('qepau886','1','2','2021-12-16','CCCCCC')");
+            statement.addBatch("insert into user_collect (user_account, class_id,port_id,collect_time,port_title)values ('qepau886','1','2','2021-12-16','CCCCCC')");
+            statement.addBatch("insert into user_collect (user_account, class_id,port_id,collect_time,port_title)values ('qepau886','1','2','2021-12-16','CCCCCC')");
+            statement.addBatch("insert into user_collect (user_account, class_id,port_id,collect_time,port_title)values ('qepau886','1','2','2021-12-16','CCCCCC')");
+            int[] ints = statement.executeBatch();
+            System.out.println(Arrays.toString(ints));
+            statement.clearBatch();
         }catch (Exception e){
             e.printStackTrace();
         }
