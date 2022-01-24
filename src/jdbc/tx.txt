@@ -1,3 +1,17 @@
 "C:\Program Files\Java\jdk-11.0.5\bin\java.exe"
 -Dfile.encoding=UTF-8
 -classpath C:\Users\kungreat\IdeaProjects\baseTeachJava\out\production\baseTeachJava;C:\Users\kungreat\.m2\repository\commons-codec\commons-codec\1.11\commons-codec-1.11.jar;C:\Users\kungreat\.m2\repository\junit\junit\4.12\junit-4.12.jar;C:\Users\kungreat\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;C:\Users\kungreat\IdeaProjects\baseTeachJava\src\utils\lib\bcpkix-jdk15on-1.59.jar;C:\Users\kungreat\IdeaProjects\baseTeachJava\src\utils\lib\bcprov-jdk15on-1.68.jar;C:\Users\kungreat\.m2\repository\mysql\mysql-connector-java\8.0.15\mysql-connector-java-8.0.15.jar jdbc.JbdcTest
+
+select * from user_message where user_account='kungreat' and user_password='6666';
+
+# select * from user_message where user_account=? and user_password=?;
+
+select * from user_message where user_account='kungreat' and user_password='12121';
+# sql注入
+select * from user_message where user_account='kungreat' and user_password='1' or 1=1;
+
+# sql注入 传入数据时通过特别的方式,修改了原sql表达示的语义
+# alter user 'root'@'localhost' identified by 'yjssaje';
+
+select * from user_message where user_account='kungreat' and user_password=1 or 1=1;
+# insert into user_message(user_account, user_password, user_phone) value ('kungreat','6666',123456789012);
