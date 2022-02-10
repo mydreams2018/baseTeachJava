@@ -174,4 +174,42 @@ public class JbdcTest {
         }
 
     }
+
+    public static void sqlInject(){
+        try(Statement statement = connection.createStatement()){
+            String userAccount = "kungreat";
+            String passWord = "2112' or '1'='1";
+            String sql = "select * from user_message where user_account='"+userAccount+"' and user_password='"+passWord+"'";
+            ResultSet resultSet = statement.executeQuery(sql);
+            //数据信息
+            while (resultSet.next()){
+                System.out.print(resultSet.getString(1)+" ");
+                System.out.print(resultSet.getString(2)+" ");
+                System.out.print(resultSet.getString(3)+" ");
+                System.out.println();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public static void sqlInjectPrepared(){
+        try(PreparedStatement statement = connection.prepareStatement("select * from user_message where user_account=? and user_password=?")){
+            String userAccount = "kungreat";
+            String passWord = "2112 or 1=1";
+            statement.setString(1,userAccount);
+            statement.setString(2,passWord);
+            ResultSet resultSet = statement.executeQuery();
+            //数据信息
+            while (resultSet.next()){
+                System.out.print(resultSet.getString(1)+" ");
+                System.out.print(resultSet.getString(2)+" ");
+                System.out.print(resultSet.getString(3)+" ");
+                System.out.println();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
 }
