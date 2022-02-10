@@ -27,7 +27,46 @@ public class JbdcTest {
 //        query();
 //        query2();
 //        insert();
-        updateBatch();
+//        updateBatch();
+//        sqlInject();
+        sqlPreparedInject();
+    }
+
+    private static void sqlInject() {
+        try(Statement statement = connection.createStatement()){
+            String account = "qepau888";
+            String password = "1 or account='qepau888'";
+            String sql = "select * from user where account='"+account+"' and password="+password;
+            ResultSet resultSet = statement.executeQuery(sql);
+            //数据信息
+            while (resultSet.next()){
+                System.out.print(resultSet.getString(1)+" ");
+                System.out.print(resultSet.getString(2)+" ");
+                System.out.print(resultSet.getString(3)+" ");
+                System.out.println();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    private static void sqlPreparedInject() {
+        try(PreparedStatement preparedStatement = connection.prepareStatement("select * from user where account=? and password=?")){
+            String account = "qepau888";
+            String password = "6666";
+            preparedStatement.setString(1,account);
+            preparedStatement.setString(2,password);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            //数据信息
+            while (resultSet.next()){
+                System.out.print(resultSet.getString(1)+" ");
+                System.out.print(resultSet.getString(2)+" ");
+                System.out.print(resultSet.getString(3)+" ");
+                System.out.println();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public static void query(){
