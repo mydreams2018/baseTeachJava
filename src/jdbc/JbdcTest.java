@@ -29,7 +29,47 @@ public class JbdcTest {
 //        insert();
 //        updateBatch();
 //        sqlInject();
-        sqlPreparedInject();
+//        sqlPreparedInject();
+//        updatePreparedBatch();
+//        PreparedExecute();
+        PreparedUpdate();
+    }
+
+    private static void PreparedExecute()  {
+        try(PreparedStatement prepareStatement = connection.prepareStatement("select * from user_collect where id=?")){
+            prepareStatement.setInt(1,1);
+            boolean isResultSet = prepareStatement.execute();
+            if(isResultSet){
+                ResultSet resultSet = prepareStatement.getResultSet();
+                //返回的表结构信息
+//            ResultSetMetaData metaData = resultSet.getMetaData();
+//            for(int x=1;x<=metaData.getColumnCount();x++){
+//                System.out.println(metaData.getColumnClassName(x));
+//                System.out.println(metaData.getColumnName(x));
+//                System.out.println(metaData.getColumnDisplaySize(x));
+//            }
+                ResultSetMetaData metaData = prepareStatement.getMetaData();
+                for(int x=1;x<=metaData.getColumnCount();x++){
+                    System.out.println(metaData.getColumnClassName(x));
+                    System.out.println(metaData.getColumnName(x));
+                    System.out.println(metaData.getColumnDisplaySize(x));
+                }
+                //数据信息
+                while (resultSet.next()){
+                    System.out.print(resultSet.getString(1)+" ");
+                    System.out.print(resultSet.getString(2)+" ");
+                    System.out.print(resultSet.getString(3)+" ");
+                    System.out.println();
+                }
+
+                System.out.println(prepareStatement.getMoreResults());
+            }else{
+                System.out.println("count:"+prepareStatement.getUpdateCount());
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     private static void sqlInject() {
@@ -175,4 +215,52 @@ public class JbdcTest {
 
     }
 
+    public static void updatePreparedBatch(){
+        try(PreparedStatement statement = connection.prepareStatement("insert into user_collect (user_account, class_id,port_id,collect_time,port_title) values (?,?,?,?,?)",Statement.RETURN_GENERATED_KEYS)){
+            statement.setString(1,"qepau888");
+            statement.setInt(2,56);
+            statement.setInt(3,56);
+            statement.setString(4,"2022-02-02");
+            statement.setString(5,"test");
+            statement.addBatch();
+            statement.setString(1,"qepau666");
+            statement.setInt(2,56);
+            statement.setInt(3,56);
+            statement.setString(4,"2022-02-02");
+            statement.setString(5,"test");
+            statement.addBatch();
+            int[] ints = statement.executeBatch();
+            System.out.println(Arrays.toString(ints));
+            statement.clearBatch();
+
+            ResultSet generatedKeys = statement.getGeneratedKeys();
+            ResultSetMetaData metaData = generatedKeys.getMetaData();
+            for(int x=1;x<=metaData.getColumnCount();x++){
+                System.out.println(metaData.getColumnClassName(x));
+                System.out.println(metaData.getColumnName(x));
+                System.out.println(metaData.getColumnDisplaySize(x));
+            }
+            //数据信息
+            while (generatedKeys.next()){
+                System.out.println(generatedKeys.getString(1));
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
+    public static void PreparedUpdate(){
+        try(PreparedStatement statement = connection.prepareStatement("UPDATE user_collect SET user_account = ? WHERE id = ?")){
+            statement.setString(1,"6666666");
+            statement.setInt(2,1);
+            int i = statement.executeUpdate();
+            System.out.println(i);
+
+            ResultSet resultSet = statement.getResultSet();
+            System.out.println(resultSet);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 }
