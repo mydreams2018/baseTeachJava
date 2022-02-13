@@ -32,7 +32,32 @@ public class JbdcTest {
 //        sqlPreparedInject();
 //        updatePreparedBatch();
 //        PreparedExecute();
-        PreparedUpdate();
+//        PreparedUpdate();
+        callProcedure();
+    }
+
+    private static void callProcedure() {
+        try(CallableStatement callableStatement = connection.prepareCall("{CALL proTest(?,?)}")){
+            callableStatement.setString(1,"qepau666");
+            callableStatement.registerOutParameter(2,Types.INTEGER);
+            boolean isResultSet = callableStatement.execute();
+            if(isResultSet){
+                ResultSet resultSet = callableStatement.getResultSet();
+                //数据信息
+                while (resultSet.next()){
+                    System.out.print(resultSet.getString(2)+" ");
+                    System.out.print(resultSet.getString(5)+" ");
+                    System.out.print(resultSet.getString(6)+" ");
+                    System.out.println();
+                }
+                System.out.println(callableStatement.getMoreResults());
+            }else{
+                System.out.println("count:"+callableStatement.getUpdateCount());
+            }
+            System.out.println(callableStatement.getInt(2));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     private static void PreparedExecute()  {
