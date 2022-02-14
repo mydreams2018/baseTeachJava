@@ -33,7 +33,22 @@ public class JbdcTest {
 //        updatePreparedBatch();
 //        PreparedExecute();
 //        PreparedUpdate();
-        callProcedure();
+//        callProcedure();
+        transactionsTest();
+    }
+
+    private static void transactionsTest() throws Exception {
+        connection.setAutoCommit(false);
+        insert();
+        Savepoint savepoint1 = connection.setSavepoint();//节点1
+        insert();
+        Savepoint savepoint2 = connection.setSavepoint();//节点2
+        insert();
+        Savepoint savepoint3 = connection.setSavepoint();//节点3
+//        connection.rollback();
+        connection.releaseSavepoint(savepoint1);//从当前事务中删除指定的 Savepoint 和后续 Savepoint 对象。 Mysql 8.X空方法
+        connection.rollback(savepoint1);
+        connection.commit();
     }
 
     private static void callProcedure() {
