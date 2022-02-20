@@ -1,5 +1,6 @@
 package jdbc;
 
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.Arrays;
 import java.util.Properties;
@@ -7,12 +8,16 @@ import java.util.Properties;
 public class JbdcTest {
 
     static Connection connection ;
+    static Connection connection2 ;
     static {
         Properties properties = new Properties();
         properties.setProperty("user","root");
         properties.setProperty("password","yjssaje");
         try {
             JbdcTest.connection = DriverManager.getConnection(
+                    "jdbc:mysql://127.0.0.1:3306/flybbs?useSSL=true&serverTimezone=GMT%2B8",
+                    properties);
+            JbdcTest.connection2 = DriverManager.getConnection(
                     "jdbc:mysql://127.0.0.1:3306/flybbs?useSSL=true&serverTimezone=GMT%2B8",
                     properties);
         } catch (SQLException throwables) {
@@ -34,7 +39,74 @@ public class JbdcTest {
 //        PreparedExecute();
 //        PreparedUpdate();
 //        callProcedure();
-        transactionsTest();
+//        transactionsTest();
+        transactionsLevel();
+    }
+//悲观锁 for update  乐观锁
+    private static void transactionsLevel() throws Exception {
+//        System.out.println(connection.getTransactionIsolation());
+        new Thread(()-> {
+            try {
+                levelTestB(connection2);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
+        levelTestA(connection);
+    }
+
+    private static void levelTestA(Connection con) throws Exception {
+        con.setAutoCommit(false);//关闭自动提交事务
+        try(Statement statement = con.createStatement()){
+            ResultSet resultSet = statement.executeQuery("select * from money_temp where id=1");
+            System.out.println("levelTestA-start");
+            Thread.sleep(2000);
+            BigDecimal bigDecimal = BigDecimal.ZERO;
+            int version = 0;
+            //数据信息
+            while (resultSet.next()){
+                bigDecimal =  resultSet.getBigDecimal("cur_money");
+                version =  resultSet.getInt("cur_version");
+            }
+            int curVersion = version+1;
+            BigDecimal money = bigDecimal.subtract(new BigDecimal("500"));//-500
+            String sql ="update money_temp set cur_money=" + money.toString()+
+                    ", cur_version="+curVersion+" where id=1 and cur_version="+version;
+            System.out.println(sql);
+            int i = statement.executeUpdate(sql);
+            System.out.println("levelTestA-end-"+i);
+            con.commit();//提交事务
+        }catch (Exception e){
+            e.printStackTrace();
+            con.rollback();//异常回滚事务
+        }
+    }
+
+    private static void levelTestB(Connection con) throws Exception {
+        con.setAutoCommit(false);
+        try(Statement statement = con.createStatement()){
+            ResultSet resultSet = statement.executeQuery("select * from money_temp where id=1");
+            System.out.println("levelTestB-start");
+            Thread.sleep(2000);
+            BigDecimal bigDecimal = BigDecimal.ZERO;
+            int version = 0;
+            //数据信息
+            while (resultSet.next()){
+                bigDecimal =  resultSet.getBigDecimal("cur_money");
+                version =  resultSet.getInt("cur_version");
+            }
+            int curVersion = version + 1;
+            BigDecimal money = bigDecimal.subtract(new BigDecimal("300"));//-300
+            String sql ="update money_temp set cur_money=" + money.toString()+
+                    ", cur_version="+curVersion+" where id=1 and cur_version="+version;
+            System.out.println(sql);
+            int i = statement.executeUpdate(sql);
+            System.out.println("levelTestB-end-"+i);
+            con.commit();
+        }catch (Exception e){
+            e.printStackTrace();
+            con.rollback();
+        }
     }
 
     private static void transactionsTest() throws Exception {
