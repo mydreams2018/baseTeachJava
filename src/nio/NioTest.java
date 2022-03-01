@@ -46,6 +46,7 @@ public class NioTest {
     }
 
     public static void runServer(SelectionKey next,Selector selector){
+        System.out.println("runserver");
         try {
             SelectableChannel channel = next.channel();
             if(next.isValid() && next.isAcceptable()){
@@ -55,7 +56,7 @@ public class NioTest {
                     System.out.println("accept");
                     accept.configureBlocking(false);
                     accept.register(selector,SelectionKey.OP_CONNECT|
-                            SelectionKey.OP_READ|SelectionKey.OP_WRITE);
+                            SelectionKey.OP_READ);
                 }else{
                     System.out.println("error");
                 }
@@ -64,6 +65,14 @@ public class NioTest {
             }else if(next.isValid() && next.isReadable()){
                 System.out.println("readable");
                 SocketChannel clientChannel = (SocketChannel) channel;
+
+                if(!clientChannel.isConnectionPending()){
+                    // 注意 服务关掉了
+                    System.out.println("服务关掉了");
+                    clientChannel.close();
+                    return;
+                }
+
                 int read = clientChannel.read(byteBuffer);
                 // read > 0 有数据  ==-1 表示流关闭  ==0 不管
                 while(read > 0){
