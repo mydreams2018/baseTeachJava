@@ -66,13 +66,6 @@ public class NioTest {
                 System.out.println("readable");
                 SocketChannel clientChannel = (SocketChannel) channel;
 
-                if(!clientChannel.isConnectionPending()){
-                    // 注意 服务关掉了
-                    System.out.println("服务关掉了");
-                    clientChannel.close();
-                    return;
-                }
-
                 int read = clientChannel.read(byteBuffer);
                 // read > 0 有数据  ==-1 表示流关闭  ==0 不管
                 while(read > 0){
