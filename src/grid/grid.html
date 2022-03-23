@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>网格布局</title>
+    <style>
+        span {
+            font-size: 2em;
+        }
+        /*
+        display: grid指定一个容器采用网格布局。 容器是块级
+        display: inline-grid;  但也可以设成 行内块 元素。
+
+        容器指定了网格布局以后，接着就要划分行和列。
+        grid-template-columns属性定义每一列的列宽
+        grid-template-rows属性定义每一行的行高  除了使用绝对单位，也可以使用百分比。
+        （1）repeat()
+        有时候，重复写同样的值非常麻烦，尤其网格很多时。这时，
+        可以使用repeat()函数，简化重复的值。上面的代码用repeat()改写如下。
+        接受两个参数，第一个参数是重复的次数（上例是3），第二个参数是所要重复的值。
+        也可以是 repeat(2, 100px 20px 80px);
+        */
+        #container{
+            display: inline-grid;
+            width: 600px;
+            grid-template-columns: 50px 30% 50px;
+            grid-template-rows:  repeat(3, 50px);
+        }
+
+        .item {
+            font-size: 2em;
+            text-align: center;
+            border: 1px solid #e5e4e9;
+        }
+
+        .item-1 {
+            background-color: #ef342a;
+        }
+
+        .item-2 {
+            background-color: #f68f26;
+        }
+
+        .item-3 {
+            background-color: #4ba946;
+        }
+
+        .item-4 {
+            background-color: #0376c2;
+        }
+
+        .item-5 {
+            background-color: #c077af;
+        }
+
+        .item-6 {
+            background-color: #f8d29d;
+        }
+
+        .item-7 {
+            background-color: #b5a87f;
+        }
+
+        .item-8 {
+            background-color: #d0e4a9;
+        }
+
+        .item-9 {
+            background-color: #4dc7ec;
+        }
+    </style>
+</head>
+<body>
+<span>foo</span>
+<div id="container">
+    <div class="item item-1">1</div>
+    <div class="item item-2">2</div>
+    <div class="item item-3">3</div>
+    <div class="item item-4">4</div>
+    <div class="item item-5">5</div>
+    <div class="item item-6">6</div>
+    <div class="item item-7">7</div>
+    <div class="item item-8">8</div>
+    <div class="item item-9">9</div>
+</div>
+<span>bar</span>
+</body>
+</html>

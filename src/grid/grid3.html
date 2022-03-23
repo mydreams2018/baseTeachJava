@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>网格布局</title>
+    <style>
+        span {
+            font-size: 2em;
+        }
+        /*
+        display: grid指定一个容器采用网格布局。 容器是块级
+        display: inline-grid;  但也可以设成 行内块 元素。
+
+        容器指定了网格布局以后，接着就要划分行和列。
+        grid-template-columns属性定义每一列的列宽
+        grid-template-rows属性定义每一行的行高  除了使用绝对单位，也可以使用百分比。
+        （1）repeat()
+        有时候，重复写同样的值非常麻烦，尤其网格很多时。这时，
+        可以使用repeat()函数，简化重复的值。上面的代码用repeat()改写如下。
+        接受两个参数，第一个参数是重复的次数（上例是3），第二个参数是所要重复的值。
+        也可以是 repeat(2, 100px 20px 80px);
+
+        （2）auto-fill 关键字
+        有时，单元格的大小是固定的，但是容器的大小不确定。
+        如果希望每一行（或每一列）容纳尽可能多的单元格，
+        这时可以使用auto-fill关键字表示自动填充。
+
+        （3）fr 关键字
+为了方便表示比例关系，网格布局提供了fr关键字（fraction 的缩写，意为"片段"）
+。如果两列的宽度分别为1fr和2fr，就表示后者是前者的两倍。
+                            第一个宽固定150px 多佘的宽第二个占1 第三个占2  [除去间距 当前多佘的宽总数3]
+    grid-template-columns: 150px 1fr 2fr;
+    minmax(100px, 1fr);
+    minmax()函数产生一个长度范围，表示长度就在这个范围之中。它接受两个参数，分别为最小值和最大值。
+
+    auto关键字表示由浏览器自己决定长度。
+
+    网格线的名称
+grid-template-columns属性和grid-template-rows属性里面，还可以使用方括号，指定每一根网格线的名字，方便以后的引用。
+.container {
+  display: grid;
+  grid-template-columns: [c1] 100px [c2] 100px [c3] auto [c4];
+  grid-template-rows: [r1] 100px [r2] 100px [r3] auto [r4];
+}
+上面代码指定网格布局为3行 x 3列，因此有4根垂直网格线和4根水平网格线。方括号里面依次是这八根线的名字。
+
+网格布局允许同一根线有多个名字，比如[fifth-line row-5]。
+
+grid-row-gap属性设置行与行的间隔（行间距），grid-column-gap属性设置列与列的间隔（列间距）。
+grid-gap属性是grid-column-gap和grid-row-gap的合并简写形式，语法如下。
+
+
+justify-items 属性，
+align-items 属性，
+place-items <align-items> <justify-items>; 属性
+
+justify-content 属性，
+align-content 属性，
+
+        */
+        #container{
+            display: inline-grid;
+            width: 600px;
+            grid-template-columns: 150px 1fr minmax(100px, 2fr);
+            grid-template-rows: 1fr 2fr 1fr ;
+            grid-row-gap: 20px;
+            grid-column-gap: 20px;
+            /*  排版的顺序    1 2 3
+                            4 5 6
+                            7 8 9
+
+                            1 4 7
+                            2 5 8
+                            3 6 9
+
+             */
+            grid-auto-flow: row;
+            /*CSS属性 grid-auto-rows  columns 列 用于指定隐式创建的行轨道大小。 CSS 属性 grid-auto-columns 指定了隐式创建的网格纵向轨道（track）的宽度。 */
+            grid-auto-rows: 50px;
+            grid-auto-columns: 50px;
+
+        }
+
+        .item {
+            font-size: 2em;
+            text-align: center;
+            border: 1px solid #e5e4e9;
+        }
+
+        .item-1 {
+            background-color: #ef342a;
+        }
+
+        .item-2 {
+            background-color: #f68f26;
+        }
+
+        .item-3 {
+            background-color: #4ba946;
+        }
+
+        .item-4 {
+            background-color: #0376c2;
+        }
+
+        .item-5 {
+            background-color: #c077af;
+        }
+
+        .item-6 {
+            background-color: #f8d29d;
+        }
+
+        .item-7 {
+            background-color: #b5a87f;
+        }
+
+        .item-8 {
+            background-color: #d0e4a9;
+        }
+
+        .item-9 {
+          /*
+            grid-column-start 属性，
+            grid-column-end 属性，
+            grid-row-start 属性，
+            grid-row-end 属性
+
+            这四个属性的值，除了指定为第几个网格线，还可以指定为网格线的名字。
+            这四个属性的值还可以使用span关键字，表示"跨越"，即左右边框（上下边框）之间跨越多少个网格。
+             grid-column: 1 / 3;  grid-column-start 1开始  grid-column-end 3结束
+
+             grid-area属性指定项目放在哪一个区域。  配合使用区域来用
+             grid-area属性还可用作grid-row-start、grid-column-start、grid-row-end、grid-column-end的合并简写形式，直接指定项目的位置。
+             justify-self 属性，
+            align-self 属性，
+            place-self 属性
+            */
+            grid-row-start: 4;
+            grid-column-start: 3;
+            background-color: #4dc7ec;
+        }
+    </style>
+</head>
+<body>
+<span>foo</span>
+<div id="container">
+    <div class="item item-1">1</div>
+    <div class="item item-2">2</div>
+    <div class="item item-3">3</div>
+    <div class="item item-4">4</div>
+    <div class="item item-5">5</div>
+    <div class="item item-6">6</div>
+    <div class="item item-7">7</div>
+    <div class="item item-8">8</div>
+    <div class="item item-9">9</div>
+</div>
+<span>bar</span>
+</body>
+</html>
